@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="fancyBox - Fancy jQuery Lightbox Alternative | Demonstration 	  	 	  	 	  	 	 	  	 	 	  	 	 	  	 	  	 		$(document).ready(function() { 			&#x2F;* 			 *  Simple image gallery. Uses default settings">
+<meta property="og:type" content="website">
+<meta property="og:title" content="柯索沃の家">
+<meta property="og:url" content="http://ghkosovo.github.io/assets/fancybox/demo/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="fancyBox - Fancy jQuery Lightbox Alternative | Demonstration 	  	 	  	 	  	 	 	  	 	 	  	 	 	  	 	  	 		$(document).ready(function() { 			&#x2F;* 			 *  Simple image gallery. Uses default settings">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/1_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/2_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/3_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/4_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/5_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/5_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/5_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/5_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/1_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/2_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/3_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/4_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/4_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/3_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/2_s.jpg">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/fancybox/demo/1_s.jpg">
+<meta property="article:published_time" content="2020-09-01T07:38:44.711Z">
+<meta property="article:modified_time" content="2020-09-01T07:38:44.711Z">
+<meta property="article:author" content="柯索沃">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ghkosovo.github.io/assets/fancybox/demo/1_s.jpg">
+
+<link rel="canonical" href="http://ghkosovo.github.io/assets/fancybox/demo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | 柯索沃の家
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="en">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/assets/">ASSETS</a></li>
+            <li><a href="/assets/fancybox/">FANCYBOX</a></li>
+          <li>DEMO</li>
+        
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <!DOCTYPE html>
+<html>
+<head>
+	<title>fancyBox - Fancy jQuery Lightbox Alternative | Demonstration</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<!-- Add jQuery library -->
+	<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+
+	<!-- Add mousewheel plugin (this is optional) -->
+	<script type="text/javascript" src="../lib/jquery.mousewheel.pack.js?v=3.1.3"></script>
+
+	<!-- Add fancyBox main JS and CSS files -->
+	<script type="text/javascript" src="../source/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<link rel="stylesheet" type="text/css" href="../source/jquery.fancybox.css?v=2.1.5" media="screen" />
+
+	<!-- Add Button helper (this is optional) -->
+	<link rel="stylesheet" type="text/css" href="../source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+
+	<!-- Add Thumbnail helper (this is optional) -->
+	<link rel="stylesheet" type="text/css" href="../source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+	<!-- Add Media helper (this is optional) -->
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+			$('.fancybox').fancybox();
+
+			/*
+			 *  Different effects
+			 */
+
+			// Change title type, overlay closing speed
+			$(".fancybox-effects-a").fancybox({
+				helpers: {
+					title : {
+						type : 'outside'
+					},
+					overlay : {
+						speedOut : 0
+					}
+				}
+			});
+
+			// Disable opening and closing animations, change title type
+			$(".fancybox-effects-b").fancybox({
+				openEffect  : 'none',
+				closeEffect	: 'none',
+
+				helpers : {
+					title : {
+						type : 'over'
+					}
+				}
+			});
+
+			// Set custom style, close if clicked, change title type and overlay color
+			$(".fancybox-effects-c").fancybox({
+				wrapCSS    : 'fancybox-custom',
+				closeClick : true,
+
+				openEffect : 'none',
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					overlay : {
+						css : {
+							'background' : 'rgba(238,238,238,0.85)'
+						}
+					}
+				}
+			});
+
+			// Remove padding, set opening and closing animations, close if clicked and disable overlay
+			$(".fancybox-effects-d").fancybox({
+				padding: 0,
+
+				openEffect : 'elastic',
+				openSpeed  : 150,
+
+				closeEffect : 'elastic',
+				closeSpeed  : 150,
+
+				closeClick : true,
+
+				helpers : {
+					overlay : null
+				}
+			});
+
+			/*
+			 *  Button helper. Disable animations, hide close button, change title type and content
+			 */
+
+			$('.fancybox-buttons').fancybox({
+				openEffect  : 'none',
+				closeEffect : 'none',
+
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					buttons	: {}
+				},
+
+				afterLoad : function() {
+					this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+				}
+			});
+
+
+			/*
+			 *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+			 */
+
+			$('.fancybox-thumbs').fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+				arrows    : false,
+				nextClick : true,
+
+				helpers : {
+					thumbs : {
+						width  : 50,
+						height : 50
+					}
+				}
+			});
+
+			/*
+			 *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+			*/
+			$('.fancybox-media')
+				.attr('rel', 'media-gallery')
+				.fancybox({
+					openEffect : 'none',
+					closeEffect : 'none',
+					prevEffect : 'none',
+					nextEffect : 'none',
+
+					arrows : false,
+					helpers : {
+						media : {},
+						buttons : {}
+					}
+				});
+
+			/*
+			 *  Open manually
+			 */
+
+			$("#fancybox-manual-a").click(function() {
+				$.fancybox.open('1_b.jpg');
+			});
+
+			$("#fancybox-manual-b").click(function() {
+				$.fancybox.open({
+					href : 'iframe.html',
+					type : 'iframe',
+					padding : 5
+				});
+			});
+
+			$("#fancybox-manual-c").click(function() {
+				$.fancybox.open([
+					{
+						href : '1_b.jpg',
+						title : 'My title'
+					}, {
+						href : '2_b.jpg',
+						title : '2nd title'
+					}, {
+						href : '3_b.jpg'
+					}
+				], {
+					helpers : {
+						thumbs : {
+							width: 75,
+							height: 50
+						}
+					}
+				});
+			});
+
+
+		});
+	</script>
+	<style type="text/css">
+		.fancybox-custom .fancybox-skin {
+			box-shadow: 0 0 50px #222;
+		}
+
+		body {
+			max-width: 700px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+	<h1>fancyBox</h1>
+
+	<p>This is a demonstration. More information and examples: <a target="_blank" rel="noopener" href="http://fancyapps.com/fancybox/">www.fancyapps.com/fancybox/</a></p>
+
+	<h3>Simple image gallery</h3>
+	<p>
+		<a class="fancybox" href="1_b.jpg" data-fancybox-group="gallery" title="Lorem ipsum dolor sit amet"><img src="1_s.jpg" alt="" /></a>
+
+		<a class="fancybox" href="2_b.jpg" data-fancybox-group="gallery" title="Etiam quis mi eu elit temp"><img src="2_s.jpg" alt="" /></a>
+
+		<a class="fancybox" href="3_b.jpg" data-fancybox-group="gallery" title="Cras neque mi, semper leon"><img src="3_s.jpg" alt="" /></a>
+
+		<a class="fancybox" href="4_b.jpg" data-fancybox-group="gallery" title="Sed vel sapien vel sem uno"><img src="4_s.jpg" alt="" /></a>
+	</p>
+
+	<h3>Different effects</h3>
+	<p>
+		<a class="fancybox-effects-a" href="5_b.jpg" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit"><img src="5_s.jpg" alt="" /></a>
+
+		<a class="fancybox-effects-b" href="5_b.jpg" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit"><img src="5_s.jpg" alt="" /></a>
+
+		<a class="fancybox-effects-c" href="5_b.jpg" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit"><img src="5_s.jpg" alt="" /></a>
+
+		<a class="fancybox-effects-d" href="5_b.jpg" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit"><img src="5_s.jpg" alt="" /></a>
+	</p>
+
+	<h3>Various types</h3>
+	<p>
+		fancyBox will try to guess content type from href attribute but you can specify it directly by adding classname (fancybox.image, fancybox.iframe, etc).
+	</p>
+	<ul>
+		<li><a class="fancybox" href="#inline1" title="Lorem ipsum dolor sit amet">Inline</a></li>
+		<li><a class="fancybox fancybox.ajax" href="ajax.txt">Ajax</a></li>
+		<li><a class="fancybox fancybox.iframe" href="iframe.html">Iframe</a></li>
+		<li><a class="fancybox" target="_blank" rel="noopener" href="http://www.adobe.com/jp/events/cs3_web_edition_tour/swfs/perform.swf">Swf</a></li>
+	</ul>
+
+	<div id="inline1" style="width:400px;display: none;">
+		<h3>Etiam quis mi eu elit</h3>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc.
+		</p>
+	</div>
+
+	<p>
+		Ajax example will not run from your local computer and requires a server to run.
+	</p>
+
+	<h3>Button helper</h3>
+	<p>
+		<a class="fancybox-buttons" data-fancybox-group="button" href="1_b.jpg"><img src="1_s.jpg" alt="" /></a>
+
+		<a class="fancybox-buttons" data-fancybox-group="button" href="2_b.jpg"><img src="2_s.jpg" alt="" /></a>
+
+		<a class="fancybox-buttons" data-fancybox-group="button" href="3_b.jpg"><img src="3_s.jpg" alt="" /></a>
+
+		<a class="fancybox-buttons" data-fancybox-group="button" href="4_b.jpg"><img src="4_s.jpg" alt="" /></a>
+	</p>
+
+	<h3>Thumbnail helper</h3>
+	<p>
+		<a class="fancybox-thumbs" data-fancybox-group="thumb" href="4_b.jpg"><img src="4_s.jpg" alt="" /></a>
+
+		<a class="fancybox-thumbs" data-fancybox-group="thumb" href="3_b.jpg"><img src="3_s.jpg" alt="" /></a>
+
+		<a class="fancybox-thumbs" data-fancybox-group="thumb" href="2_b.jpg"><img src="2_s.jpg" alt="" /></a>
+
+		<a class="fancybox-thumbs" data-fancybox-group="thumb" href="1_b.jpg"><img src="1_s.jpg" alt="" /></a>
+	</p>
+
+	<h3>Media helper</h3>
+	<p>
+		Will not run from your local computer, requires a server to run.
+	</p>
+
+	<ul>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://www.youtube.com/watch?v=opj24KnzrWo">Youtube</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://vimeo.com/47480346">Vimeo</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://www.metacafe.com/watch/7635964/">Metacafe</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://www.dailymotion.com/video/xoeylt_electric-guest-this-head-i-hold_music">Dailymotion</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://twitvid.com/QY7MD">Twitvid</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://twitpic.com/7p93st">Twitpic</a></li>
+		<li><a class="fancybox-media" target="_blank" rel="noopener" href="http://instagr.am/p/IejkuUGxQn">Instagram</a></li>
+	</ul>
+
+	<h3>Open manually</h3>
+	<ul>
+		<li><a id="fancybox-manual-a" href="javascript:;">Open single item</a></li>
+		<li><a id="fancybox-manual-b" href="javascript:;">Open single item, custom options</a></li>
+		<li><a id="fancybox-manual-c" href="javascript:;">Open gallery</a></li>
+	</ul>
+
+	<p>
+		Photo Credit: Instagrammer @whitjohns
+	</p>
+</body>
+</html>
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/assets/">ASSETS</a></li>
+            <li><a href="/assets/fancybox/">FANCYBOX</a></li>
+          <li>DEMO</li>
+        
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">fancyBox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">Simple image gallery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.2.</span> <span class="nav-text">Different effects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.3.</span> <span class="nav-text">Various types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inline1"><span class="nav-number">1.0.4.</span> <span class="nav-text">Etiam quis mi eu elit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.5.</span> <span class="nav-text">Button helper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.6.</span> <span class="nav-text">Thumbnail helper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.7.</span> <span class="nav-text">Media helper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.8.</span> <span class="nav-text">Open manually</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+</body>
+</html>
