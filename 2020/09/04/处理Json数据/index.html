@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="#前言 前台页面通常都会通过Ajax来获取后台的数据，某些接口传输数据也都是以Json格式来传输，故处理Json格式数据边得很重要鸭🦆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理Json格式数据">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/09/04/%E5%A4%84%E7%90%86Json%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="#前言 前台页面通常都会通过Ajax来获取后台的数据，某些接口传输数据也都是以Json格式来传输，故处理Json格式数据边得很重要鸭🦆">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-04T14:00:49.000Z">
+<meta property="article:modified_time" content="2020-09-04T07:16:33.538Z">
+<meta property="article:author" content="柯索沃">
+<meta property="article:tag" content="Json">
+<meta property="article:tag" content="数据处理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/09/04/%E5%A4%84%E7%90%86Json%E6%95%B0%E6%8D%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>处理Json格式数据 | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/09/04/%E5%A4%84%E7%90%86Json%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          处理Json格式数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 14:00:49 / 修改时间：07:16:33" itemprop="dateCreated datePublished" datetime="2020-09-04T14:00:49Z">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言">#前言</h2>
+<p>前台页面通常都会通过<code>Ajax</code>来获取后台的数据，某些接口传输数据也都是以<code>Json</code>格式来传输，故处理<code>Json</code>格式数据边得很重要鸭🦆</p>
+<a id="more"></a>
+<h2 id="处理Json格式数据">处理Json格式数据</h2>
+<p>在微信返回的消息中，有些是以json数据包的格式呈现的👇</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span>:<span class="string">&quot;ACCESS_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span>:<span class="number">7200</span>,</span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span>:<span class="string">&quot;REFRESH_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;openid&quot;</span>:<span class="string">&quot;OPENID&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;scope&quot;</span>:<span class="string">&quot;SCOPE&quot;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如何取出这里面的信息呢。那就需要用到<span class="ljspan ljspan-reverse ljspan-red"><a target="_blank" rel="noopener" href="https://github.com/alibaba/fastjson">fastjson</a></span>啦!🍄</p>
+<p>一般从网络🌏上获取/传输的<code>json数据包</code>，都是<span class="ljspan ljspan-red">json字符串</span>，如果需要取出来，需要把它转化为<span class="ljspan ljspan-red">json对象</span>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//json字符串转json对象</span></span><br><span class="line">String result = <span class="string">&#x27;&#123;&quot;name&quot;:&quot;2323&quot;,&quot;sex&quot;:&quot;afasdf&quot;,&quot;age&quot;:&quot;6262&quot;&#125;&#x27;</span>;</span><br><span class="line">JSONObject jsonObject =JSON.parseObject(result);</span><br><span class="line"><span class="comment">//这样就可以从json对象jsonobject中获取到你所需要的信息了	  </span></span><br><span class="line">String name = jsonObject.getString(<span class="string">&quot;name&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>另一方面，如果要传输<code>json数据包</code>​​，一般也是先编写好<span class="ljspan ljspan-red">json对象</span>后，转化为<span class="ljspan ljspan-red">json对象</span>后传输​。🌵</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="attr">&quot;button&quot;</span>:[</span><br><span class="line">     &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;view&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的报告&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;url&quot;</span>:<span class="string">&quot;/path/to/Report&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的社区&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_COMMUNITY&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;个人中心&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_TODAY_MUSIC&quot;</span></span><br><span class="line">       &#125;]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>👇下面代码这是对上面☝️的实现哦。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装json对象</span></span><br><span class="line">JSONObject jsonObject = <span class="keyword">new</span> JSONObject();</span><br><span class="line">JSONArray jsonArray = <span class="keyword">new</span> JSONArray();</span><br><span class="line">JSONObject jsonObject1 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject1.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;view&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的报告&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;/path/to/Report&quot;</span>);</span><br><span class="line">JSONObject jsonObject2 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject2.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的社区&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_COMMUNITY&quot;</span>);</span><br><span class="line">JSONObject jsonObject3 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject3.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;个人中心&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_TODAY_MUSIC&quot;</span>);</span><br><span class="line">jsonArray.add(jsonObject1);</span><br><span class="line">jsonArray.add(jsonObject2);</span><br><span class="line">jsonArray.add(jsonObject3);</span><br><span class="line">jsonObject.put(<span class="string">&quot;button&quot;</span>,jsonArray);</span><br><span class="line"><span class="comment">//转化为json字符串</span></span><br><span class="line">String jsonString = jsonObject.toJSONString();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用eclipse提示功能，可以看到许多<code>jsonObject</code>和<code>JSON</code>的方法！</p>
+</blockquote>
+<hr>
+<h2 id="自动转化json数据">自动转化json数据</h2>
+<p>后台服务可以自动转化某类对象为json格式到前台页面，前端页面可直接取用，你说神不神奇🐸,它一般结合<code>@ResponseBody</code>一起使用</p>
+<p>它就是<span class="ljspan ljspan-yellow"><a target="_blank" rel="noopener" href="https://github.com/FasterXML/jackson-databind">jackson databind</a></span>，貌似上文提到的<span class="ljspan ljspan-red">fastjson</span>也可以实现(不过，还需要其他配置)，但是<span class="ljspan ljspan-yellow">jackson databind</span>只需要引入依赖包就行了🙂</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入依赖包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Json/" rel="tag"># Json</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag"># 数据处理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/04/Mybatis-Generator/" rel="prev" title="Mybatis Generator">
+      <i class="fa fa-chevron-left"></i> Mybatis Generator
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/04/%E5%A4%84%E7%90%86XML%E6%95%B0%E6%8D%AE/" rel="next" title="处理XML数据">
+      处理XML数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">#前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86Json%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">处理Json格式数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E5%8C%96json%E6%95%B0%E6%8D%AE"><span class="nav-number">3.</span> <span class="nav-text">自动转化json数据</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>

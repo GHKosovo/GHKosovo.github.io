@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="@Autowired 🍃Spring可以实现控制反转，就是实例化对象，但是如果对象里面有属性呢？那就用注解@autowired 直接注入属性(实例化的对象)，这样就实现了解耦🙉，Controller、Service、Dao等分层就是基于此。  bean作用域singleton和prototype的区别  singleton：容器在初始化时，就会创建对象；单例也支持延迟加载（就是只有在请求时再生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 注解分析">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/09/04/Spring-%E6%B3%A8%E8%A7%A3%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="@Autowired 🍃Spring可以实现控制反转，就是实例化对象，但是如果对象里面有属性呢？那就用注解@autowired 直接注入属性(实例化的对象)，这样就实现了解耦🙉，Controller、Service、Dao等分层就是基于此。  bean作用域singleton和prototype的区别  singleton：容器在初始化时，就会创建对象；单例也支持延迟加载（就是只有在请求时再生">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-04T13:31:43.000Z">
+<meta property="article:modified_time" content="2020-09-09T02:39:13.233Z">
+<meta property="article:author" content="柯索沃">
+<meta property="article:tag" content="SSM">
+<meta property="article:tag" content="annotation">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/09/04/Spring-%E6%B3%A8%E8%A7%A3%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring 注解分析 | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/09/04/Spring-%E6%B3%A8%E8%A7%A3%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring 注解分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-04 13:31:43" itemprop="dateCreated datePublished" datetime="2020-09-04T13:31:43Z">2020-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-09 02:39:13" itemprop="dateModified" datetime="2020-09-09T02:39:13Z">2020-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Autowired">@Autowired</h3>
+<p>🍃<code>Spring</code>可以实现控制反转，就是实例化对象，但是如果对象里面有属性呢？那就用注解<code>@autowired </code>直接注入属性(实例化的对象)，这样就实现了解耦🙉，<code>Controller、Service、Dao</code>等分层就是基于此。</p>
+<ul>
+<li><code>bean</code>作用域<code>singleton</code>和<code>prototype</code>的区别</li>
+</ul>
+<p><code>singleton</code>：容器在初始化时，就会创建对象；单例也支持延迟加载（就是只有在请求时再生成）；</p>
+<a id="more"></a>
+<p><code>prototype</code>：容器在初始化时，不创建对象，只是在每次使用时（每次容器获取对象时）再创建对象；并且每次获取对象都会创建一个新的对象；</p>
+<blockquote>
+<p><code>@Resource</code>—它其实跟<code>@Autowired</code>效果一样，只不过它是根据<code>name</code>来注入实例化对象的，而Autowired则根据<code>id</code></p>
+</blockquote>
+<hr>
+<h3 id="ResponseBody">@ResponseBody</h3>
+<p><code>@responseBody</code>注解的作用是将<code>controller</code>中的方法返回的数据，通过适当的转换器转换为指定的格式之后，写入到<code>response</code>对象的<code>body</code>区，通常用来返回<code>JSON</code>数据或者是<code>XML</code>数据😵</p>
+<p>需要注意的是，在使用此注解之后不会再走<strong>视图处理器</strong>这个流程，而是直接将数据写入到<strong>输入流</strong>中😁，也就是说，只返回数据而不是页面，他的效果等同于通过<code>response</code>对象输出指定格式的数据。</p>
+<hr>
+<h3 id="测试三件套👺">测试三件套👺</h3>
+<h4 id="Test、-ContextConfiguration、-Runwith"><em>@Test、@ContextConfiguration、@Runwith</em></h4>
+<p>我想使用<code>@Test</code>测试来完成注解形式的<code>SpringIoC</code>，但是测试无法实现，使用<code>Java Application</code>就可以实现！原来测试初始化IoC容器可以用<code>@ContextConfiguration</code>这个注解，不管是<code>XML</code>形式还是注解形式的IoC容器。</p>
+<p><code>@ContextConfiguration</code>和<code>@Runwith</code>二者一般不分开，一个是用于导入测试使用的测试库函数，一个用于加载配置文件，也就是加载配置<code>XML</code>文件或者<code>Java文件</code>（使用<code>@Configuration</code>标注配置<code>java</code>类文件），用以导入某些<code>Spring</code>容器的<code>bean</code>对象。</p>
+<blockquote>
+<p>详情请看：<strong>/demo2/src/main/java/cn/lj/test/addusertest.java</strong>🐾</p>
+</blockquote>
+<p>如果需要加载spring容器，可以在<code>@ContextConfiguration</code>中加载<code>Spring</code>容器后，用于实例化<code>Spring容器</code>对象</p>
+<blockquote>
+<p>示例：/wx/src/main/java/cn.lj.wx.utils.CreateUtils方法🐾</p>
+</blockquote>
+<hr>
+<h3 id="Component">@Component</h3>
+<p>新建一个<code>Utils</code>类🎸，有个属性<code>token</code>和两个方法，在其他类通过<code>@Autowired</code>注入这个类对象时，一直报没有这个bean对象，很奇怪，最后把属性token去掉就可以了。原来在引入<code>bean</code>对象时，需要配置好他的属性，所以只要属性设置好<code>Getter/Setter</code>方法就可以使用<code>Autowired</code>自动装配了</p>
+<p>最好还是不要设置属性吧💅，或者直接使用<code>@Autowired</code>或<code>@Resource</code>注入属性(跟<code>Controller</code>、<code>Service</code>一样)，就可以直接把这个类设为<code>component</code>类，让其他类可以调用。</p>
+<hr>
+<h3 id="Data、-Getter">@Data、@Getter</h3>
+<p>省略对象get/set方法的编写，省略无参构造函数的编写，怎么做到呢？那当然要使用<span class="ljspan ljspan-blue"><a target="_blank" rel="noopener" href="https://objectcomputing.com/resources/publications/sett/january-2010-reducing-boilerplate-code-with-project-lombok">lombok</a></span></p>
+<h4 id="配置">配置</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 注解Get/Set等方法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="下载安装lombok的插件">下载安装<code>lombok</code>的插件</h4>
+<p>其实就是下载<span class="ljspan ljspan-blue"><a target="_blank" rel="noopener" href="https://projectlombok.org/all-versions">lombok.jar</a></span>后，打开它，弹出安装界面，然后在打开的界面中指定你的eclipse安装的根目录后安装/更新，最后安装完成之后，请确认eclipse安装路径下是否多了一个lombok.jar包，并且其配置文件eclipse.ini中是否 添加了如下内容:-javaagent:path\to\lombok.jar</p>
+<p>具体操作步骤可<a target="_blank" rel="noopener" href="https://www.cnblogs.com/boonya/p/10691466.html">参考博主</a>的安装步骤</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SSM/" rel="tag"># SSM</a>
+              <a href="/tags/annotation/" rel="tag"># annotation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/04/Redis-And-Jedis/" rel="prev" title="Redis And Jedis">
+      <i class="fa fa-chevron-left"></i> Redis And Jedis
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/04/Mybatis-Generator/" rel="next" title="Mybatis Generator">
+      Mybatis Generator <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Autowired"><span class="nav-number">1.</span> <span class="nav-text">@Autowired</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ResponseBody"><span class="nav-number">2.</span> <span class="nav-text">@ResponseBody</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%89%E4%BB%B6%E5%A5%97%F0%9F%91%BA"><span class="nav-number">3.</span> <span class="nav-text">测试三件套👺</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Test%E3%80%81-ContextConfiguration%E3%80%81-Runwith"><span class="nav-number">3.1.</span> <span class="nav-text">@Test、@ContextConfiguration、@Runwith</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component"><span class="nav-number">4.</span> <span class="nav-text">@Component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data%E3%80%81-Getter"><span class="nav-number">5.</span> <span class="nav-text">@Data、@Getter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85lombok%E7%9A%84%E6%8F%92%E4%BB%B6"><span class="nav-number">5.2.</span> <span class="nav-text">下载安装lombok的插件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>
