@@ -29,7 +29,7 @@
 <meta property="og:description" content="检测不到硬盘 同事让我看看服务器，想要利用磁盘&#x2F;dev&#x2F;sdb，但是呢，不管是fdisk -l 还是df -h命令都查不到挂载或者未挂载的磁盘sdb和这个硬盘的分区信息，但是当我去查看这个硬盘的时候，发现它很烫，证明硬盘连接没问题的，那怎么就检测不到呢?真的不知道😵">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-09T15:13:25.000Z">
-<meta property="article:modified_time" content="2020-09-09T07:20:37.794Z">
+<meta property="article:modified_time" content="2020-09-10T08:45:37.838Z">
 <meta property="article:author" content="柯索沃">
 <meta property="article:tag" content="backup">
 <meta name="twitter:card" content="summary">
@@ -135,6 +135,11 @@
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -212,10 +217,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-09 15:13:25 / 修改时间：07:20:37" itemprop="dateCreated datePublished" datetime="2020-09-09T15:13:25Z">2020-09-09</time>
+              <time title="创建时间：2020-09-09 15:13:25" itemprop="dateCreated datePublished" datetime="2020-09-09T15:13:25Z">2020-09-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-10 08:45:37" itemprop="dateModified" datetime="2020-09-10T08:45:37Z">2020-09-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -237,7 +248,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="检测不到硬盘">检测不到硬盘</h3>
+        <h2 id="检测不到硬盘">检测不到硬盘</h2>
 <p>同事让我看看服务器，想要利用磁盘<code>/dev/sdb</code>，但是呢，不管是<span class="label info">fdisk -l</span> 还是<span class="label success">df -h</span>命令都查不到挂载或者未挂载的磁盘sdb和这个硬盘的分区信息，但是当我去查看这个硬盘的时候，发现它很烫，证明硬盘连接没问题的，那怎么就检测不到呢?真的不知道😵</p>
 <a id="more"></a>
 <p>按道理损坏的硬盘也是可以找到的啊，只是坏了而已！</p>
@@ -249,7 +260,7 @@
 <p>使用<span class="label danger">dump</span> 命令 ：</p>
 <p><code>dump -0u -f 备份文件名 备份源文件系统</code></p>
 <div class="note info">
-            <h4 id="Note">Note:</h4><p>备份文件名如在目录里面，需要带上目录</p><p>备份原文件系统，使用设备名或者挂载的目录都OK</p>
+            <h3 id="Note">Note:</h3><p>备份文件名如在目录里面，需要带上目录</p><p>备份原文件系统，使用设备名或者挂载的目录都OK</p>
           </div>
 <p><strong>示例</strong>：</p>
 <blockquote>
@@ -258,7 +269,7 @@
 <p>分区sda1 (100G) 用作备份分区  把<code>/dev/sda1</code>挂载到 <code>/data1/backup</code> 上</p>
 <p>分区sda2 (300G) 用作安装软件的数据存储  <code>/dev/sda2</code>挂载到<code>/data1 </code>上</p>
 <div class="note success">
-            <h4 id="Note-其实系统做了两份备份">Note:其实系统做了两份备份</h4><p>一份在<code>data1/lost+found/sdb1.dump</code><br>另一份在<code>/data1/backup/sdb1.dump.1</code></p>
+            <h3 id="Note-其实系统做了两份备份">Note:其实系统做了两份备份</h3><p>一份在<code>data1/lost+found/sdb1.dump</code><br>另一份在<code>/data1/backup/sdb1.dump.1</code></p>
           </div>
 
     </div>
@@ -343,7 +354,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E4%B8%8D%E5%88%B0%E7%A1%AC%E7%9B%98"><span class="nav-number">1.</span> <span class="nav-text">检测不到硬盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE"><span class="nav-number"></span> <span class="nav-text">备份数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Note"><span class="nav-number">0.1.</span> <span class="nav-text">Note:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Note-%E5%85%B6%E5%AE%9E%E7%B3%BB%E7%BB%9F%E5%81%9A%E4%BA%86%E4%B8%A4%E4%BB%BD%E5%A4%87%E4%BB%BD"><span class="nav-number">0.2.</span> <span class="nav-text">Note:其实系统做了两份备份</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E4%B8%8D%E5%88%B0%E7%A1%AC%E7%9B%98"><span class="nav-number">1.</span> <span class="nav-text">检测不到硬盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">备份数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Note"><span class="nav-number">2.1.</span> <span class="nav-text">Note:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Note-%E5%85%B6%E5%AE%9E%E7%B3%BB%E7%BB%9F%E5%81%9A%E4%BA%86%E4%B8%A4%E4%BB%BD%E5%A4%87%E4%BB%BD"><span class="nav-number">2.2.</span> <span class="nav-text">Note:其实系统做了两份备份</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -359,20 +370,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

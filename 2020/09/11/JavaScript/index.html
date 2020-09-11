@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="js比值函数  sort()以字母顺序对数组进行升序排序 而**数字顺序**sort( )无法凭自己单独实现，这里就体现了比值函数的作用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/09/11/JavaScript/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="js比值函数  sort()以字母顺序对数组进行升序排序 而**数字顺序**sort( )无法凭自己单独实现，这里就体现了比值函数的作用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ghkosovo.github.io/assets/img/JavaScript.png">
+<meta property="article:published_time" content="2020-09-11T13:18:18.000Z">
+<meta property="article:modified_time" content="2020-09-11T05:20:57.206Z">
+<meta property="article:author" content="柯索沃">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ghkosovo.github.io/assets/img/JavaScript.png">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/09/11/JavaScript/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JavaScript | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/09/11/JavaScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-11 13:18:18 / 修改时间：05:20:57" itemprop="dateCreated datePublished" datetime="2020-09-11T13:18:18Z">2020-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="js比值函数">js比值函数</h3>
+<ol>
+<li><code>sort()</code>以字母顺序对数组进行升序排序</li>
+<li>而**数字顺序<code>**sort( )</code>无法凭自己单独实现，这里就体现了比值函数的作用</li>
+</ol>
+<a id="more"></a>
+<p>这就是比值函数：<code>function(a,b)&#123;return (a-b)&#125;</code>，会返回正负和零，<code>sort( )</code>可根据返回的值的<strong>正负</strong>对数组进行排序。</p>
+<p><span class="ljspan"><a target="_blank" rel="noopener" href="https://blog.csdn.net/qwe122343/article/details/103992772">参考文档</a></span></p>
+<h3 id="Script标签嵌套内容">Script标签嵌套内容</h3>
+<p>编写<code>js</code>出现的奇怪问题🎃一般地，引入资源，都用单独用一个<code>Script</code>标签，标签内内容为空，而改用src引入外部<code>js</code>资源。然后，我就想如果我引入的同时又在标签内写入，能不能用呢？</p>
+<p>答案是，不管是标签内写的还是引用的外部资源，都无法相互使用</p>
+<h3 id="Ajax">Ajax</h3>
+<h4 id="当数据在浏览器跟服务器之间交换的时候，这些数据只能是文本，这时候就需要-Json-出马🐎了！">当数据在浏览器跟服务器之间交换的时候，这些数据只能是文本，这时候就需要**<code>Json</code>**出马🐎了！</h4>
+<ol>
+<li>使用<code>Ajax</code>来发送数据，可以遇到一个问题，貌似要在服务器端设置响应头部<code>Access-Control-Allow-Origin</code></li>
+</ol>
+<p><img src="/assets/img/JavaScript.png" alt="image-20200611105650226"></p>
+<p>​	解决方案：把服务器响应的数据改为<code>Json</code>，这样就可以了！因为需要解析！</p>
+<ol start="2">
+<li>对于**<code>Ajax</code>**:通过对<code>javascript</code>中<code>Ajax</code>的练习📃，发现<code>Ajax</code>确实具备状态性，比如说，我刚刚搜索了某东西，然后信息很多，分了很多页，那么当我点击下一页时📑，发送<code>Ajax</code>请求，它会显示我刚刚搜索的内容的下一页，而不需要我再次提交搜索内容！</li>
+<li><code>ajax</code>是发送异步请求📧：同步和异步得区别很明显，同步发送请求后，需要等到接收到返回信息和数据才能继续发送请求；而异步则可以在发送请求后，不需要等待接收返回信息，直接发送其他请求，等待返回信息和数据是在另一个线程⚙️中进行的，不影响当前线程。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/11/java%E5%9F%BA%E7%A1%80/" rel="prev" title="java基础">
+      <i class="fa fa-chevron-left"></i> java基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/11/Request-and-Response/" rel="next" title="Request-and-Response">
+      Request-and-Response <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#js%E6%AF%94%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">js比值函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Script%E6%A0%87%E7%AD%BE%E5%B5%8C%E5%A5%97%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Script标签嵌套内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ajax"><span class="nav-number">3.</span> <span class="nav-text">Ajax</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%93%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%9F%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4%E4%BA%A4%E6%8D%A2%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E8%BF%99%E4%BA%9B%E6%95%B0%E6%8D%AE%E5%8F%AA%E8%83%BD%E6%98%AF%E6%96%87%E6%9C%AC%EF%BC%8C%E8%BF%99%E6%97%B6%E5%80%99%E5%B0%B1%E9%9C%80%E8%A6%81-Json-%E5%87%BA%E9%A9%AC%F0%9F%90%8E%E4%BA%86%EF%BC%81"><span class="nav-number">3.1.</span> <span class="nav-text">当数据在浏览器跟服务器之间交换的时候，这些数据只能是文本，这时候就需要**Json**出马🐎了！</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>

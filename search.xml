@@ -1,24 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Conda用法</title>
-    <url>/2020/09/08/Conda%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<h3 id="conda是一个包管理、环境管理工具⚙️">conda是一个包管理、环境管理工具⚙️</h3>
-<p>一般，miniconda只针对python🐍这个环境，而anaconda其实就比较全面，可以用于多个编程语言的环境管理，比如R语言，JavaScript等等</p>
+    <title>JavaScript</title>
+    <url>/2020/09/11/JavaScript/</url>
+    <content><![CDATA[<h3 id="js比值函数">js比值函数</h3>
+<ol>
+<li><code>sort()</code>以字母顺序对数组进行升序排序</li>
+<li>而**数字顺序<code>**sort( )</code>无法凭自己单独实现，这里就体现了比值函数的作用</li>
+</ol>
 <a id="more"></a>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">安装路径：/home/xxx/miniconda3</span><br><span class="line"></span><br><span class="line">退出命令：conda deactivate env_name</span><br><span class="line"></span><br><span class="line">删除环境：conda env <span class="builtin-name">remove</span> env_name</span><br><span class="line"></span><br><span class="line">显示环境列表：conda env list</span><br><span class="line"></span><br><span class="line">如果创建环境，使用指定路径的方式，命令如下</span><br><span class="line"></span><br><span class="line">conda create <span class="attribute">-p</span>=path/env_name <span class="attribute">python</span>=python_version</span><br><span class="line"></span><br><span class="line">那么开启这个环境的方法：conda activate path/env_name</span><br><span class="line"></span><br><span class="line">同理，删除这个环境的方法就是conda env <span class="builtin-name">remove</span> -p /path/env_name</span><br></pre></td></tr></table></figure>
-<p>这样的话，该环境就指定了特定的路径，但是名称却为空，暂时还找不到如何改名字的方法，也就是说，在创建环境的时候，要么指定路径，要么指定名称（路径规定只在path/miniconda/env中）</p>
-<p>💥解决方法:是使用<span class="label success">软链接</span>把路径引入path/miniconda/env/env_name中，就可以了，like the picture show below.</p>
-<p><img src="/assets/img/Conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.png" alt=""></p>
-<hr>
-<p>有时候，使用python无法下载某些包，或者下载速度很慢，这是因为conda下载包是使用国外的网址来下载的，可以修改配置，使用国内的镜像</p>
-<p>清华👨‍🎓镜像内容和修改方法在<a href="https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/">这里</a></p>
+<p>这就是比值函数：<code>function(a,b)&#123;return (a-b)&#125;</code>，会返回正负和零，<code>sort( )</code>可根据返回的值的<strong>正负</strong>对数组进行排序。</p>
+<p><span class="ljspan"><a href="https://blog.csdn.net/qwe122343/article/details/103992772">参考文档</a></span></p>
+<h3 id="Script标签嵌套内容">Script标签嵌套内容</h3>
+<p>编写<code>js</code>出现的奇怪问题🎃一般地，引入资源，都用单独用一个<code>Script</code>标签，标签内内容为空，而改用src引入外部<code>js</code>资源。然后，我就想如果我引入的同时又在标签内写入，能不能用呢？</p>
+<p>答案是，不管是标签内写的还是引用的外部资源，都无法相互使用</p>
+<h3 id="Ajax">Ajax</h3>
+<h4 id="当数据在浏览器跟服务器之间交换的时候，这些数据只能是文本，这时候就需要-Json-出马🐎了！">当数据在浏览器跟服务器之间交换的时候，这些数据只能是文本，这时候就需要**<code>Json</code>**出马🐎了！</h4>
+<ol>
+<li>使用<code>Ajax</code>来发送数据，可以遇到一个问题，貌似要在服务器端设置响应头部<code>Access-Control-Allow-Origin</code></li>
+</ol>
+<p><img src="/assets/img/JavaScript.png" alt="image-20200611105650226"></p>
+<p>​	解决方案：把服务器响应的数据改为<code>Json</code>，这样就可以了！因为需要解析！</p>
+<ol start="2">
+<li>对于**<code>Ajax</code>**:通过对<code>javascript</code>中<code>Ajax</code>的练习📃，发现<code>Ajax</code>确实具备状态性，比如说，我刚刚搜索了某东西，然后信息很多，分了很多页，那么当我点击下一页时📑，发送<code>Ajax</code>请求，它会显示我刚刚搜索的内容的下一页，而不需要我再次提交搜索内容！</li>
+<li><code>ajax</code>是发送异步请求📧：同步和异步得区别很明显，同步发送请求后，需要等到接收到返回信息和数据才能继续发送请求；而异步则可以在发送请求后，不需要等待接收返回信息，直接发送其他请求，等待返回信息和数据是在另一个线程⚙️中进行的，不影响当前线程。</li>
+</ol>
 ]]></content>
       <categories>
-        <category>linux</category>
+        <category>javascript</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Classpath是什么？</title>
+    <url>/2020/09/04/Classpath%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>在写<code>SSM</code>配置文件的时候经常看到这个东西，比如：<code>classpath:applicationContext.xml</code>，有印象了吗😤？</p>
+<a id="more"></a>
+<p>请看下图👇，一看便知</p>
+<p><img src="/assets/img/image-20200604094831938.png" alt="一般项目架构图"></p>
+<p>可当项目被编译后，架构就变化了哦~😉</p>
+<p><img src="/assets/img/image-20200604095454394.png" alt="编译后的架构图"></p>
+<p>所以,编译后<code>java</code>文件夹的文件和<code>resource</code>文件夹的文件就都放在了<code>classes</code>目录；而<code>classpath</code>其实就是<code>WEB-INF/classes</code>这个目录路径</p>
+]]></content>
+      <categories>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>SSM</tag>
+        <tag>Configuration</tag>
       </tags>
   </entry>
   <entry>
@@ -42,23 +71,24 @@
       </tags>
   </entry>
   <entry>
-    <title>Classpath是什么？</title>
-    <url>/2020/09/04/Classpath%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>在写<code>SSM</code>配置文件的时候经常看到这个东西，比如：<code>classpath:applicationContext.xml</code>，有印象了吗😤？</p>
+    <title>Conda用法</title>
+    <url>/2020/09/08/Conda%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="conda是一个包管理、环境管理工具⚙️">conda是一个包管理、环境管理工具⚙️</h3>
+<p>一般，miniconda只针对python🐍这个环境，而anaconda其实就比较全面，可以用于多个编程语言的环境管理，比如R语言，JavaScript等等</p>
 <a id="more"></a>
-<p>请看下图👇，一看便知</p>
-<p><img src="/assets/img/image-20200604094831938.png" alt="一般项目架构图"></p>
-<p>可当项目被编译后，架构就变化了哦~😉</p>
-<p><img src="/assets/img/image-20200604095454394.png" alt="编译后的架构图"></p>
-<p>所以,编译后<code>java</code>文件夹的文件和<code>resource</code>文件夹的文件就都放在了<code>classes</code>目录；而<code>classpath</code>其实就是<code>WEB-INF/classes</code>这个目录路径</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">安装路径：/home/xxx/miniconda3</span><br><span class="line"></span><br><span class="line">退出命令：conda deactivate env_name</span><br><span class="line"></span><br><span class="line">删除环境：conda env <span class="builtin-name">remove</span> env_name</span><br><span class="line"></span><br><span class="line">显示环境列表：conda env list</span><br><span class="line"></span><br><span class="line">如果创建环境，使用指定路径的方式，命令如下</span><br><span class="line"></span><br><span class="line">conda create <span class="attribute">-p</span>=path/env_name <span class="attribute">python</span>=python_version</span><br><span class="line"></span><br><span class="line">那么开启这个环境的方法：conda activate path/env_name</span><br><span class="line"></span><br><span class="line">同理，删除这个环境的方法就是conda env <span class="builtin-name">remove</span> -p /path/env_name</span><br></pre></td></tr></table></figure>
+<p>这样的话，该环境就指定了特定的路径，但是名称却为空，暂时还找不到如何改名字的方法，也就是说，在创建环境的时候，要么指定路径，要么指定名称（路径规定只在path/miniconda/env中）</p>
+<p>💥解决方法:是使用<span class="label success">软链接</span>把路径引入path/miniconda/env/env_name中，就可以了，like the picture show below.</p>
+<p><img src="/assets/img/Conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<hr>
+<p>有时候，使用python无法下载某些包，或者下载速度很慢，这是因为conda下载包是使用国外的网址来下载的，可以修改配置，使用国内的镜像</p>
+<p>清华👨‍🎓镜像内容和修改方法在<a href="https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/">这里</a></p>
 ]]></content>
       <categories>
-        <category>Java</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>SSM</tag>
-        <tag>Configuration</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -95,6 +125,67 @@
       <tags>
         <tag>Windows</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Mybatis Generator</title>
+    <url>/2020/09/04/Mybatis-Generator/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>通过<code>mybatis</code>跟数据库做IO，很方便，但是每次要写的<code>mapper</code>和<code>DAO</code>包括<code>Bean</code>，东西实在是太多了😢。所以通过颜群老师的在线课堂，我了解了<span class="ljspan ljspan-reverse ljspan-blue"><a href="http://mybatis.org/generator/index.html">Mybatis Generator</a></span>,可以一次性生成<code>Dao</code>、<code>mapper</code>和与数据库表对应的<code>bean</code>😆，真的很爽诶。</p>
+<a id="more"></a>
+<hr>
+<h2 id="配置">配置</h2>
+<p>在<span class="ljspan ljspan-blue"><a href="http://mybatis.org/generator/quickstart.html">官方文档</a></span>上，相关配置写得很清楚哦</p>
+<h3 id="1-导入依赖包">1.导入依赖包</h3>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#引入依赖包</span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.generator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-generator-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<h3 id="2-编写MBG-mybatis-generator-文件">2.编写MBG(mybatis generator)文件</h3>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">generatorConfiguration</span> <span class="meta-keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta"> <span class="meta-string">&quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span></span></span><br><span class="line"><span class="meta"> <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">generatorConfiguration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--生成Mybatis3Simple形式的配置文件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context</span> <span class="attr">id</span>=<span class="string">&quot;simple&quot;</span> <span class="attr">targetRuntime</span>=<span class="string">&quot;MyBatis3Simple&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置数据库连接--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbcConnection</span> <span class="attr">driverClass</span>=<span class="string">&quot;org.hsqldb.jdbcDriver&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">connectionURL</span>=<span class="string">&quot;jdbc:hsqldb:mem:aname&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">userId</span>=<span class="string">&quot;username&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">password</span>=<span class="string">&quot;password&quot;</span> /&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置数据库表生成的对应bean--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">javaModelGenerator</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.model&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/java&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置mapper--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sqlMapGenerator</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.mapper&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/resources&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置dao--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">javaClientGenerator</span> <span class="attr">type</span>=<span class="string">&quot;XMLMAPPER&quot;</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.mapper&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/java&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置数据库表--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">schema</span>=<span class="string">&quot;wxproject&#x27; tableName=&quot;</span><span class="attr">FooTable</span>&quot;  <span class="attr">domainObjectName</span>=<span class="string">&quot;FooTable&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">generatorConfiguration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>生成的<code>mybatis</code>相关文件内容，都跟MBG文件👀有关</p>
+</blockquote>
+<hr>
+<h2 id="实现">实现</h2>
+<h3 id="运行MBG配置文件">运行MBG配置文件</h3>
+<p>有很<a href="http://mybatis.org/generator/running/running.html">多种方式</a>，我使用<code>java</code>方法，直接调用测试运行或者<code>main</code>函数内与运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; warnings = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"> <span class="keyword">boolean</span> overwrite = <span class="keyword">true</span>;</span><br><span class="line"> <span class="comment">//你的mbg文件，可以直接放在项目根目录中，这样就不用写路径了</span></span><br><span class="line"> File configFile = <span class="keyword">new</span> File(<span class="string">&quot;generatorConfig.xml&quot;</span>);</span><br><span class="line"> ConfigurationParser cp = <span class="keyword">new</span> ConfigurationParser(warnings);</span><br><span class="line"> Configuration config = cp.parseConfiguration(configFile);</span><br><span class="line"> DefaultShellCallback callback = <span class="keyword">new</span> DefaultShellCallback(overwrite);</span><br><span class="line"> MyBatisGenerator myBatisGenerator = <span class="keyword">new</span> MyBatisGenerator(config, callback, warnings);</span><br><span class="line"> myBatisGenerator.generate(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="附加配置">附加配置</h2>
+<p>针对<code>mybatis</code>，它还有一个配置文件<a href="http://mybatis.org/generator/afterRunning.html">MapperConfig.xml</a>，它对<span class="ljspan ljspan-black"><a href="https://mybatis.org/mybatis-3/zh/index.html">MyBatis</a> </span>行为的设置和属性信息有关，可以通过<span class="ljspan ljspan-reverse ljspan-black"><a href="https://mybatis.org/mybatis-3/zh/configuration.html#settings">配置参数</a></span>来设置生成mybatis相关文件的内容形式，比如<code>mapUnderscoreToCamelCase</code>开启<code>驼峰命名自动映射</code></p>
+<hr>
+<h2 id="注意事项">注意事项</h2>
+<p>1.一般使用<code>mybatis generator</code>生成的<code>bean</code>,都是没有构造函数的；所以需要自己新建，但是如果有有参构造函数，就必须要有无参构造函数，这是必须的。</p>
+<p>2.使用mybatis generator生成mapper.xml(也就是数据库语言)，发现只有几个功能，而且关键的insertSelective方法没有，这就很尴尬了😖，我改了依赖包发现没有用，最后发现是在mbg的配置文件中&lt;context&gt;中的属性targetRuntime,从原来的MyBatis3Simple改为MyBatis3，就可以了。</p>
+<p>3.💥记得在<code>SpringIoC</code>容器中添加<code>mapperscannerconfigurer</code>这个<code>bean</code>，不然无法使用<code>dao</code>层里面的接口，因为<code>&lt;context:component-scan&gt;</code>扫描不包括<code>dao</code>层。</p>
+<hr>
+<h2 id="常见问题">常见问题</h2>
+<h4 id="1-MyBatis-Generator-生成器把其他数据库的同名表生成下来的问题"><strong>1.MyBatis Generator 生成器把其他数据库的同名表生成下来的问题</strong></h4>
+<p>这是因为mysql不支持schema和catalog，所以需要在&lt;jabcConnection&gt;中添加属性“ &lt;property name=“nullCatalogMeansCurrent” value=“true”/&gt;”</p>
+<p>😵我看不懂🐢🐢，反正加了就对了，既解决了问题，加了对程序也没啥影响。</p>
+<p><a href="https://blog.csdn.net/qq_40233736/article/details/83314596">参考文档</a></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Request-and-Response</title>
+    <url>/2020/09/11/Request-and-Response/</url>
+    <content><![CDATA[<h2 id="Get请求">Get请求</h2>
+<p><code>Get</code>请求✉️的参数是<code>Get</code>请求的附带信息，不再请求体内，而在请求体外，<code>Post</code>请求才是在请求体内</p>
+<p>那为什么还用获取<code>Get</code>请求参数还需要用到<code>Request</code>对象呢❓</p>
+<a id="more"></a>
+<p>通过查询源码📜，知道原来获取<code>the query string or posted form data</code>都需要通过<code>Request</code>对象的<code>getParameter</code>方法来获取的，而如果时<code>Post</code>请求数据，则一般通过<code>Request</code>对象的<code>getInputStream</code>或<code>getReader</code>方法来实现</p>
+<h2 id="使用HttpUrlConnection来实现Get-Post请求">使用HttpUrlConnection来实现Get/Post请求</h2>
+<p>发现<code>Get</code>请求使用<code>connection</code>方法来实现发送请求📧需要开启和关闭，但是<code>Post</code>却不用，那到底是什么原因呢❓，原来<code>Post</code>请求有<code>DoInput/DoOutput</code>属性，这个属性允许这个连接向服务器自动提交数据和获取数据。所以，一般看到关闭缓存流🌊之类的，其实就在自动发送请求啦</p>
+<h2 id="请求方法类型">请求方法类型</h2>
+<p>请求的方法类型有<code>get</code>、<code>post</code>、<code>put</code>、<code>delete</code>等📬，除了在前端页面设置，一般都是在<code>controller</code>层设置它的类型</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
   </entry>
   <entry>
     <title>Redis And Jedis</title>
@@ -146,50 +237,6 @@
         <tag>linux</tag>
         <tag>server</tag>
         <tag>cache</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mybatis Generator</title>
-    <url>/2020/09/04/Mybatis-Generator/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>通过<code>mybatis</code>跟数据库做IO，很方便，但是每次要写的<code>mapper</code>和<code>DAO</code>包括<code>Bean</code>，东西实在是太多了😢。所以通过颜群老师的在线课堂，我了解了<span class="ljspan ljspan-reverse ljspan-blue"><a href="http://mybatis.org/generator/index.html">Mybatis Generator</a></span>,可以一次性生成<code>Dao</code>、<code>mapper</code>和与数据库表对应的<code>bean</code>😆，真的很爽诶。</p>
-<a id="more"></a>
-<hr>
-<h2 id="配置">配置</h2>
-<p>在<span class="ljspan ljspan-blue"><a href="http://mybatis.org/generator/quickstart.html">官方文档</a></span>上，相关配置写得很清楚哦</p>
-<h3 id="1-导入依赖包">1.导入依赖包</h3>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#引入依赖包</span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.generator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-generator-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br></pre></td></tr></table></figure>
-<h3 id="2-编写MBG-mybatis-generator-文件">2.编写MBG(mybatis generator)文件</h3>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">generatorConfiguration</span> <span class="meta-keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta"> <span class="meta-string">&quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span></span></span><br><span class="line"><span class="meta"> <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">generatorConfiguration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--生成Mybatis3Simple形式的配置文件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context</span> <span class="attr">id</span>=<span class="string">&quot;simple&quot;</span> <span class="attr">targetRuntime</span>=<span class="string">&quot;MyBatis3Simple&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置数据库连接--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbcConnection</span> <span class="attr">driverClass</span>=<span class="string">&quot;org.hsqldb.jdbcDriver&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">connectionURL</span>=<span class="string">&quot;jdbc:hsqldb:mem:aname&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">userId</span>=<span class="string">&quot;username&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">password</span>=<span class="string">&quot;password&quot;</span> /&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置数据库表生成的对应bean--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">javaModelGenerator</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.model&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/java&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置mapper--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sqlMapGenerator</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.mapper&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/resources&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置dao--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">javaClientGenerator</span> <span class="attr">type</span>=<span class="string">&quot;XMLMAPPER&quot;</span> <span class="attr">targetPackage</span>=<span class="string">&quot;example.mapper&quot;</span> <span class="attr">targetProject</span>=<span class="string">&quot;src/main/java&quot;</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--配置数据库表--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">schema</span>=<span class="string">&quot;wxproject&#x27; tableName=&quot;</span><span class="attr">FooTable</span>&quot;  <span class="attr">domainObjectName</span>=<span class="string">&quot;FooTable&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">generatorConfiguration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>生成的<code>mybatis</code>相关文件内容，都跟MBG文件👀有关</p>
-</blockquote>
-<hr>
-<h2 id="实现">实现</h2>
-<h3 id="运行MBG配置文件">运行MBG配置文件</h3>
-<p>有很<a href="http://mybatis.org/generator/running/running.html">多种方式</a>，我使用<code>java</code>方法，直接调用测试运行或者<code>main</code>函数内与运行</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; warnings = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"> <span class="keyword">boolean</span> overwrite = <span class="keyword">true</span>;</span><br><span class="line"> <span class="comment">//你的mbg文件，可以直接放在项目根目录中，这样就不用写路径了</span></span><br><span class="line"> File configFile = <span class="keyword">new</span> File(<span class="string">&quot;generatorConfig.xml&quot;</span>);</span><br><span class="line"> ConfigurationParser cp = <span class="keyword">new</span> ConfigurationParser(warnings);</span><br><span class="line"> Configuration config = cp.parseConfiguration(configFile);</span><br><span class="line"> DefaultShellCallback callback = <span class="keyword">new</span> DefaultShellCallback(overwrite);</span><br><span class="line"> MyBatisGenerator myBatisGenerator = <span class="keyword">new</span> MyBatisGenerator(config, callback, warnings);</span><br><span class="line"> myBatisGenerator.generate(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="附加配置">附加配置</h2>
-<p>针对<code>mybatis</code>，它还有一个配置文件<a href="http://mybatis.org/generator/afterRunning.html">MapperConfig.xml</a>，它对<span class="ljspan ljspan-black"><a href="https://mybatis.org/mybatis-3/zh/index.html">MyBatis</a> </span>行为的设置和属性信息有关，可以通过<span class="ljspan ljspan-reverse ljspan-black"><a href="https://mybatis.org/mybatis-3/zh/configuration.html#settings">配置参数</a></span>来设置生成mybatis相关文件的内容形式，比如<code>mapUnderscoreToCamelCase</code>开启<code>驼峰命名自动映射</code></p>
-<hr>
-<h2 id="注意事项">注意事项</h2>
-<p>1.一般使用<code>mybatis generator</code>生成的<code>bean</code>,都是没有构造函数的；所以需要自己新建，但是如果有有参构造函数，就必须要有无参构造函数，这是必须的。</p>
-<p>2.使用mybatis generator生成mapper.xml(也就是数据库语言)，发现只有几个功能，而且关键的insertSelective方法没有，这就很尴尬了😖，我改了依赖包发现没有用，最后发现是在mbg的配置文件中&lt;context&gt;中的属性targetRuntime,从原来的MyBatis3Simple改为MyBatis3，就可以了。</p>
-<p>3.💥记得在<code>SpringIoC</code>容器中添加<code>mapperscannerconfigurer</code>这个<code>bean</code>，不然无法使用<code>dao</code>层里面的接口，因为<code>&lt;context:component-scan&gt;</code>扫描不包括<code>dao</code>层。</p>
-<hr>
-<h2 id="常见问题">常见问题</h2>
-<h4 id="1-MyBatis-Generator-生成器把其他数据库的同名表生成下来的问题"><strong>1.MyBatis Generator 生成器把其他数据库的同名表生成下来的问题</strong></h4>
-<p>这是因为mysql不支持schema和catalog，所以需要在&lt;jabcConnection&gt;中添加属性“ &lt;property name=“nullCatalogMeansCurrent” value=“true”/&gt;”</p>
-<p>😵我看不懂🐢🐢，反正加了就对了，既解决了问题，加了对程序也没啥影响。</p>
-<p><a href="https://blog.csdn.net/qq_40233736/article/details/83314596">参考文档</a></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -288,6 +335,237 @@
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu创建用户</title>
+    <url>/2020/09/09/Ubuntu%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>新建用户不仅仅是新建一个用户而已，还有其家目录的设置和环境变量的设置等等，所以新建用户并没有想象的那么简单😳</p>
+<a id="more"></a>
+<h2 id="新建用户">新建用户</h2>
+<p>有<strong>useradd</strong>和<strong>adduser</strong>两种方法哦🙊</p>
+<blockquote>
+<p>那么如何选择呢？根据系统来咯确定系统</p>
+</blockquote>
+<p>如果是ubuntu(我的就是😏),那么useradd和adduser是不一样的</p>
+<p>adduser可以为新建用户自动创建跟用户名同名的用户目录，组名，系统shell版本，同时会提示输入密码之类的。</p>
+<p>而useradd在创建用户时，不会自动创建目录，也不会自动选择shell版本，也没有设置密码，所以需要使用passwd命令修改密码</p>
+<blockquote>
+<p>而在其他系统上还没试验过</p>
+</blockquote>
+<hr>
+<h2 id="已建用户">已建用户</h2>
+<p>如果是已建用户，但是你丢失了某些东西？比如你误删了家目录😂，那还需要新建用户吗？</p>
+<p>有一次因为失误，删了家目录及其子目录的所有数据👻</p>
+<p>那如何新建家目录呢。</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cp <span class="regexp">/etc/</span>skec<span class="regexp">/* /</span>path<span class="regexp">/to/u</span>ser -A </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个命令的意义就是把shell等一些配置文件复制到我的用户目录中</p>
+</blockquote>
+<hr>
+<h2 id="问题">问题</h2>
+<p>如果在创建用户的时候没有设置主目录和shell，会出现什么问题呢❔</p>
+<p>我暂时还不知道，网上搜不到这种问题😐</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>SSM框架知识点</title>
+    <url>/2020/09/11/SSM%E6%A1%86%E6%9E%B6%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<h2 id="SSM框架涉及到的知识点">SSM框架涉及到的知识点</h2>
+<ol>
+<li>
+<p><strong>group id 和 artifact id</strong></p>
+<p>创建maven项目，group id 和 artifact id都是必须要填写的，因为项目位置就是通过这两个id去查找的，group id 一般分为多个段，第一段为域，第二段为公司名称（这里就说两段而已）。<a id="more"></a>域又分为org、com、cn等；</p>
+<p>而artifact id 一般为项目名称</p>
+</li>
+<li>
+<p><strong>facet 定义了 java ee 项目的特性和要求</strong></p>
+<p>一般创建一个maven项目，都没有web.xml文件，这是因为该项目还不是一个动态web项目，需要指定一下其特性，也就是下面得Project facets属性</p>
+</li>
+<li>
+<p><strong>applicationContext配置</strong></p>
+<p>属性配置中可用value来获取一些相对目录的数值或文件</p>
+</li>
+<li>
+<p><strong>&lt;mvc:annotation-driven&gt;</strong></p>
+<p>&lt;mvc:annotation-driven&gt;标签其实就是分发请求给controller方法，它能够映射请求URL和参数给响应的controller方法。</p>
+</li>
+<li>
+<p><strong>&lt;context:component-scan&gt;</strong></p>
+<p>&lt;context:component-scan&gt;则是扫描指定包下的类并注册这些包下的被注解标记的组件为Spring的bean</p>
+</li>
+<li>
+<p><strong>jdbcUrl</strong></p>
+<p><code>JDBC URL: jdbc:mysql://&lt;host&gt;&lt;port&gt;/&lt;database_name&gt;</code></p>
+<p>默认端口3306，如果服务器使用默认端口则port可以省略</p>
+<p>MySQL Connector/J Driver 允许在URL中添加额外的连接属性</p>
+<p><code>jdbc:mysql://&lt;host&gt;:&lt;port&gt;/&lt;database_name&gt;?property1=value1&amp;property2=value2</code></p>
+</li>
+<li>
+<p><strong>SqlSessionFactoryBean</strong></p>
+<p>正如SqlSessionFactoryBean的名字，它是生产SqlSessionFactory的工厂Bean；SqlSessionFactory是一种生产SqlSession的工厂；SqlSession是代表数据库连接客户端和数据库Server之间的会话信息；SqlSession实现发送sql语句，管理事务和获取mapper；</p>
+<p>SqlSession是关联到具体数据库连接的，但是如果每次创建和销毁都直接操作物理连接的话，那么这个资源浪费很高，效率很低。</p>
+<p>使用数据库连接池时，关闭SqlSession实例 ，其实只是把数据库连接对象（代表物理资源）放回到对象池中，并没有直接销毁，使用连接池技术极大提高了物理资源利用率，缩减了创建物理连接所需的时间、资源等等</p>
+<p>相关知识点出处<a href="https://www.jianshu.com/p/f19a58938959">在这里</a></p>
+</li>
+<li>
+<p><strong>关于mapper映射的详解</strong></p>
+<p>还不是很懂接口和mapper映射之间如何做到关联的</p>
+<p>通过 <a href="Mybatis%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A.md">Mybatis从入门到精通</a> 可大概了解。dao层的接口和mapper映射是通过动态代理来实现的。只要在SpringIoC容器中实现mapperScannerConfigurer类就行，这个mapper其实解释起来比较复杂，因为spring帮忙做了很多事，首先就是调用接口可以直接调用到mapper.xml里面的数据库语句；这个就是mybatis里面的动态代理；但是mapper接口要实现这个功能，还需要实现类，这个实现类可以获取到sqlsessionfactory来获取session后调用mapper接口，然后mapperScannerConfigurer可以一次性扫描多个接口，并实现这个接口生成实现类</p>
+<p>参考文档在<a href="http://mybatis.org/spring/zh/mappers.html">这里</a></p>
+</li>
+<li>
+<p><strong>事务管理/声明式事务管理</strong></p>
+<p>事务管理需要数据库的连接，所以一定要导入数据源；</p>
+<p>声明式事务管理有两种，一种是基于tx和aop命名空间的xml配置文件；一种是基于@Transactional注解</p>
+<p>相关参考文档在<a href="https://blog.csdn.net/donggua3694857/article/details/69858827">这里</a></p>
+</li>
+<li>
+<p><strong>aop和tx在事务方面的理解</strong></p>
+<p>对于tx在applicationContext中出现，我一直不理解它是何物，现在知道了</p>
+<p>&lt;tx:advice&gt;其实就是aop的通知，而&lt;tx:attributes&gt;和&lt;tx:method&gt;其实就是针对service里面的方法设置的事务管理属性，也不知道对不对。。。。。<strong>待续！！！</strong></p>
+<p>我觉得是对的，哭了😭😭</p>
+</li>
+<li>
+<p><strong>&lt;aop:poincut&gt;<strong>中的</strong>expresstion</strong></p>
+<p>比如这一个<code>execution(* cn.lj.service..*(..))</code>，第一个<code>*</code>表示返回值，这里表示任意；然后是包service；然后是service下类的任意方法，就是那个<code>*</code>，最后<code>(..)</code>是所有参数</p>
+<p>最靠近<code>(..)</code>的为方法名,靠近<code>.\*(..))</code>的为类名或者接口名,如上例的JoinPointObjP2.*(…))</p>
+<p><a href="https://blog.csdn.net/kkdelta/article/details/7441829">相关内容链接</a></p>
+</li>
+<li>
+<p><strong>启动项目失败，无法找到applicationContext.xml</strong></p>
+<p>我觉得很奇怪，刚开始是因为resources文件夹没写对，然后修改以后还是不行，最后发现，我的项目之前是jar	类型而不是war类型，所以才一直不成功的</p>
+</li>
+<li>
+<p><strong>Spring Aop</strong></p>
+<p>&lt;aop:aspect&gt;是面向切面编程；而&lt;aop:advisor&gt;则是进行事务管理，但二者的实现原理都是一样的</p>
+</li>
+<li>
+<p><strong>&lt;mvc:annotation-driven&gt;</strong></p>
+<p>这个东西是干嘛用的？其实讲起来挺麻烦的，简单点就是实现请求的映射，也就是完成对requestmapping这个注解的实现，同时还有请求参数等的设置（比如:@param）都是通过它来实现</p>
+</li>
+<li>
+<p><strong>java properties file</strong></p>
+<p>我想通过<code>&lt;context:property-placeholder /&gt;</code>动态引入一些数据库连接属性，但是一直报错，无法解析；最后发现原来是我的文件名写错了，因为一般java的属性文件都是以“properties”结尾的，但是我拼措了；</p>
+<p><strong>！！！怎么说，发现spring里面很多配置的东西都需要特别注意名字</strong></p>
+</li>
+<li>
+<p><strong>Spring单元测试</strong></p>
+<p>使用spring的测试模块，需要导入spring-test包</p>
+</li>
+<li>
+<p><strong>单元测试Mybatis</strong></p>
+<p>记得在SpringIoC容器中添加mapperscannerconfigurer这个bean，不然无法使用dao层里面的接口，因为<code>&lt;context:component-scan&gt;</code>扫描不包括dao层。</p>
+</li>
+<li>
+<p><strong>@Autowired</strong></p>
+<p>spring可以实现控制反转，就是实例化对象，但是如果对象里面有属性呢？那就用注解@autowired 直接注入属性</p>
+</li>
+<li>
+<p><strong>bean作用域singleton和prototype的区别</strong></p>
+<p>singleton：容器在初始化时，就会创建对象；单例也支持延迟加载（就是只有在请求时再生成）；</p>
+<p>prototype：容器在初始化时，不创建对象，只是在每次使用时（每次容器获取对象时）再创建对象；并且每次获取对象都会创建一个新的对象；</p>
+</li>
+<li>
+<p><strong>Bean的生命周期不同于IoC容器等的生命周期</strong></p>
+<p>Bean的生命周期：创建—初始化（实例化）—销毁</p>
+<p>容器生命周期：初始化—使用—销毁</p>
+</li>
+<li>
+<p><strong>取余方法可以用来筛选数</strong></p>
+<p>比如筛选“小于20”的数，就可以用取余方法，我是在使用任意对象取值时遇到的；如下：int value = random.nextInt()%20</p>
+</li>
+<li>
+<p><strong>random对象</strong></p>
+<p>取任意值的时候，放在方法里面的数,比如value，只会取“0到value-1”这个范围的数。</p>
+</li>
+<li>
+<p><strong>graphics对象</strong>（图形上下文）</p>
+<p>graphics是可以用来对几何图形的坐标转换，颜色管理和文本布局的操作的。比如在里面画线画点写字都可以，我是用来构建验证码的。image通过方法getGraphics()可获取到这个对象</p>
+</li>
+<li>
+<p><strong>bufferimage对象</strong></p>
+<p>这个对象只是image对象的子类，但是带有缓冲区，可以自由的操作修改，一般通过getGraphics()获取到图形的上下文对象后进行各个方面的修改。</p>
+</li>
+<li>
+<p><strong>上传文件</strong>–(相关包:common-fileupload.jar)</p>
+<p>请求request里面有multipartFiles，但是，一直取不到里面的值；然后通过debug看，requestl里面不止有它呢，还有其他很多。通过封装对象，把multipartFile封装到对象newuser中的属性(List<MultipartFile>)files中，然后返回newuser值后调用它的方法获取files[0]，就可以获取里面MultipartFile类型的值;</p>
+<p>关于之前request里面的值,仔细查看这个request，发现它是DefaultMultipartHttpServletRequest,所以只要把请求改为它，就可以获取到里面的MultipartFiles了</p>
+</li>
+<li>
+<p><strong>上传下载路径设置</strong></p>
+<p>利用请求<code>request.getServletContext().getRealPath(&quot;/upload/&quot;);</code>获取到得这个文件路径很奇怪，结果是<code>C:\Users\llj\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\demo2\upload\</code>所以我当初在项目里面找是找不到的，后面使用String直接设置，简单明了；</p>
+</li>
+<li>
+<p><strong>下载要点</strong></p>
+<p>下载比上传复杂点，都要设置ContentType和请求头的Content-Disposition属性，有两种方法：</p>
+<p>法一：直接在响应中设置文件，需要使用到这个方法<em>Files.copy(要下载的文件的路径,响应的输出流)</em></p>
+<p>法二：（使用Spring框架）返回值为ResponseEntity&lt;byte[]&gt;</p>
+</li>
+<li>
+<p><strong>spring配置redis</strong></p>
+<p>使用1.8版本及以下版本，配置redistemplate时，用jedisConnectionFactory时，可以直接配置ip和port，poolconfig;但是高于1.8版本我就找不到这个东西了</p>
+</li>
+<li>
+<p><strong>关于maven pom文件中 scope的分类</strong></p>
+<p>网友关于这些分类的<a href="https://www.cnblogs.com/molao-doing/articles/Maven.html">解释</a></p>
+<ul>
+<li>默认是<strong>compile</strong>，表示被依赖需要参与当前项目的编译，测试、运行也一样参与其</li>
+<li><strong>runtime</strong>表示依赖包无需参与项目的编译，但是测试和运行周期参与其中。（也就是跳过编译）</li>
+<li><strong>test</strong>表示在一般的编译和运行时都不需要，只有在测试编译和运行阶段才用到。</li>
+<li><strong>provided</strong>表示该依赖已经提供，旨在未提供时才被使用。</li>
+<li><strong>system</strong>表示该依赖不会从maven仓库下载，而是从本地系统指定路径下寻找。</li>
+<li><strong>import</strong>仅支持在<code>&lt;dependencyManagement&gt;</code>中的类型依赖项上使用。表示要在指定POM中用有效的依赖关系列表替换的依赖关系。</li>
+</ul>
+</li>
+<li>
+<p><strong>&lt;mvc:resource&gt;</strong></p>
+<p>出现一个很奇怪的问题😓，为什么我的html文件调不了css文件呢？bootstrap的css文件可以访问，我自己写的common.css文件就不行？貌似不是，我在servlet容器中定义了<a href="mvc:default-servlet-handler">mvc:default-servlet-handler</a>了，而且bootstrap的css等文件也可以访问了，但是为何就那一个文件访问不了？图片也访问不了</p>
+<p>所以我就只能在在Servlet容器中再设置<code>&lt;mvc:resource&gt;</code>这个静态资源直接映射了。这样的话，就需要全部设置我的静态资源了，但是这个<code>&lt;mvc:resource&gt;</code>有个好处，就是它可以设置在任何地方。任君设置。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>SSM</category>
+      </categories>
+      <tags>
+        <tag>SSM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu18.04设置开机自启动</title>
+    <url>/2020/09/08/Ubuntu18-04%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/</url>
+    <content><![CDATA[<div class="note info">
+            <h4 id="Note1">Note1:</h4><p>由于新版ubuntu不再使用<strong>initd</strong>管理系统，而改用<strong>systemd</strong>;</p><p>故用systemctl命令来替换了<strong>service</strong>和<strong>chkconfig</strong>的功能</p><p>系统开机启动，systemd默认读取<code>/etc/systemd/system</code>下的配置/该目录下的文件会链接<code>lib/systemd/system/</code>下的文件</p>
+          </div>
+<a id="more"></a>
+<div class="note info">
+            <h4 id="Note2">Note2:</h4><p>sh的脚本，脚本开头的#!+shell，这里的shell一般有sh和bash，而sh其实是‘bash --posix’的变体，二者是一样的，这么看来，sh其实是bash的一种标准😳</p>
+          </div>
+<h2 id="开始配置">开始配置</h2>
+<blockquote>
+<p>我的自定义启动文件是rc-local.service，直接修改它</p>
+</blockquote>
+<h4 id="配置rc-local-service">配置rc-local.service</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">  SPDX-License-Identifier: LGPL-2.1+</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  This file is part of systemd.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  systemd is free software; you can redistribute it and/or modify it</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  under the terms of the GNU Lesser General Public License as published by</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  the Free Software Foundation; either version 2.1 of the License, or</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  (at your option) any later version.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> This unit gets pulled automatically into multi-user.target by</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> systemd-rc-local-generator <span class="keyword">if</span> /etc/rc.local is executable.</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">这里是需要添加的部分</span></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">Alias=rc-local.service</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>一般正常的启动文件主要分成三部分💦</p>
+<p><em>[Unit]</em> 段: <span class="label info">启动顺序与依赖关系</span></p>
+<p><em>[Service]</em> 段: <span class="label warning">启动行为,如何启动,启动类型</span></p>
+<p><em>[Install]</em> 段: 定义如何安装这个配置文件，即<span class="label success">怎样做到开机启动</span></p>
+<h4 id="配置rc-local">配置rc.local</h4>
+<p>Ubuntu18.04默认没有<code>/etc/rc.local</code>这个文件，需要自己创建</p>
+<p>如下👇：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># !/bin/sh -e</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># rc.local</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This script is executed at the end of each multiuser runlevel.</span></span><br><span class="line"><span class="comment"># Make sure that the script will &quot;exit 0&quot; on success or any other</span></span><br><span class="line"><span class="comment"># value on error.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to enable or disable this script just change the execution</span></span><br><span class="line"><span class="comment"># bits.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># By default this script does nothing.</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;this just a test&quot;</span> &gt; /home/luoj/testdir/text.txt</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="设置开机自启动">设置开机自启动</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#添加可执行权限</span></span><br><span class="line">sudo chmod +x /etc/rc.local</span><br><span class="line"><span class="comment">#添加rc-local.service软连接到/etc/systemd/system</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> rc-local</span><br><span class="line"><span class="comment">#启动这个服务</span></span><br><span class="line">sudo systemctl start rc-local.service</span><br><span class="line"><span class="comment">#查看这个服务</span></span><br><span class="line">sudo systemctl status rc-local.service</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Tomcat的下载和配置</title>
     <url>/2020/09/08/Tomcat%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="前言">#前言</h2>
@@ -322,35 +600,146 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu18.04设置开机自启动</title>
-    <url>/2020/09/08/Ubuntu18-04%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/</url>
-    <content><![CDATA[<div class="note info">
-            <h4 id="Note1">Note1:</h4><p>由于新版ubuntu不再使用<strong>initd</strong>管理系统，而改用<strong>systemd</strong>;</p><p>故用systemctl命令来替换了<strong>service</strong>和<strong>chkconfig</strong>的功能</p><p>系统开机启动，systemd默认读取<code>/etc/systemd/system</code>下的配置/该目录下的文件会链接<code>lib/systemd/system/</code>下的文件</p>
-          </div>
+    <title>docker用法</title>
+    <url>/2020/09/08/docker%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p><img src="/assets/img/Docker-wallpaper.jpg" alt=""></p>
 <a id="more"></a>
-<div class="note info">
-            <h4 id="Note2">Note2:</h4><p>sh的脚本，脚本开头的#!+shell，这里的shell一般有sh和bash，而sh其实是‘bash --posix’的变体，二者是一样的，这么看来，sh其实是bash的一种标准😳</p>
-          </div>
-<h2 id="开始配置">开始配置</h2>
+<h2 id="Docker常用命令">Docker常用命令</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#新建一个容器，必须指定镜像来创建容器</span></span><br><span class="line"></span><br><span class="line">docker run    <span class="comment">#添加 -it  运行交互模式的容器  </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#-d 以后台模式运行容器</span></span><br><span class="line"><span class="comment">#-P 将所有的公开端口映射到随机端口上</span></span><br><span class="line"><span class="comment">#-p 将容器的端口映射到主机</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器，退出容器会关闭容器</span></span><br><span class="line"></span><br><span class="line">docker attach </span><br><span class="line"></span><br><span class="line"><span class="comment">#在现有容器中运行命令的情况</span></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">exec</span>   <span class="comment">#-itd此时退出容器，不会关闭容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看已经在运行的容器</span></span><br><span class="line"></span><br><span class="line">docker ps     <span class="comment">#添加 -a  显示所有容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置docker容器自启动</span></span><br><span class="line"><span class="comment">#如果还没有创建容器</span></span><br><span class="line">docker run --restart=always --name=容器名</span><br><span class="line"><span class="comment">#如果已经创建了容器</span></span><br><span class="line">docker update --restart=always 容器名</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>我的自定义启动文件是rc-local.service，直接修改它</p>
+<p>docker命令行 的选项列表在<a href="https://docs.docker.com/engine/reference/commandline/run/#options">这里</a>😜</p>
 </blockquote>
-<h4 id="配置rc-local-service">配置rc-local.service</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">  SPDX-License-Identifier: LGPL-2.1+</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  This file is part of systemd.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  systemd is free software; you can redistribute it and/or modify it</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  under the terms of the GNU Lesser General Public License as published by</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  the Free Software Foundation; either version 2.1 of the License, or</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  (at your option) any later version.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> This unit gets pulled automatically into multi-user.target by</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> systemd-rc-local-generator <span class="keyword">if</span> /etc/rc.local is executable.</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">这里是需要添加的部分</span></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">Alias=rc-local.service</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>一般正常的启动文件主要分成三部分💦</p>
-<p><em>[Unit]</em> 段: <span class="label info">启动顺序与依赖关系</span></p>
-<p><em>[Service]</em> 段: <span class="label warning">启动行为,如何启动,启动类型</span></p>
-<p><em>[Install]</em> 段: 定义如何安装这个配置文件，即<span class="label success">怎样做到开机启动</span></p>
-<h4 id="配置rc-local">配置rc.local</h4>
-<p>Ubuntu18.04默认没有<code>/etc/rc.local</code>这个文件，需要自己创建</p>
-<p>如下👇：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># !/bin/sh -e</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># rc.local</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This script is executed at the end of each multiuser runlevel.</span></span><br><span class="line"><span class="comment"># Make sure that the script will &quot;exit 0&quot; on success or any other</span></span><br><span class="line"><span class="comment"># value on error.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to enable or disable this script just change the execution</span></span><br><span class="line"><span class="comment"># bits.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># By default this script does nothing.</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;this just a test&quot;</span> &gt; /home/luoj/testdir/text.txt</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
 <hr>
-<h2 id="设置开机自启动">设置开机自启动</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#添加可执行权限</span></span><br><span class="line">sudo chmod +x /etc/rc.local</span><br><span class="line"><span class="comment">#添加rc-local.service软连接到/etc/systemd/system</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> rc-local</span><br><span class="line"><span class="comment">#启动这个服务</span></span><br><span class="line">sudo systemctl start rc-local.service</span><br><span class="line"><span class="comment">#查看这个服务</span></span><br><span class="line">sudo systemctl status rc-local.service</span><br></pre></td></tr></table></figure>
+<h2 id="关于docker占用磁盘空间的情况">关于docker占用磁盘空间的情况</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看Docker的磁盘使用情况</span></span><br><span class="line">docker system df </span><br><span class="line"></span><br><span class="line"><span class="comment">#一般有Images（镜像）、Containers(容器)、Local Volumes(数据卷)</span></span><br><span class="line"><span class="comment">#镜像是用来在容器中生成一个实例的，当重新用容器生成一个镜像的时候，就是另一个新的实例，之前的数据都会没有了，因为是新的实例嘛，而之前的实例数据其实是存放在数据卷里面的！</span></span><br><span class="line"><span class="comment">#数据卷也是实现持久化的关键元素</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#清理磁盘空间  ！！！慎用</span></span><br><span class="line">docker system prune</span><br><span class="line"></span><br><span class="line"><span class="comment">#手动清理Docker镜像/容器/数据卷</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有关闭的容器</span></span><br><span class="line">docker ps -a | grep Exit | cut -d <span class="string">&#x27; &#x27;</span> -f 1 | xargs docker rm</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有dangling镜像（即无tag的镜像）</span></span><br><span class="line">docker rmi $(docker images | grep <span class="string">&quot;^&lt;none&gt;&quot;</span> | awk <span class="string">&quot;&#123;print <span class="variable">$3</span>&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有dangling数据卷（即无用的Volume）</span></span><br><span class="line">docker volume rm $(docker volume ls -qf dangling=<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/11/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Test">Test</h2>
+<h3 id="Span">Span</h3>
+<p><span class="ljspan ljspan-reverse">生活不止眼前的苟且</span></p>
+<h3 id="Blockquotes">Blockquotes</h3>
+<!-- Center quote -->
+<blockquote class="blockquote-center">
+            <p>Something</p>
+
+          </blockquote>
+<!-- Tag Alias -->
+<blockquote class="blockquote-center">
+            <p>Something</p>
+
+          </blockquote>
+<h3 id="Label">Label</h3>
+<p>Lorem <span class="label default">ipsum</span> <span class="label primary">dolor sit</span> amet, consectetur <span class="label success">adipiscing elit,</span> sed <span class="label info">do eiusmod</span> tempor incididunt ut labore et dolore magna aliqua.</p>
+<p>Ut enim <em><span class="label warning">ad</span></em> minim veniam, quis <strong><span class="label danger">nostrud</span></strong> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<p>Duis aute irure dolor in reprehenderit in voluptate <s><span class="label default">velit</span></s> <mark>esse</mark> cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h3 id="Label-Test">Label Test</h3>
+<span class="label info">[教程]([https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7](https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-、debian-8-、centos-7))</span>
+<p><strong><span class="label default">&</span></strong></p>
+<blockquote>
+<p>This 😄😭 is your very first post.</p>
+</blockquote>
+<h3 id="Span-2">Span</h3>
+<p><span class="ljspan ljspan-reverse ljspan-red"><a href="https://hexo.io/">人生有梦，各自精彩！</a></span></p>
+<p><span class="ljspan ljspan-red"><a href="https://hexo.io/">人生有梦，各自精彩！</a></span><br>
+<span class="ljspan ljspan-reverse ljspan-yellow"><a href="https://hexo.io/">水能载舟，亦能覆舟！</a></span></p>
+<p><span class="ljspan ljspan-yellow"><a href="https://hexo.io/">水能载舟，亦能覆舟！</a></span></p>
+<h3 id="List">List</h3>
+<ul>
+<li>我是⭐️菜徐坤</li>
+<li>我是菜徐彬</li>
+<li>我是菜徐鑫</li>
+</ul>
+<h3 id="Url">Url</h3>
+<p>&lt; <a href="http://www.baidu.com">www.baidu.com</a> &gt;</p>
+<h3 id="image">image</h3>
+<p><img src="/assets/img/wallhaven-p869pm_1920x1080.png" alt="fantasy food"></p>
+<h3 id="Code-Blocks">Code Blocks</h3>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$我是菜徐坤之鑫总牛批</span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<!-- more  -->
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<!-- more  -->
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<!-- more  -->
+]]></content>
+  </entry>
+  <entry>
+    <title>java命令行</title>
+    <url>/2020/09/11/java%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
+    <content><![CDATA[<p>试过直接在cmd中直接使用java编译并运行吗？瞧瞧👀？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//搜索某个jar文件，然后通过这个文件中定义的类来运行。</span></span><br><span class="line">java -<span class="function">classpath <span class="title">jarfile</span> <span class="params">(jar中的)</span>class [args]</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="示例：">示例：</h3>
+<p>可通过window的cmd命令行来执行。</p>
+<p>涉及到的jar包在<code>F:\AA_LLJ\llj\files\liripo_proj\lib</code></p>
+<p>以下为案例解释</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#In order to keep GNomEx secure we encrypt the passwords for the mysql users gnomex and gnomexguest. This is done by creating a /properties directory that needs to contain a file called gnomex_tomcat.properties – this file has one line:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#key=zzzzzzzzzz</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#where you specify a combination of upper/lower case letters and numbers (instead of zzzzzzzzz) to use as a key during encryption</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#In my example I will use gnomex$129 as the mysql password for gnomex</span></span><br><span class="line"><span class="comment">#And gnomexguest$129 as the mysql password for gnomexguest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#So:</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$CATALINA_HOME</span>/lib</span><br><span class="line"></span><br><span class="line">java –classpath ./gnomex_realm.jar hci.gnomex.security.tomcat.AESEncryption gnomex<span class="variable">$129</span> zzzzzzzzz</span><br><span class="line"></span><br><span class="line">gnomex<span class="variable">$129</span>:963aab6e93a6965b1fad2076f8ec96e5</span><br><span class="line"></span><br><span class="line">java -classpath ./gnomex_realm.jar hci.gnomex.security.tomcat.AESEncryption gnomexguest<span class="variable">$129</span> zzzzzzzzz</span><br><span class="line"></span><br><span class="line">gnomexguest<span class="variable">$129</span>:26fa1aada7c618cbb050fe6d2facd535 </span><br><span class="line"></span><br><span class="line">Now instead of specifying the password directly as gnomex<span class="variable">$129</span> we use the encrypted form: 963aab6e93a6965b1fad2076f8ec96e5</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="示例二：">示例二：</h3>
+<p>在20年的第二周日记里有记载关于在window上运行一次java程序编译的过程</p>
+<p>在纯java环境中，如何引入jar包后，运行class文件呢，方法<a href="https://www.cnblogs.com/webcyz/p/6551655.html">在这里</a></p>
+<p>但是还是出现问题了，出现编码问题，我改变了编码还是出问题</p>
+<p><img src="/assets/img/java%E5%91%BD%E4%BB%A4%E8%A1%8C1.png" alt="" title="编码错误"></p>
+<p><img src="/assets/img/java%E5%91%BD%E4%BB%A4%E8%A1%8C2.png" alt="" title="奇怪错误"></p>
+<p>我也不知道如何解决了，任鹏使用linux系统就没有问题，我在window的命令行上就出现这个“奇怪问题”，无法解决！</p>
+<p><span class="ljspan ljspan-red">解决办法</span></p>
+<div class="note primary">
+            <p>非法字符‘\ufeff’和需要class,interface或enum的错误，其实是编码的问题，采用utf无bom的编码就可以运行了</p>
+          </div>
+<blockquote>
+<p>Note:在notepad++中，utf-8就是utf8无bom格式</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>java基础</title>
+    <url>/2020/09/11/java%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h3 id="String字符串判空">String字符串判空</h3>
+<p>对于<code>String</code>类型判断它是否为空☝️，要使用<code>isEmpty()</code>这个方法或<code>string==&quot;&quot;</code>，不能用<code>string == Null</code>,因为<code>String</code>是一个对象，不可以判<code>Null</code></p>
+<a id="more"></a>
+<h3 id="枚举类📓">枚举类📓</h3>
+<p><a href="https://www.jianshu.com/p/46dbd930f6a2">参考文档</a></p>
+<h3 id="静态类和静态方法">静态类和静态方法</h3>
+<p>静态类一定是一个内部类,静态类的属性和方法也都需要时静态的。</p>
+<p>静态方法内部的属性都需要时静态的。静态方法可以直接跨类调用。直接引用该类的方法就可以了。</p>
+<p><a href="https://www.jianshu.com/p/80b404da976b">参考文档</a></p>
+<h3 id="super">super()</h3>
+<p>经常在实现无参构造函数的时候遇见这家伙👦，这个<code>super</code>其实代表的是父类对象，通过<code>super</code>可以获取到父类👨的属性、方法和构造函数；</p>
+<p>super.属性名                调用父类属性</p>
+<p>super.fun_name()        调用符类方法</p>
+<p>super()/super(参数)     调用父类构造函数</p>
+<h3 id="PrintWriter中write-和print-的区别">PrintWriter中write()和print()的区别</h3>
+<p>其实都是输出内容💬，但是<code>print()</code>还可以将各种类型的数据转化成字符串的形式输出。(最后再转换成字节输出)</p>
+<h3 id="新建对象🐘">新建对象🐘</h3>
+<p>在使用<code>xstream</code>的时候，发现新建对象时后面还可以有代码块，在代码块里面可以调用这个对象的方法获取新建对象所需要的东西（以前真没遇到过这种东西）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自定义xml对象格式</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> XStream xStream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> XppDriver() &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> HierarchicalStreamWriter <span class="title">createWriter</span><span class="params">(Writer out)</span> </span>&#123;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> PrettyPrintWriter(out) &#123;</span><br><span class="line">				<span class="keyword">boolean</span> cdata = <span class="keyword">true</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startNode</span><span class="params">(String name, Class clazz)</span> </span>&#123;</span><br><span class="line">					<span class="keyword">super</span>.startNode(name, clazz);</span><br><span class="line">				&#125;</span><br><span class="line">				......</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
       </categories>
   </entry>
   <entry>
@@ -388,62 +777,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Ubuntu创建用户</title>
-    <url>/2020/09/09/Ubuntu%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>新建用户不仅仅是新建一个用户而已，还有其家目录的设置和环境变量的设置等等，所以新建用户并没有想象的那么简单😳</p>
-<a id="more"></a>
-<h2 id="新建用户">新建用户</h2>
-<p>有<strong>useradd</strong>和<strong>adduser</strong>两种方法哦🙊</p>
-<blockquote>
-<p>那么如何选择呢？根据系统来咯确定系统</p>
-</blockquote>
-<p>如果是ubuntu(我的就是😏),那么useradd和adduser是不一样的</p>
-<p>adduser可以为新建用户自动创建跟用户名同名的用户目录，组名，系统shell版本，同时会提示输入密码之类的。</p>
-<p>而useradd在创建用户时，不会自动创建目录，也不会自动选择shell版本，也没有设置密码，所以需要使用passwd命令修改密码</p>
-<blockquote>
-<p>而在其他系统上还没试验过</p>
-</blockquote>
-<hr>
-<h2 id="已建用户">已建用户</h2>
-<p>如果是已建用户，但是你丢失了某些东西？比如你误删了家目录😂，那还需要新建用户吗？</p>
-<p>有一次因为失误，删了家目录及其子目录的所有数据👻</p>
-<p>那如何新建家目录呢。</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cp <span class="regexp">/etc/</span>skec<span class="regexp">/* /</span>path<span class="regexp">/to/u</span>ser -A </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个命令的意义就是把shell等一些配置文件复制到我的用户目录中</p>
-</blockquote>
-<hr>
-<h2 id="问题">问题</h2>
-<p>如果在创建用户的时候没有设置主目录和shell，会出现什么问题呢❔</p>
-<p>我暂时还不知道，网上搜不到这种问题😐</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>docker用法</title>
-    <url>/2020/09/08/docker%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p><img src="/assets/img/Docker-wallpaper.jpg" alt=""></p>
-<a id="more"></a>
-<h2 id="Docker常用命令">Docker常用命令</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#新建一个容器，必须指定镜像来创建容器</span></span><br><span class="line"></span><br><span class="line">docker run    <span class="comment">#添加 -it  运行交互模式的容器  </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#-d 以后台模式运行容器</span></span><br><span class="line"><span class="comment">#-P 将所有的公开端口映射到随机端口上</span></span><br><span class="line"><span class="comment">#-p 将容器的端口映射到主机</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器，退出容器会关闭容器</span></span><br><span class="line"></span><br><span class="line">docker attach </span><br><span class="line"></span><br><span class="line"><span class="comment">#在现有容器中运行命令的情况</span></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">exec</span>   <span class="comment">#-itd此时退出容器，不会关闭容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看已经在运行的容器</span></span><br><span class="line"></span><br><span class="line">docker ps     <span class="comment">#添加 -a  显示所有容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置docker容器自启动</span></span><br><span class="line"><span class="comment">#如果还没有创建容器</span></span><br><span class="line">docker run --restart=always --name=容器名</span><br><span class="line"><span class="comment">#如果已经创建了容器</span></span><br><span class="line">docker update --restart=always 容器名</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>docker命令行 的选项列表在<a href="https://docs.docker.com/engine/reference/commandline/run/#options">这里</a>😜</p>
-</blockquote>
-<hr>
-<h2 id="关于docker占用磁盘空间的情况">关于docker占用磁盘空间的情况</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看Docker的磁盘使用情况</span></span><br><span class="line">docker system df </span><br><span class="line"></span><br><span class="line"><span class="comment">#一般有Images（镜像）、Containers(容器)、Local Volumes(数据卷)</span></span><br><span class="line"><span class="comment">#镜像是用来在容器中生成一个实例的，当重新用容器生成一个镜像的时候，就是另一个新的实例，之前的数据都会没有了，因为是新的实例嘛，而之前的实例数据其实是存放在数据卷里面的！</span></span><br><span class="line"><span class="comment">#数据卷也是实现持久化的关键元素</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#清理磁盘空间  ！！！慎用</span></span><br><span class="line">docker system prune</span><br><span class="line"></span><br><span class="line"><span class="comment">#手动清理Docker镜像/容器/数据卷</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有关闭的容器</span></span><br><span class="line">docker ps -a | grep Exit | cut -d <span class="string">&#x27; &#x27;</span> -f 1 | xargs docker rm</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有dangling镜像（即无tag的镜像）</span></span><br><span class="line">docker rmi $(docker images | grep <span class="string">&quot;^&lt;none&gt;&quot;</span> | awk <span class="string">&quot;&#123;print <span class="variable">$3</span>&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除所有dangling数据卷（即无用的Volume）</span></span><br><span class="line">docker volume rm $(docker volume ls -qf dangling=<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql的用法</title>
     <url>/2020/09/10/mysql%E7%9A%84%E7%94%A8%E6%B3%95/</url>
     <content><![CDATA[<p><img src="/assets/img/640px-MySQL_logo.svg.png" alt=""></p>
@@ -451,26 +784,26 @@
 <a id="more"></a>
 <hr>
 <h2 id="linux上的mysql">linux上的mysql</h2>
-<h4 id="操作mysql服务🍄">操作mysql服务🍄</h4>
+<h3 id="操作mysql服务🍄">操作mysql服务🍄</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看mysql服务的状态</span></span><br><span class="line">sudo service mysql status</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭mysql服务</span></span><br><span class="line">sudo service mysql stop</span><br><span class="line"></span><br><span class="line"><span class="comment">#开启mysql服务</span></span><br><span class="line">sudo service mysql start </span><br></pre></td></tr></table></figure>
-<h4 id="查找mysql文件🌻">查找mysql文件🌻</h4>
+<h3 id="查找mysql文件🌻">查找mysql文件🌻</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查询mysql的内容的地址(比较详细)</span></span><br><span class="line">find / -name mysql  </span><br><span class="line"><span class="comment">#也可通过whereis(比较笼统)</span></span><br><span class="line">whereis mysql</span><br></pre></td></tr></table></figure>
-<h4 id="查看安装包🌿">查看安装包🌿</h4>
+<h3 id="查看安装包🌿">查看安装包🌿</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可通过如下命令，查询通过apt-get的已安装的软件</span></span><br><span class="line">sudo dpkg -l</span><br></pre></td></tr></table></figure>
-<h4 id="数据的各种目录解析🌱">数据的各种目录解析🌱</h4>
+<h3 id="数据的各种目录解析🌱">数据的各种目录解析🌱</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#mysql的datadir,用于存储数据</span></span><br><span class="line">/var/lib/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">#mysql的配置文件目录</span></span><br><span class="line">/etc/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">#mysql服务的目录，就是‘service mysql start’等命令的执行处</span></span><br><span class="line">/etc/init.d/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">#其实很多文件都在/usr目录中</span></span><br><span class="line"><span class="comment">#mysql命令目录</span></span><br><span class="line">/usr/bin/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">#动态库</span></span><br><span class="line">/usr/lib/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">#帮助文档</span></span><br><span class="line">/usr/share/mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="window上的mysql">window上的mysql</h2>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#开启服务</span></span><br><span class="line">net start mysql</span><br><span class="line"><span class="comment">#关闭服务</span></span><br><span class="line">net stop mysql</span><br><span class="line">--------------------</span><br><span class="line">(需要登录到mysql后才使用)</span><br><span class="line"><span class="comment">#查看数据库基本信息</span></span><br><span class="line">status;</span><br><span class="line"><span class="comment">#查看端口号</span></span><br><span class="line">show global variables like <span class="string">&#x27;port&#x27;</span>;  </span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="mysql问题集">mysql问题集</h2>
-<h4 id="1-程序被占用？sock-lock-file无法修改？">1.程序被占用？sock lock file无法修改？</h4>
+<h3 id="1-程序被占用？sock-lock-file无法修改？">1.程序被占用？sock lock file无法修改？</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">2020-03-27T06:51:55.089835Z 0 [ERROR] Another process with pid 5244 is using unix socket file.</span><br><span class="line">2020-03-27T06:51:55.089873Z 0 [ERROR] Unable to setup unix socket lock file.</span><br><span class="line">2020-03-27T06:51:55.089886Z 0 [ERROR] Aborting</span><br></pre></td></tr></table></figure>
 <p><span class="ljspan ljspan-red">解决办法</span>:</p>
 <p>​	1️⃣：关闭mysql服务<br>
 ​	2️⃣：到/var/run/mysqld/目录中，找到mysqld.sock.lock文件,重命名或者备份后删除原文件<br>
 ​	3️⃣：重新启动mysql服务即可</p>
-<h4 id="2-绑定IP-端口权限限制">2.绑定IP/端口权限限制</h4>
+<h3 id="2-绑定IP-端口权限限制">2.绑定IP/端口权限限制</h3>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">2020-03-26T06:52:46.063437Z 0 [ERROR] Can<span class="string">&#x27;t start server: Bind on TCP/IP port: Permission denied</span></span><br><span class="line"><span class="string">2020-03-26T06:52:46.063462Z 0 [ERROR] Do you already have another mysqld server running on port: 3306 ?</span></span><br><span class="line"><span class="string">2020-03-26T06:52:46.063487Z 0 [ERROR] Aborting</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>遇到这个问题可能是端口占用问题，也可能是主机IP的设置问题</p>
@@ -481,7 +814,7 @@
 <p>进入<span class="label danger">my.cnf</span>然后如果看到<code>bind-address   = 127.0.0.1</code>，就注销掉，这样就可以远程开启mysql服务了</p>
 <p>情况二：<br>
 由于端口3306被占用，所以开启不了！kill掉占用这个端口的进程就行了</p>
-<h4 id="3-mysql字符格式导致无法导出数据">3.mysql字符格式导致无法导出数据</h4>
+<h3 id="3-mysql字符格式导致无法导出数据">3.mysql字符格式导致无法导出数据</h3>
 <p>想使用workbench<span class="label success">导出数据库表为sql脚本</span>，然后导入到其他系统中去<br>
 但是在使用sql脚本直接导入到linux中的mysql数据库中，但是一直报错，如下👇</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ERROR 1273 (HY000): Unknown collation: <span class="string">&#x27;utf8mb4_0900_ai_ci&#x27;</span></span><br></pre></td></tr></table></figure>
@@ -492,7 +825,7 @@
 <p>sql脚本记录的是表数据，并不是整个数据库，所以一般需要新建</p>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">进入数据库</span></span><br><span class="line">mysql -u username -p password</span><br><span class="line"><span class="meta">#</span><span class="bash">进入数据库（没有需要新建）</span></span><br><span class="line">use database;</span><br><span class="line"><span class="meta">#</span><span class="bash">跑sql脚本</span></span><br><span class="line">source /path/to/xxx.sql</span><br></pre></td></tr></table></figure>
-<h4 id="4-多个数据库混合使用同一个配置文件">4.多个数据库混合使用同一个配置文件</h4>
+<h3 id="4-多个数据库混合使用同一个配置文件">4.多个数据库混合使用同一个配置文件</h3>
 <p>使用<span class="ljspan ljspan-blue">sqlyog</span>登录数据库一直失败,但是使用cmd登录mysql却成功了🙇<br>
 然后我就进入mysql中查看数据库的版本信息和端口号的信息,发现版本对了，但是端口错了，修改端口重启，但是端口还是没有变！(⊙o⊙)？…阿这…<br>
 找到问题了，原来因为我<span class="label danger">下载安装了多个数据库</span>又没有配置清楚，所以导致我登录的数据库使用到的是其他数据库的配置文件my.ini，这就导致了之前的修改端口无效。</p>
@@ -503,7 +836,7 @@
 <p>打开<code>注册表编辑器</code>–<code>HKEY_LOCAL_MACHINE</code>–<code>SYSTEM</code>–<code>CurrentControlSet</code>–<code>Services</code>(到这一步可以看到数据库名称)，之前我就是通过在这里修改<code>DisplayName</code>/<code>ImagePath</code>来区分不同的数据库服务的。现在可通过修改<code>ImagePath</code>，在里面的执行文件后添加<br>
 –defaults-file=“path\to\your mysql file\my.ini”（这是我在mysql8.0的服务中看到的:happy:）<br>
 这样就可以啦</p>
-<h4 id="5-误用其他数据库配置导致无法读取数据">5.误用其他数据库配置导致无法读取数据</h4>
+<h3 id="5-误用其他数据库配置导致无法读取数据">5.误用其他数据库配置导致无法读取数据</h3>
 <p>由于上一个问题导致了这一个问题(+_+)?</p>
 <div class="note info">
             <p>在linux上可以通过日志目录直接查看日志；那windows上的日志文件应该也有吧，没有日志目录，但是在data文件中，其实有关于数据库增删改查的缓存和错误信息的日志，所以如果数据库无法连接，可以在这里找错误日志文件</p>
@@ -513,7 +846,7 @@
 1.直接重装数据库（如果里面没有重要数据）<br>
 2.删掉所有数据文件后重启数据库<br>
 3.通过查看错误日志文件，官方推荐是使用<a href="https://dev.mysql.com/doc/refman/5.7/en/forcing-innodb-recovery.html">强制恢复模式</a>来恢复数据</p>
-<h4 id="6-mysql初始化失败">6.mysql初始化失败</h4>
+<h3 id="6-mysql初始化失败">6.mysql初始化失败</h3>
 <p>想在电脑上安装mysql5.7，之前已经在我的电脑上装了两个mysql8，一个是源码安装，一个是安装器安装</p>
 <p>这一次我也想通过源码安装，mysql服务安装倒是没问题，但是mysql初始化一直失败，不知道为何🙉</p>
 <p>通过一些蛛丝马迹，我发现，每次初始化，我的另一个msyql的data文件夹有更新，但是我没有动它呀！(￣ ‘i ￣;)</p>
@@ -579,98 +912,37 @@ eg：<code>nohup xxx &amp;</code></p>
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Test">Test</h2>
-<h3 id="Span">Span</h3>
-<p><span class="ljspan ljspan-reverse">生活不止眼前的苟且</span></p>
-<h3 id="Blockquotes">Blockquotes</h3>
-<!-- Center quote -->
-<blockquote class="blockquote-center">
-            <p>Something</p>
-
-          </blockquote>
-<!-- Tag Alias -->
-<blockquote class="blockquote-center">
-            <p>Something</p>
-
-          </blockquote>
-<h3 id="Label">Label</h3>
-<p>Lorem <span class="label default">ipsum</span> <span class="label primary">dolor sit</span> amet, consectetur <span class="label success">adipiscing elit,</span> sed <span class="label info">do eiusmod</span> tempor incididunt ut labore et dolore magna aliqua.</p>
-<p>Ut enim <em><span class="label warning">ad</span></em> minim veniam, quis <strong><span class="label danger">nostrud</span></strong> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-<p>Duis aute irure dolor in reprehenderit in voluptate <s><span class="label default">velit</span></s> <mark>esse</mark> cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<h3 id="Label-Test">Label Test</h3>
-<span class="label info">[教程]([https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7](https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-、debian-8-、centos-7))</span>
-<p><strong><span class="label default">&</span></strong></p>
-<blockquote>
-<p>This 😄😭 is your very first post.</p>
-</blockquote>
-<h3 id="Span-2">Span</h3>
-<p><span class="ljspan ljspan-reverse ljspan-red"><a href="https://hexo.io/">人生有梦，各自精彩！</a></span></p>
-<p><span class="ljspan ljspan-red"><a href="https://hexo.io/">人生有梦，各自精彩！</a></span><br>
-<span class="ljspan ljspan-reverse ljspan-yellow"><a href="https://hexo.io/">水能载舟，亦能覆舟！</a></span></p>
-<p><span class="ljspan ljspan-yellow"><a href="https://hexo.io/">水能载舟，亦能覆舟！</a></span></p>
-<h3 id="List">List</h3>
-<ul>
-<li>我是⭐️菜徐坤</li>
-<li>我是菜徐彬</li>
-<li>我是菜徐鑫</li>
-</ul>
-<h3 id="Url">Url</h3>
-<p>&lt; <a href="http://www.baidu.com">www.baidu.com</a> &gt;</p>
-<h3 id="image">image</h3>
-<p><img src="/assets/img/wallhaven-p869pm_1920x1080.png" alt="fantasy food"></p>
-<h3 id="Code-Blocks">Code Blocks</h3>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$我是菜徐坤之鑫总牛批</span><br></pre></td></tr></table></figure>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<!-- more  -->
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<!-- more  -->
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<!-- more  -->
-]]></content>
-  </entry>
-  <entry>
-    <title>resolv.conf</title>
-    <url>/2020/09/09/resolv-conf/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>resolv.conf是什么呢❔，光看名字不懂！💫其实他就是一个DNS客户机配置文件，用于设置DNS服务器的IP地址以及DNS域名</p>
+    <title>python及其工具</title>
+    <url>/2020/09/11/python%E5%8F%8A%E5%85%B6%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="Python版本">Python版本</h2>
+<p>1.分别有python和python3两种，python3对应Python3.x版本</p>
+<p>而python对应Python2.x版本</p>
+<p>2.pip和pip2相同，均对应Python2.x版本；而pip3对应Python3.x版本</p>
 <a id="more"></a>
-<h2 id="resolv-conf文件解析">resolv.conf文件解析</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nameserver    *//定义DNS服务器的IP地址* </span><br><span class="line">domain       *//定义本地域名* </span><br><span class="line">search        *//定义域名的搜索列表* </span><br><span class="line">sortlist        *//对返回的域名进行排序*</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>nameserver参数必须有😀，其他为可选</p>
-</blockquote>
 <hr>
-<h2 id="resolv-conf由三种方式控制">resolv.conf由三种方式控制</h2>
-<p>1.network manager</p>
-<p>2.resolvconf</p>
-<p>3.systemd-resolved</p>
+<h2 id="Python包管理工具">Python包管理工具</h2>
+<p>现在的包管理工具都是用<span class="ljspan  ljspan-red">pip</span>了，以前都是使用<span class="ljspan ljspan-black">setuptools</span>，老版本的python就还都在用。</p>
 <hr>
-<h2 id="关于避免在-etc-resolv-conf中使用namespace127-0-0-53">关于避免在/etc/resolv.conf中使用namespace127.0.0.53</h2>
-<p>这个问题在<span class="ljspan ljspan-reverse ljspan-blue"><a href="/2020/09/08/%E5%AE%89%E8%A3%85elabFTW/">安装elabFTW</a></span>时出现过，因为elabftw是采用docker安装的，安装时，用到两个容器，分别是elabftw_web和mysql容器，但是两个容器一直无法连接，一直报没有安装mysql容器，最后通过<span class="ljspan ljspan-blue"><a href="https://github.com/elabftw/elabftw/issues/1881">github提问</a></span>,作者告诉了我问题的原因就是这个，提供的解决办法再上面的文章上，最后我是改用networkmanager来管理,才解决该问题</p>
+<h2 id="python虚拟环境">python虚拟环境</h2>
+<p>搭建python虚拟环境，现在都使用<span class="ljspan ljspan-red">conda</span>来安装</p>
 <blockquote>
-<p>关于这个问题的详细叙述文章在<a href="https://www.hiroom2.com/2017/08/24/ubuntu-1610-nameserver-127-0-0-53-en/">这里</a></p>
+<p>安装Conda，请看<a href="">这里</a></p>
 </blockquote>
+<p>不过，以前都是用<span class="ljspan">virtualenv</span>来设置虚拟环境的</p>
+<p>这里有安装步骤👇</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#[---]：大括号内的内容需要用户自己填写</span></span><br><span class="line"><span class="comment">#安装</span></span><br><span class="line">pip install virtualenv</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建目录，这是必须的，用于存储虚拟环境</span></span><br><span class="line">mkdir myproject</span><br><span class="line"><span class="built_in">cd</span> myproject/</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建一个独立的python环境（即虚拟环境）</span></span><br><span class="line">virtualenv --python=[python-version] [env-name]</span><br><span class="line"></span><br><span class="line"><span class="comment">#进入这个虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> [env-name]/bin/activate</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Python的其他工具">Python的其他工具</h4>
+<hr>
+<ol>
+<li>Fabric 是一个 Python (2.5-2.7) 的库和命令行工具，用来提高基于 SSH 的应用部署和系统管理效率。</li>
+<li>是用于自动化构建软件的工具：bulidout</li>
+<li>图像处理标准库：pillow</li>
+</ol>
 ]]></content>
       <categories>
         <category>linux</category>
       </categories>
-      <tags>
-        <tag>network</tag>
-      </tags>
   </entry>
   <entry>
     <title>下载工具Aria2</title>
@@ -718,291 +990,50 @@ eg：<code>nohup xxx &amp;</code></p>
       </tags>
   </entry>
   <entry>
-    <title>升级Hexo和使用备份配置文件</title>
-    <url>/2020/09/04/%E5%8D%87%E7%BA%A7Hexo%E5%92%8C%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="升级">升级</h2>
-<p>想使用&quot;备份配置文件(Alternate Theme Config)&quot;来配置NexT主题的参数，为了以后升级该主题，避免冲突，所以打算使用官方文档推荐的<a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">Alternate Theme Config</a>,通过这份文档又可知，使用Alternate Theme Config需要使用Hexo 5.0版本，龟龟🐢🐢，那就只能更新了😭。</p>
+    <title>resolv.conf</title>
+    <url>/2020/09/09/resolv-conf/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>resolv.conf是什么呢❔，光看名字不懂！💫其实他就是一个DNS客户机配置文件，用于设置DNS服务器的IP地址以及DNS域名</p>
 <a id="more"></a>
-<p>官方文档貌似没有，那就只能网上搜了。由于我没有什么问价放在个人博客上，就几篇指导文件，且电脑端也有存档，所以…​.​.​.😎</p>
-<p>我就可以大刀阔斧地搞了💩</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#其实很简单</span></span><br><span class="line"><span class="comment">#查看当前hexo版本</span></span><br><span class="line">hexo version</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step1:进入你的hexo根目录</span></span><br><span class="line"><span class="comment">#找到package.json文件，修改该版本号</span></span><br><span class="line">- <span class="string">&quot;hexo&quot;</span>: <span class="string">&quot;^4.2.0&quot;</span></span><br><span class="line">+ <span class="string">&quot;hexo&quot;</span>: <span class="string">&quot;^5.0.0&quot;</span></span><br><span class="line"><span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Step2:使用npm升级</span></span><br><span class="line">npm upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step3:如果提示有依赖需要修复，按提示修复，一般为</span></span><br><span class="line">npm audit fix</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step4：如果有关于配置文件警告之类的，记得修改</span></span><br><span class="line">WARN  Deprecated config detected: <span class="string">&quot;use_date_for_updated&quot;</span> is deprecated, please use <span class="string">&quot;updated_option&quot;</span> instead. See https://hexo.io/docs/configuration <span class="keyword">for</span> more details.</span><br><span class="line"><span class="comment">#像上面的警告就是说配置_config.yml文件中&quot;use_date_for_updated&quot;已经被废弃，改用&quot;updated_option&quot;来配置，修改后保存就可以了。可以通过https://hexo.io/docs/configuration了解详情</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#再次检查hexo版本</span></span><br><span class="line">hexo version</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除缓存</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment">#生成静态文件并开启本地服务</span></span><br><span class="line">hexo g &amp;&amp; hexo s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="使用备份配置文件">使用备份配置文件</h2>
-<p><span class="ljspan ljspan-blue"><a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">Hexo官方文档</a></span>和<span class="ljspan ljspan-black"><a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">NexT官方文档</a></span>写得很清楚</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在根目录_config.yml结尾中填写主题配置参数</span></span><br><span class="line">+ theme_config:</span><br><span class="line"><span class="comment">#把theme config file文件所有内容都复制到theme_config下方。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#可以了，so easy!</span></span><br></pre></td></tr></table></figure>
+<h2 id="resolv-conf文件解析">resolv.conf文件解析</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nameserver    *//定义DNS服务器的IP地址* </span><br><span class="line">domain       *//定义本地域名* </span><br><span class="line">search        *//定义域名的搜索列表* </span><br><span class="line">sortlist        *//对返回的域名进行排序*</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><strong>Attention​!📢</strong>:Hexo生成和部署的时候记得也加上<code>--config xxx</code>哦，不然后面的问题让你头疼😵！</p>
+<p>nameserver参数必须有😀，其他为可选</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分区与挂载</title>
-    <url>/2020/09/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E6%8C%82%E8%BD%BD/</url>
-    <content><![CDATA[<h2 id="分区">分区</h2>
-<p>查看<span class="label danger">分区与挂载</span>情况：df -h</p>
-<p>查看<span class="label info">当前目录下一级子文件和子目录占用的磁盘容量</span>：du -lh --max-depth=1</p>
-<a id="more"></a>
-<p>查看<span class="label warning">磁盘的分区</span>情况：sudo fdisk -l</p>
-<ul>
-<li>disk: 就是分区</li>
-<li>device: 就是一些分区好了的磁盘设备</li>
-</ul>
-<span class="label info">挂载</span>和<span class="label info">卸载</span>分区：mount/umount
+<hr>
+<h2 id="resolv-conf由三种方式控制">resolv.conf由三种方式控制</h2>
+<p>1.network manager</p>
+<p>2.resolvconf</p>
+<p>3.systemd-resolved</p>
+<hr>
+<h2 id="关于避免在-etc-resolv-conf中使用namespace127-0-0-53">关于避免在/etc/resolv.conf中使用namespace127.0.0.53</h2>
+<p>这个问题在<span class="ljspan ljspan-reverse ljspan-blue"><a href="/2020/09/08/%E5%AE%89%E8%A3%85elabFTW/">安装elabFTW</a></span>时出现过，因为elabftw是采用docker安装的，安装时，用到两个容器，分别是elabftw_web和mysql容器，但是两个容器一直无法连接，一直报没有安装mysql容器，最后通过<span class="ljspan ljspan-blue"><a href="https://github.com/elabftw/elabftw/issues/1881">github提问</a></span>,作者告诉了我问题的原因就是这个，提供的解决办法再上面的文章上，最后我是改用networkmanager来管理,才解决该问题</p>
 <blockquote>
-<p>挂载成功以后，需要把挂载信息写在/etc/fstab上才能在每次开机后，自动挂载分区</p>
+<p>关于这个问题的详细叙述文章在<a href="https://www.hiroom2.com/2017/08/24/ubuntu-1610-nameserver-127-0-0-53-en/">这里</a></p>
 </blockquote>
-<p>mount还可以查看系统各分区的文件系统❕</p>
-<hr>
-<h3 id="示例：">示例：</h3>
-<p>想把<code>dev/sdb</code>这个磁盘分区💩</p>
-<p><code>fdisk /dev/sdb</code>进入以后就可以分区了</p>
-<p>✨<span class="label success">fdisk</span>功能可是很强大的哦👀</p>
-<p>分了两个主盘sdb1和sdb2</p>
-<p>分区好了以后，发现无法给这些分区格式化文件系统😩</p>
-<p>调查之后，发现是因为<code>/dev/sdb1</code> 正被系统使用，只能取消建立文件系统 ！</p>
-<p>原来之前的/dev/sdb是挂载在data1上的，现在被分区了，就不能再挂载了💨</p>
-<p>卸载后data1后，就可以设置文件系统了</p>
-<p>现在，就可以把/dev/sdb1挂载到/home上啦🙂</p>
-<hr>
-<h3 id="分区或者说是某个挂载目录扩容">分区或者说是某个挂载目录扩容</h3>
-<p>因为没有之前的磁盘没有使用逻辑盘符来设置，所以没办法使用<span class="label primary">逻辑卷</span>来扩容</p>
-<p>只能删除原有磁盘的数据或者迁移数据到新磁盘上了，我没有给旧磁盘扩容了，怕又出错。</p>
 ]]></content>
       <categories>
         <category>linux</category>
       </categories>
+      <tags>
+        <tag>network</tag>
+      </tags>
   </entry>
   <entry>
-    <title>处理Json格式数据</title>
-    <url>/2020/09/04/%E5%A4%84%E7%90%86Json%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>前台页面通常都会通过<code>Ajax</code>来获取后台的数据，某些接口传输数据也都是以<code>Json</code>格式来传输，故处理<code>Json</code>格式数据边得很重要鸭🦆</p>
+    <title>使用curl遇到的问题</title>
+    <url>/2020/09/11/%E4%BD%BF%E7%94%A8curl%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>在使用curl下载github内容时经常出现问题</p>
+<p>比如：<code>curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused</code></p>
 <a id="more"></a>
-<h2 id="处理Json格式数据">处理Json格式数据</h2>
-<p>在微信返回的消息中，有些是以json数据包的格式呈现的👇</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span>:<span class="string">&quot;ACCESS_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span>:<span class="number">7200</span>,</span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span>:<span class="string">&quot;REFRESH_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;openid&quot;</span>:<span class="string">&quot;OPENID&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;scope&quot;</span>:<span class="string">&quot;SCOPE&quot;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那如何取出这里面的信息呢。那就需要用到<span class="ljspan ljspan-reverse ljspan-red"><a href="https://github.com/alibaba/fastjson">fastjson</a></span>啦!🍄</p>
-<p>一般从网络🌏上获取/传输的<code>json数据包</code>，都是<span class="ljspan ljspan-red">json字符串</span>，如果需要取出来，需要把它转化为<span class="ljspan ljspan-red">json对象</span>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//json字符串转json对象</span></span><br><span class="line">String result = <span class="string">&#x27;&#123;&quot;name&quot;:&quot;2323&quot;,&quot;sex&quot;:&quot;afasdf&quot;,&quot;age&quot;:&quot;6262&quot;&#125;&#x27;</span>;</span><br><span class="line">JSONObject jsonObject =JSON.parseObject(result);</span><br><span class="line"><span class="comment">//这样就可以从json对象jsonobject中获取到你所需要的信息了	  </span></span><br><span class="line">String name = jsonObject.getString(<span class="string">&quot;name&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>另一方面，如果要传输<code>json数据包</code>​​，一般也是先编写好<span class="ljspan ljspan-red">json对象</span>后，转化为<span class="ljspan ljspan-red">json对象</span>后传输​。🌵</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="attr">&quot;button&quot;</span>:[</span><br><span class="line">     &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;view&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的报告&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;url&quot;</span>:<span class="string">&quot;/path/to/Report&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的社区&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_COMMUNITY&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;个人中心&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_TODAY_MUSIC&quot;</span></span><br><span class="line">       &#125;]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>👇下面代码这是对上面☝️的实现哦。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装json对象</span></span><br><span class="line">JSONObject jsonObject = <span class="keyword">new</span> JSONObject();</span><br><span class="line">JSONArray jsonArray = <span class="keyword">new</span> JSONArray();</span><br><span class="line">JSONObject jsonObject1 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject1.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;view&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的报告&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;/path/to/Report&quot;</span>);</span><br><span class="line">JSONObject jsonObject2 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject2.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的社区&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_COMMUNITY&quot;</span>);</span><br><span class="line">JSONObject jsonObject3 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject3.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;个人中心&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_TODAY_MUSIC&quot;</span>);</span><br><span class="line">jsonArray.add(jsonObject1);</span><br><span class="line">jsonArray.add(jsonObject2);</span><br><span class="line">jsonArray.add(jsonObject3);</span><br><span class="line">jsonObject.put(<span class="string">&quot;button&quot;</span>,jsonArray);</span><br><span class="line"><span class="comment">//转化为json字符串</span></span><br><span class="line">String jsonString = jsonObject.toJSONString();</span><br></pre></td></tr></table></figure>
+<p>这是因为<span class="label success">**raw.githubusercontent.com**</span> 这个域名被污染了，所以在hosts文件里面添加一下ip映射就可以啦</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ vim /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加如下，ip可通过 https://www.ipaddress.com/ 查询 </span></span><br><span class="line">x.x.x.x(ip) raw.githubusercontent.com</span><br><span class="line"></span><br><span class="line"><span class="comment">#这样就可以啦！</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>使用eclipse提示功能，可以看到许多<code>jsonObject</code>和<code>JSON</code>的方法！</p>
+<p>其实在window上也经常遇到类似问题😏</p>
 </blockquote>
-<hr>
-<h2 id="自动转化json数据">自动转化json数据</h2>
-<p>后台服务可以自动转化某类对象为json格式到前台页面，前端页面可直接取用，你说神不神奇🐸,它一般结合<code>@ResponseBody</code>一起使用</p>
-<p>它就是<span class="ljspan ljspan-yellow"><a href="https://github.com/FasterXML/jackson-databind">jackson databind</a></span>，貌似上文提到的<span class="ljspan ljspan-red">fastjson</span>也可以实现(不过，还需要其他配置)，但是<span class="ljspan ljspan-yellow">jackson databind</span>只需要引入依赖包就行了🙂</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入依赖包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Java</category>
+        <category>linux</category>
       </categories>
-      <tags>
-        <tag>Json</tag>
-        <tag>数据处理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>处理XML数据</title>
-    <url>/2020/09/04/%E5%A4%84%E7%90%86XML%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>解析<code>XML</code>数据，感觉很难，无从下手🙊，其实是因为解析<code>XML</code>的<a href="https://www.cnblogs.com/c-xiaohai/p/6796116.html">方法</a>太多了，感觉都差不多，混合在一块，分不清了😵就看不懂了。</p>
-<a id="more"></a>
-<h2 id="解析xml">解析xml</h2>
-<p>我采用的是<code>dom4</code>的<a href="http://www.51gjie.com/java/739.html">方法</a>解析<code>XML</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SAXReader saxReader = <span class="keyword">new</span> SAXReader();</span><br><span class="line">Document document = saxReader.read(<span class="keyword">new</span> File(<span class="string">&quot;students.xml&quot;</span>));</span><br><span class="line"><span class="comment">// 获取根元素</span></span><br><span class="line">Element root = document.getRootElement();</span><br><span class="line"><span class="comment">// 获取所有子元素</span></span><br><span class="line">List&lt;Element&gt; childList = root.elements();</span><br><span class="line"><span class="comment">// 把xml信息转化为hashmap</span></span><br><span class="line">HashMap&lt;String,String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line"><span class="keyword">for</span> (Element element : elementsList) &#123;</span><br><span class="line">    hashMap.put(element.getName(), element.getText());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="序列化-反序列化xml">序列化/反序列化xml</h2>
-<ol>
-<li>创建<code>XStream</code> 对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>序列化对象到<code>XML</code></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Object to XML Conversion</span></span><br><span class="line">String xml = xstream.toXML(student);</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>反序列化<code>XML</code>获得对象。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// XML to Object Conversion</span></span><br><span class="line">Student student1 = (Student) xstream.fromXML(xml)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里生成的XML是包含<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</code>前缀的xml文本</p>
-</blockquote>
-<hr>
-<h2 id="微信的XML格式"><em>微信的XML格式</em></h2>
-<p>微信的<code>XML</code>回复信息，某些文本需要添加<code>&lt;![CDATA['text']]</code>，网友提供的方法如下，但是我还看不懂啊😂</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自定义xml对象格式</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> XStream xStream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> XppDriver() &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> HierarchicalStreamWriter <span class="title">createWriter</span><span class="params">(Writer out)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> PrettyPrintWriter(out) &#123;</span><br><span class="line">			<span class="keyword">boolean</span> cdata = <span class="keyword">true</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startNode</span><span class="params">(String name, Class clazz)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.startNode(name, clazz);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">writeText</span><span class="params">(QuickWriter writer,String text)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">if</span>(cdata) &#123;</span><br><span class="line">					writer.write(<span class="string">&quot;&lt;![CDATA[&quot;</span>);</span><br><span class="line">					writer.write(text);</span><br><span class="line">					writer.write(<span class="string">&quot;]]&gt;&quot;</span>);</span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					writer.write(text);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;	</span><br><span class="line">	&#125;		</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>数据处理</tag>
-        <tag>XML</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装ERPNext</title>
-    <url>/2020/09/08/%E5%AE%89%E8%A3%85ERPNext/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>由于我的服务器内存不够用了，且为了防止软件太多，环境太复杂对新安装软件的影响，所以我采用虚拟机的方式安装<span class="ljspan ljspan-reverse ljspan-blue"><a href="https://github.com/frappe/erpnext">ERPNext</a></span></p>
-<a id="more"></a>
-<p><strong>使用虚拟机的好处💅</strong></p>
-<ul>
-<li>比较简单</li>
-</ul>
-<p>直接到<a href="https://github.com/frappe/erpnext">官网下载</a>虚拟机的镜像文件后</p>
-<p>使用虚拟机利用这个镜像安装这个系统!</p>
-<p>然后启动虚拟机</p>
-<p>登录网址为：<a href="http://localhost:8080">http://localhost:8080</a></p>
-<hr>
-<h2 id="问题">问题</h2>
-<p>但是每次重启，数据库都报错了！</p>
-<p><a href="https://openwritings.net/pg/mariadb/mariadb-start-mysqld-tc-heuristic-recover-switch">这里</a>有解决办法👴</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#通过 ~/frappe-bench/logs/web.error.log</span></span><br><span class="line"><span class="comment">#可知数据库出错了</span></span><br><span class="line"></span><br><span class="line">OperationalError: (2003, <span class="string">&quot;Can&#x27;t connect to MySQL server on u&#x27;localhost&#x27; ([Errno 111] Connection refused)&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#具体的错误记载在这里</span></span><br><span class="line"><span class="comment">#~/frappe-bench/logs/bench.log	</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#解决办法：mysqld --tc-heuristic-recover=ROLLBACK</span></span><br><span class="line"></span><br><span class="line">mysqld --tc-heuristic-recover=ROLLBACK</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line"></span><br><span class="line">但是发现还有个错误</span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Note] /usr/sbin/mysqld (mysqld 10.2.24-MariaDB-10.2.24+maria~xenial-log) starting as process 4244 </span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Warning] Could not increase number of max_open_files to more than 16364 (request: 21012)</span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Warning] Changed limits: max_open_files: 16364  max_connections: 500 (was 500)  table_cache: 7917 </span><br><span class="line"> </span><br><span class="line"><span class="comment">#我只知道修改max_open_file在/lib/systemd/system/mariadb.service</span></span><br><span class="line"><span class="comment">#那个 LimitNOFILE有记载，我也修改了</span></span><br><span class="line"><span class="comment">#同时</span></span><br><span class="line"><span class="comment">#table_cache我也通过登录数据库查看了，但是不知道怎么修改</span></span><br><span class="line"><span class="comment">#反正这个错误对系统使用无影响......不搞了</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>lims</category>
-      </categories>
-      <tags>
-        <tag>lims</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装Baobab</title>
-    <url>/2020/09/08/%E5%AE%89%E8%A3%85Baobab/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>安装教程按照官网的<span class="ljspan ljspan-blue"><a href="https://github.com/BaobabLims/baobab.lims">安装步骤</a></span>，采用docker的方式就可以完成</p>
-<a id="more"></a>
-<h3 id="配置">配置</h3>
-<p>由于8080端口🌎一般都会被某些软件占用，所以这里面的端口映射需要修改，我想把设置服务器端口对应docker的端口都为：8090</p>
-<p>在执行以下命令的时候，发现下载速度很慢🐢</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -p 8090:8090 quay.io/baobab-lims/baobab-lims</span><br></pre></td></tr></table></figure>
-<p>于是配置了镜像加速，网上有<a href="%5Bhttps://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7%5D(https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7)">教程</a></p>
-<hr>
-<h3 id="安装">安装</h3>
-<p>重新执行一遍</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker run -p 8090:8090 quay.io/baobab-lims/baobab-lims</span><br></pre></td></tr></table></figure>
-<p>成功了😃</p>
-<img src="/assets/img/Baobab执行结果.png"  />
-<p>但是使用网址登陆不上，难道容器不能用吗❓坑爹😭</p>
-<hr>
-<h3 id="结果">结果</h3>
-<ul>
-<li>
-<p>使用docker安装，网址能登录，提示连接被重置的状态，而内网计算机无法连接网页的状态。</p>
-</li>
-<li>
-<p>改用Docker-compose安装—安装失败</p>
-</li>
-</ul>
-<hr>
-<h3 id="解决办法">解决办法</h3>
-<p>在<span class="label info">2020/03/13</span> 通过卸载之前的容器，然后我<span class="label danger">修改docker镜像仓库为国内阿里的仓库</span>，重新下载baobab镜像文件,然后让系统端口<span class="label default">映射自动设置</span>，然后就可以通过外网访问了😅！</p>
-]]></content>
-      <categories>
-        <category>lims</category>
-      </categories>
-      <tags>
-        <tag>lims</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装OpenELIS</title>
-    <url>/2020/09/08/%E5%AE%89%E8%A3%85OpenELIS/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>由于安装tomcat会导致apache失效😿</p>
-<p>所以我使用虚拟机来安装这个软件，也就是说提供一个全新的环境。安装教程在<a href="https://docs.google.com/document/d/1fv-Zu41ti8yUVWusjd-mAK7YZLI0c4DMPxg-BzL7RUw/edit">这里</a></p>
-<a id="more"></a>
-<p>服务器版本ubuntu16.04 LTS,但是在执行过程中，发现程序没有帮我安装上tomcat，导致无法安装成功😭</p>
-<p>报错如下：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">The following <span class="built_in">command</span> may take a few minutes to complete.  Please take a short <span class="built_in">break</span> until it finishes</span><br><span class="line">java -jar  ./lib/liquibase-1.9.5.jar --defaultsFile=liquibaseInstall.properties --contexts=ci_regional --password=cUpHBdzgWyae --username=clinlims  update &gt;&gt; .././<span class="built_in">log</span>/installer.log 2&gt;&amp;3</span><br><span class="line">sudo systemctl stop tomcat</span><br><span class="line">Failed to stop tomcat.service: Unit tomcat.service not loaded.</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/lib/&#x27;</span>: Not a directory</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/conf/Catalina/localhost/&#x27;</span>: No such file or directory</span><br><span class="line">chown: cannot access <span class="string">&#x27;/usr/share/tomcat8.5/conf/Catalina/localhost/CDI_RegLabOpenElis.xml&#x27;</span>: No such file or directory</span><br><span class="line">cp ./warFiles/CDI_RegLabOpenElis.war /usr/share/tomcat8.5/webapps/</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/webapps/&#x27;</span>: Not a directory</span><br><span class="line">Failed to start tomcat.service: Unit tomcat.service not found.</span><br><span class="line">Installing backup</span><br><span class="line">Checking <span class="keyword">for</span> curl</span><br><span class="line">/usr/bin/curl</span><br><span class="line">Curl found, continuing with backup installation</span><br><span class="line">Checking <span class="keyword">if</span> crosstab is installed <span class="keyword">in</span> Postgres</span><br><span class="line">Crosstabs are installed</span><br><span class="line">luoj@luoj-VirtualBox:~/CDI_RegLabOpenElis/linux$ <span class="built_in">cd</span> /usr/share/tomcat8.5/</span><br><span class="line">luoj@luoj-VirtualBox:/usr/share/tomcat8.5$ ll</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x   2 tomcat tomcat  4096 Apr 28 09:23 ./</span><br><span class="line">drwxr-xr-x 305 root   root   12288 Apr 28 09:23 ../</span><br><span class="line">luoj@luoj-VirtualBox:/usr/share/tomcat8.5$ java -V</span><br><span class="line">Unrecognized option: -V</span><br><span class="line">Error: Could not create the Java Virtual Machine.</span><br><span class="line">Error: A fatal exception has occurred. Program will <span class="built_in">exit</span>.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>无法成功安装tomcat，可能配置文件里面出错了，这是采用puppet来自动安装软件，包括postgressql等，唯独tomcat安装失败</p>
-</blockquote>
-<hr>
-<h3 id="重新安装">#重新安装</h3>
-<p><a href="https://docs.google.com/document/d/1fv-Zu41ti8yUVWusjd-mAK7YZLI0c4DMPxg-BzL7RUw/edit">安装说明文档</a></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#现在根目录新建一个文件夹web</span></span><br><span class="line">sudo mkdir web</span><br><span class="line"><span class="comment">#测试网络是否联通</span></span><br><span class="line">ping 8.8.8.8</span><br><span class="line"><span class="comment">#更新软件包</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
-<p>由于提供的程序无法安装tomcat，所以这里需要手动<a href="/2020/09/08/Tomcat%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%85%8D%E7%BD%AE/">安装tomcat</a></p>
-<p>先安装tomcat后,再继续后面的操作</p>
-<p>OpenElis下载地址</p>
-<p><a href="https://www.dropbox.com/s/syafyqxhu212nvp/CDI_RegLabOpenElis_9.1_Installer.tar.gz?dl=0&amp;file_subpath=%2FCDI_RegLabOpenElis%2Flinux">地址一</a></p>
-<p><a href="http://openelisglobal.org/">地址二</a></p>
-<h2 id="安装">安装</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装必备的系统软件</span></span><br><span class="line">sudo apt-get install openssh-server</span><br><span class="line">sudo apt-get install git</span><br><span class="line">sudo apt-get install python python-lxml</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载自动化配置工具</span></span><br><span class="line">sudo git <span class="built_in">clone</span> --recursive \</span><br><span class="line">https://github.com/I-TECH-UW/appliance-setup.git /opt/appliance-setup</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装软件所需的辅助软件，像数据库，web服务器等等</span></span><br><span class="line">sudo APPLIANCE_COMPONENTS=<span class="string">&quot;openelis&quot;</span> /opt/appliance-setup/bin/appliance-setup --webapps=/web --clientcerts=default --keystorepass=changeme apply</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载OpenElis的安装包</span></span><br><span class="line"><span class="comment">#可通过官网直接下载</span></span><br><span class="line"><span class="comment">#解压到家目录</span></span><br><span class="line">tar -xzf CDI_RegLabOpenElis_9.1_Installer.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/CDI_RegLabOpenElis/linux/</span><br><span class="line">sudo python setup_OpenELIS.py -install</span><br><span class="line"></span><br><span class="line"><span class="comment">#访问浏览器http://ip:8080/CDI_RegLabOpenElis/LoginPage.do</span></span><br><span class="line">登录账号</span><br><span class="line">login name: admin password: adminADMIN!</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>lims</category>
-      </categories>
-      <tags>
-        <tag>lims</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装elabFTW</title>
-    <url>/2020/09/08/%E5%AE%89%E8%A3%85elabFTW/</url>
-    <content><![CDATA[<h3 id="安装">安装</h3>
-<p>根据这个<a href="https://doc.elabftw.net/install.html">安装文档</a>的安装步骤使用docker方法安装在ubuntu系统上</p>
-<h3 id="配置">配置</h3>
-<p>在安装过程中，我设置的配置如下</p>
-<a id="more"></a>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">主要配置文件在/etc/elabftw.yml</span><br><span class="line"></span><br><span class="line">包含elabftw的数据(mysql+上传的文件)在/var/elabftw</span><br><span class="line"></span><br><span class="line">备份文件在/var/backups/elabftw</span><br><span class="line"></span><br><span class="line">我的ip:x.x.x.254</span><br><span class="line"></span><br><span class="line">使用https</span><br></pre></td></tr></table></figure>
-<p>但是在安装的时候失败了！</p>
-<p>原因和解决办法，<a href="https://github.com/elabftw/elabftw/issues/849">这里</a>有人提问了并有解答</p>
-<hr>
-<h3 id="重装">重装</h3>
-<p>💥前提：删除之前的软件和配置文件</p>
-<blockquote>
-<p>删除的软件和配置文件是在之前的安装过程中，自己配置指定的安装目录</p>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">curl -L https://get.elabftw.net -o elabctl</span><br><span class="line">chmod +x elabctl</span><br><span class="line">sudo cp elabctl /usr/<span class="built_in">local</span>/bin/</span><br><span class="line"><span class="comment">#查看日志</span></span><br><span class="line">elabctl logs</span><br><span class="line"><span class="comment">#开始安装</span></span><br><span class="line">elabctl install</span><br><span class="line"></span><br><span class="line"><span class="comment">#我使用disable https的配置后面出问题了</span></span><br><span class="line"> eLabFTW works only <span class="keyword">in</span> HTTPS. Please <span class="built_in">enable</span> HTTPS on your server. Or click this link : http://14.23.114.254:6006</span><br><span class="line"> </span><br><span class="line"><span class="comment">#开启elabctl</span></span><br><span class="line">elabctl start</span><br><span class="line"><span class="comment">#如果数据库端口3306被占用或者想改端口，</span></span><br><span class="line"><span class="comment">#都可以到/etc/elabctl.yml文件中修改</span></span><br><span class="line"><span class="comment">#修改端口号</span></span><br><span class="line">	ports:</span><br><span class="line">        <span class="comment"># if you want elabftw to run on a different port, change the first number</span></span><br><span class="line">        <span class="comment"># host:container</span></span><br><span class="line">        - <span class="string">&#x27;&lt;your-port&gt;:443&#x27;</span></span><br><span class="line"><span class="comment">#修改数据库端口</span></span><br><span class="line">		<span class="comment"># expose should work, but sometimes it doesn&#x27;t so use full port mapping</span></span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&#x27;&lt;your-db-port&gt;:3306&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后一步</span></span><br><span class="line">docker <span class="built_in">exec</span> -it elabftw bin/install start</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>lims</category>
-      </categories>
-      <tags>
-        <tag>lims</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装Galaxy</title>
-    <url>/2020/09/08/%E5%AE%89%E8%A3%85Galaxy/</url>
-    <content><![CDATA[<h2 id="前言">#前言</h2>
-<p>安装<span class="ljspan ljspan-reverse"><a href="https://github.com/galaxyproject/galaxy">Galaxy</a></span>，使用Conda,因为他需要一个特定的python环境，为了不与服务器主机产生耦合或者冲突，最好使用conda构建一个环境给你的<span class="ljspan ljspan-reverse"><a href="https://github.com/galaxyproject/galaxy">Galaxy</a></span>使用吧😋</p>
-<a id="more"></a>
-<h2 id="配置">配置</h2>
-<p>首先安装<strong>conda</strong>,然后配置国内镜像，最好清华的镜像，在<code>/home/luoj/.condarc</code>里面设置👇</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro</span><br><span class="line">show_channel_urls: <span class="literal">true</span></span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
-<p>你的设置跟我一样么？我的可都是清华的🎓</p>
-<h2 id="运行">运行</h2>
-<p>然后进入galaxy的根目录</p>
-<blockquote>
-<p>sh <a href="http://run.sh">run.sh</a>  #执行程序</p>
-</blockquote>
-<h2 id="访问">访问</h2>
-<p>访问网址：<a href="http://localhost:8080">http://localhost:8080</a> ,已经被我修改为任意主机均可访问：<a href="http://14.23.114.254:8080">http://14.23.114.254:8080</a></p>
-<blockquote>
-<p>通过config/galaxy.yml这个配置文件，改变http配置为：http: 0.0.0.0</p>
-<p>如果还需要修改端口，就直接改为：http: 0.0.0.0:[端口号]</p>
-</blockquote>
-<p>修改配置文件的文档在<a href="https://docs.galaxyproject.org/en/master/admin/config.html#configuration-basics">这里</a></p>
-]]></content>
-      <categories>
-        <category>lims</category>
-      </categories>
-      <tags>
-        <tag>lims</tag>
-      </tags>
   </entry>
   <entry>
     <title>优化个人博客</title>
@@ -1071,6 +1102,174 @@ eg：<code>nohup xxx &amp;</code></p>
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区与挂载</title>
+    <url>/2020/09/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E6%8C%82%E8%BD%BD/</url>
+    <content><![CDATA[<h2 id="分区">分区</h2>
+<p>查看<span class="label danger">分区与挂载</span>情况：df -h</p>
+<p>查看<span class="label info">当前目录下一级子文件和子目录占用的磁盘容量</span>：du -lh --max-depth=1</p>
+<a id="more"></a>
+<p>查看<span class="label warning">磁盘的分区</span>情况：sudo fdisk -l</p>
+<ul>
+<li>disk: 就是分区</li>
+<li>device: 就是一些分区好了的磁盘设备</li>
+</ul>
+<span class="label info">挂载</span>和<span class="label info">卸载</span>分区：mount/umount
+<blockquote>
+<p>挂载成功以后，需要把挂载信息写在/etc/fstab上才能在每次开机后，自动挂载分区</p>
+</blockquote>
+<p>mount还可以查看系统各分区的文件系统❕</p>
+<hr>
+<h3 id="示例：">示例：</h3>
+<p>想把<code>dev/sdb</code>这个磁盘分区💩</p>
+<p><code>fdisk /dev/sdb</code>进入以后就可以分区了</p>
+<p>✨<span class="label success">fdisk</span>功能可是很强大的哦👀</p>
+<p>分了两个主盘sdb1和sdb2</p>
+<p>分区好了以后，发现无法给这些分区格式化文件系统😩</p>
+<p>调查之后，发现是因为<code>/dev/sdb1</code> 正被系统使用，只能取消建立文件系统 ！</p>
+<p>原来之前的/dev/sdb是挂载在data1上的，现在被分区了，就不能再挂载了💨</p>
+<p>卸载后data1后，就可以设置文件系统了</p>
+<p>现在，就可以把/dev/sdb1挂载到/home上啦🙂</p>
+<hr>
+<h3 id="分区或者说是某个挂载目录扩容">分区或者说是某个挂载目录扩容</h3>
+<p>因为没有之前的磁盘没有使用逻辑盘符来设置，所以没办法使用<span class="label primary">逻辑卷</span>来扩容</p>
+<p>只能删除原有磁盘的数据或者迁移数据到新磁盘上了，我没有给旧磁盘扩容了，怕又出错。</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>代理与动态代理</title>
+    <url>/2020/09/11/%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<h2 id="动态代理是什么？">动态代理是什么？</h2>
+<ul>
+<li>先理解代理，静态代理，后面才能理解动态代理</li>
+</ul>
+<p>代理可以把代购🛍拿来相比，就是通过代购让你要买某些东西时，不用自己亲自去，避免很多步骤和不必要的麻烦。<a id="more"></a>代理就是这么回事，比如你要做某些事，但是完成它，过程比较繁琐又麻烦💫，这时候就可以通过代理，避过不必要的麻烦来获取它</p>
+<p>代理需要具备的东西，如下图：</p>
+<p><img src="/assets/img/%E4%BB%A3%E7%90%86%E5%92%8C%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86.png" alt="静态代理结构图"></p>
+<p>代理类需要包含真实对象，同时需要实现接口，这个接口就是某些真实对象想要做的事，即方法，通过方法做想要做的事，这里所讲的就是<strong>静态代理</strong>的规则</p>
+<p>但是<strong>静态代理</strong>有其弊端，因为如果你要做的事情多了，就需要不断实现接口和引入真实对象，这样的话，代理类就越来越膨胀，高藕合。不容易维护</p>
+<p>而<strong>动态代理</strong>就是解决静态代理的弊端的，通过JDK的动态代理，它包含两个东西，一个是<strong>proxy</strong>，也就是代理类，只负责生成代理对象；一个是<strong>InvocationHandler</strong>，它的原型其实就是那个接口，它有一个<code>invoke()</code>方法,这是方法可以给真实对象添加功能，也就是业务增强（感觉这个方法可以自动执行，以完成业务增强功能）；<code>invoke()</code>方法里面有个method参数，这是利用反射的原理，因为刚开始并不知道代理的是什么对象，所以用对象的方法来调用需要优化的方法，也就是<code>invoke()</code>方法。这里的<code>invoke()</code>方法其实还是不太懂😭😭</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>升级Hexo和使用备份配置文件</title>
+    <url>/2020/09/04/%E5%8D%87%E7%BA%A7Hexo%E5%92%8C%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="升级">升级</h2>
+<p>想使用&quot;备份配置文件(Alternate Theme Config)&quot;来配置NexT主题的参数，为了以后升级该主题，避免冲突，所以打算使用官方文档推荐的<a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">Alternate Theme Config</a>,通过这份文档又可知，使用Alternate Theme Config需要使用Hexo 5.0版本，龟龟🐢🐢，那就只能更新了😭。</p>
+<a id="more"></a>
+<p>官方文档貌似没有，那就只能网上搜了。由于我没有什么问价放在个人博客上，就几篇指导文件，且电脑端也有存档，所以…​.​.​.😎</p>
+<p>我就可以大刀阔斧地搞了💩</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#其实很简单</span></span><br><span class="line"><span class="comment">#查看当前hexo版本</span></span><br><span class="line">hexo version</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step1:进入你的hexo根目录</span></span><br><span class="line"><span class="comment">#找到package.json文件，修改该版本号</span></span><br><span class="line">- <span class="string">&quot;hexo&quot;</span>: <span class="string">&quot;^4.2.0&quot;</span></span><br><span class="line">+ <span class="string">&quot;hexo&quot;</span>: <span class="string">&quot;^5.0.0&quot;</span></span><br><span class="line"><span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Step2:使用npm升级</span></span><br><span class="line">npm upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step3:如果提示有依赖需要修复，按提示修复，一般为</span></span><br><span class="line">npm audit fix</span><br><span class="line"></span><br><span class="line"><span class="comment">#Step4：如果有关于配置文件警告之类的，记得修改</span></span><br><span class="line">WARN  Deprecated config detected: <span class="string">&quot;use_date_for_updated&quot;</span> is deprecated, please use <span class="string">&quot;updated_option&quot;</span> instead. See https://hexo.io/docs/configuration <span class="keyword">for</span> more details.</span><br><span class="line"><span class="comment">#像上面的警告就是说配置_config.yml文件中&quot;use_date_for_updated&quot;已经被废弃，改用&quot;updated_option&quot;来配置，修改后保存就可以了。可以通过https://hexo.io/docs/configuration了解详情</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#再次检查hexo版本</span></span><br><span class="line">hexo version</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除缓存</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment">#生成静态文件并开启本地服务</span></span><br><span class="line">hexo g &amp;&amp; hexo s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="使用备份配置文件">使用备份配置文件</h2>
+<p><span class="ljspan ljspan-blue"><a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">Hexo官方文档</a></span>和<span class="ljspan ljspan-black"><a href="https://hexo.io/docs/configuration.html#Using-an-Alternate-Config">NexT官方文档</a></span>写得很清楚</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在根目录_config.yml结尾中填写主题配置参数</span></span><br><span class="line">+ theme_config:</span><br><span class="line"><span class="comment">#把theme config file文件所有内容都复制到theme_config下方。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#可以了，so easy!</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Attention​!📢</strong>:Hexo生成和部署的时候记得也加上<code>--config xxx</code>哦，不然后面的问题让你头疼😵！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装OpenELIS</title>
+    <url>/2020/09/08/%E5%AE%89%E8%A3%85OpenELIS/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>由于安装tomcat会导致apache失效😿</p>
+<p>所以我使用虚拟机来安装这个软件，也就是说提供一个全新的环境。安装教程在<a href="https://docs.google.com/document/d/1fv-Zu41ti8yUVWusjd-mAK7YZLI0c4DMPxg-BzL7RUw/edit">这里</a></p>
+<a id="more"></a>
+<p>服务器版本ubuntu16.04 LTS,但是在执行过程中，发现程序没有帮我安装上tomcat，导致无法安装成功😭</p>
+<p>报错如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">The following <span class="built_in">command</span> may take a few minutes to complete.  Please take a short <span class="built_in">break</span> until it finishes</span><br><span class="line">java -jar  ./lib/liquibase-1.9.5.jar --defaultsFile=liquibaseInstall.properties --contexts=ci_regional --password=cUpHBdzgWyae --username=clinlims  update &gt;&gt; .././<span class="built_in">log</span>/installer.log 2&gt;&amp;3</span><br><span class="line">sudo systemctl stop tomcat</span><br><span class="line">Failed to stop tomcat.service: Unit tomcat.service not loaded.</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/lib/&#x27;</span>: Not a directory</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/conf/Catalina/localhost/&#x27;</span>: No such file or directory</span><br><span class="line">chown: cannot access <span class="string">&#x27;/usr/share/tomcat8.5/conf/Catalina/localhost/CDI_RegLabOpenElis.xml&#x27;</span>: No such file or directory</span><br><span class="line">cp ./warFiles/CDI_RegLabOpenElis.war /usr/share/tomcat8.5/webapps/</span><br><span class="line">cp: cannot create regular file <span class="string">&#x27;/usr/share/tomcat8.5/webapps/&#x27;</span>: Not a directory</span><br><span class="line">Failed to start tomcat.service: Unit tomcat.service not found.</span><br><span class="line">Installing backup</span><br><span class="line">Checking <span class="keyword">for</span> curl</span><br><span class="line">/usr/bin/curl</span><br><span class="line">Curl found, continuing with backup installation</span><br><span class="line">Checking <span class="keyword">if</span> crosstab is installed <span class="keyword">in</span> Postgres</span><br><span class="line">Crosstabs are installed</span><br><span class="line">luoj@luoj-VirtualBox:~/CDI_RegLabOpenElis/linux$ <span class="built_in">cd</span> /usr/share/tomcat8.5/</span><br><span class="line">luoj@luoj-VirtualBox:/usr/share/tomcat8.5$ ll</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x   2 tomcat tomcat  4096 Apr 28 09:23 ./</span><br><span class="line">drwxr-xr-x 305 root   root   12288 Apr 28 09:23 ../</span><br><span class="line">luoj@luoj-VirtualBox:/usr/share/tomcat8.5$ java -V</span><br><span class="line">Unrecognized option: -V</span><br><span class="line">Error: Could not create the Java Virtual Machine.</span><br><span class="line">Error: A fatal exception has occurred. Program will <span class="built_in">exit</span>.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>无法成功安装tomcat，可能配置文件里面出错了，这是采用puppet来自动安装软件，包括postgressql等，唯独tomcat安装失败</p>
+</blockquote>
+<hr>
+<h3 id="重新安装">#重新安装</h3>
+<p><a href="https://docs.google.com/document/d/1fv-Zu41ti8yUVWusjd-mAK7YZLI0c4DMPxg-BzL7RUw/edit">安装说明文档</a></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#现在根目录新建一个文件夹web</span></span><br><span class="line">sudo mkdir web</span><br><span class="line"><span class="comment">#测试网络是否联通</span></span><br><span class="line">ping 8.8.8.8</span><br><span class="line"><span class="comment">#更新软件包</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>由于提供的程序无法安装tomcat，所以这里需要手动<a href="/2020/09/08/Tomcat%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%85%8D%E7%BD%AE/">安装tomcat</a></p>
+<p>先安装tomcat后,再继续后面的操作</p>
+<p>OpenElis下载地址</p>
+<p><a href="https://www.dropbox.com/s/syafyqxhu212nvp/CDI_RegLabOpenElis_9.1_Installer.tar.gz?dl=0&amp;file_subpath=%2FCDI_RegLabOpenElis%2Flinux">地址一</a></p>
+<p><a href="http://openelisglobal.org/">地址二</a></p>
+<h2 id="安装">安装</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装必备的系统软件</span></span><br><span class="line">sudo apt-get install openssh-server</span><br><span class="line">sudo apt-get install git</span><br><span class="line">sudo apt-get install python python-lxml</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载自动化配置工具</span></span><br><span class="line">sudo git <span class="built_in">clone</span> --recursive \</span><br><span class="line">https://github.com/I-TECH-UW/appliance-setup.git /opt/appliance-setup</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装软件所需的辅助软件，像数据库，web服务器等等</span></span><br><span class="line">sudo APPLIANCE_COMPONENTS=<span class="string">&quot;openelis&quot;</span> /opt/appliance-setup/bin/appliance-setup --webapps=/web --clientcerts=default --keystorepass=changeme apply</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载OpenElis的安装包</span></span><br><span class="line"><span class="comment">#可通过官网直接下载</span></span><br><span class="line"><span class="comment">#解压到家目录</span></span><br><span class="line">tar -xzf CDI_RegLabOpenElis_9.1_Installer.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/CDI_RegLabOpenElis/linux/</span><br><span class="line">sudo python setup_OpenELIS.py -install</span><br><span class="line"></span><br><span class="line"><span class="comment">#访问浏览器http://ip:8080/CDI_RegLabOpenElis/LoginPage.do</span></span><br><span class="line">登录账号</span><br><span class="line">login name: admin password: adminADMIN!</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>lims</category>
+      </categories>
+      <tags>
+        <tag>lims</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装ERPNext</title>
+    <url>/2020/09/08/%E5%AE%89%E8%A3%85ERPNext/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>由于我的服务器内存不够用了，且为了防止软件太多，环境太复杂对新安装软件的影响，所以我采用虚拟机的方式安装<span class="ljspan ljspan-reverse ljspan-blue"><a href="https://github.com/frappe/erpnext">ERPNext</a></span></p>
+<a id="more"></a>
+<p><strong>使用虚拟机的好处💅</strong></p>
+<ul>
+<li>比较简单</li>
+</ul>
+<p>直接到<a href="https://github.com/frappe/erpnext">官网下载</a>虚拟机的镜像文件后</p>
+<p>使用虚拟机利用这个镜像安装这个系统!</p>
+<p>然后启动虚拟机</p>
+<p>登录网址为：<a href="http://localhost:8080">http://localhost:8080</a></p>
+<hr>
+<h2 id="问题">问题</h2>
+<p>但是每次重启，数据库都报错了！</p>
+<p><a href="https://openwritings.net/pg/mariadb/mariadb-start-mysqld-tc-heuristic-recover-switch">这里</a>有解决办法👴</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#通过 ~/frappe-bench/logs/web.error.log</span></span><br><span class="line"><span class="comment">#可知数据库出错了</span></span><br><span class="line"></span><br><span class="line">OperationalError: (2003, <span class="string">&quot;Can&#x27;t connect to MySQL server on u&#x27;localhost&#x27; ([Errno 111] Connection refused)&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#具体的错误记载在这里</span></span><br><span class="line"><span class="comment">#~/frappe-bench/logs/bench.log	</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#解决办法：mysqld --tc-heuristic-recover=ROLLBACK</span></span><br><span class="line"></span><br><span class="line">mysqld --tc-heuristic-recover=ROLLBACK</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line"></span><br><span class="line">但是发现还有个错误</span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Note] /usr/sbin/mysqld (mysqld 10.2.24-MariaDB-10.2.24+maria~xenial-log) starting as process 4244 </span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Warning] Could not increase number of max_open_files to more than 16364 (request: 21012)</span><br><span class="line">Apr 30 06:23:45 ubuntu mysqld[4244]: 2020-04-30  6:23:45 139795985828032 [Warning] Changed limits: max_open_files: 16364  max_connections: 500 (was 500)  table_cache: 7917 </span><br><span class="line"> </span><br><span class="line"><span class="comment">#我只知道修改max_open_file在/lib/systemd/system/mariadb.service</span></span><br><span class="line"><span class="comment">#那个 LimitNOFILE有记载，我也修改了</span></span><br><span class="line"><span class="comment">#同时</span></span><br><span class="line"><span class="comment">#table_cache我也通过登录数据库查看了，但是不知道怎么修改</span></span><br><span class="line"><span class="comment">#反正这个错误对系统使用无影响......不搞了</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>lims</category>
+      </categories>
+      <tags>
+        <tag>lims</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装Galaxy</title>
+    <url>/2020/09/08/%E5%AE%89%E8%A3%85Galaxy/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>安装<span class="ljspan ljspan-reverse"><a href="https://github.com/galaxyproject/galaxy">Galaxy</a></span>，使用Conda,因为他需要一个特定的python环境，为了不与服务器主机产生耦合或者冲突，最好使用conda构建一个环境给你的<span class="ljspan ljspan-reverse"><a href="https://github.com/galaxyproject/galaxy">Galaxy</a></span>使用吧😋</p>
+<a id="more"></a>
+<h2 id="配置">配置</h2>
+<p>首先安装<strong>conda</strong>,然后配置国内镜像，最好清华的镜像，在<code>/home/luoj/.condarc</code>里面设置👇</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro</span><br><span class="line">show_channel_urls: <span class="literal">true</span></span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<p>你的设置跟我一样么？我的可都是清华的🎓</p>
+<h2 id="运行">运行</h2>
+<p>然后进入galaxy的根目录</p>
+<blockquote>
+<p>sh <a href="http://run.sh">run.sh</a>  #执行程序</p>
+</blockquote>
+<h2 id="访问">访问</h2>
+<p>访问网址：<a href="http://localhost:8080">http://localhost:8080</a> ,已经被我修改为任意主机均可访问：<a href="http://14.23.114.254:8080">http://14.23.114.254:8080</a></p>
+<blockquote>
+<p>通过config/galaxy.yml这个配置文件，改变http配置为：http: 0.0.0.0</p>
+<p>如果还需要修改端口，就直接改为：http: 0.0.0.0:[端口号]</p>
+</blockquote>
+<p>修改配置文件的文档在<a href="https://docs.galaxyproject.org/en/master/admin/config.html#configuration-basics">这里</a></p>
+]]></content>
+      <categories>
+        <category>lims</category>
+      </categories>
+      <tags>
+        <tag>lims</tag>
       </tags>
   </entry>
   <entry>
@@ -1148,34 +1347,123 @@ eg：<code>nohup xxx &amp;</code></p>
       </tags>
   </entry>
   <entry>
-    <title>查看端口占用</title>
-    <url>/2020/09/08/%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>查看端口占用 或 进程ID/名的方法有好几种，以下分别举例</p>
-</blockquote>
-<h4 id="第一种办法：">第一种办法：</h4>
-<span class="label info">sudo netstat -nltp|grep 端口号/进程名</span>
-<p>eg1：<code>sudo netstat -nltp|grep 3306</code></p>
-<p>eg2:   <code>sudo netstat -ntlp|grep mysql</code></p>
-<a id="more"></a>
-<h4 id="第二种办法：">第二种办法：</h4>
-<span class="label success">sudo lsof -i :端口号</span>
-<p>eg:   <code>sudo lsof -i :3306</code></p>
-<div class="note default">
-            <h4 id="Note">Note:</h4><p>ps只能查看进程名和进程ID</p>
+    <title>安装mysql</title>
+    <url>/2020/09/10/%E5%AE%89%E8%A3%85mysql/</url>
+    <content><![CDATA[<h2 id="下载">下载</h2>
+<ol>
+<li>
+<p>在<span class="ljspan ljspan-reverse"><a href="https://dev.mysql.com/downloads/repo/apt/">mysql官网</a></span>下载mysql的apt软件包📦</p>
+<div class="note primary">
+            <p>Note:在官网下载时，如果采用复制链接下载，对于复制download的链接地址是错误的，需要点击进入，复制里面的“<strong><a href="https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb">No thanks, just start my download.</a></strong>”，这个才是真正的链接地址</p>
           </div>
-<h4 id="第三种办法：">第三种办法：</h4>
-<span class="label warning">sudo ps -aux|grep 进程名</span>
-<p>eg:   <code>sudo ps -aux|grep mysql</code></p>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="2">
+<li>也可通过wget直接下载🙂</li>
+</ol>
 <blockquote>
-<p>都加sudo的原因是某些程序的查看需要root权限阿！😂</p>
+<p>比较简单，配置文件都自动设置好，包括设置环境变量等等</p>
 </blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#下载</span></span><br><span class="line">wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb</span><br><span class="line"><span class="comment">#deb包的当前目录中，执行如下(记得替换w.x.y)</span></span><br><span class="line">sudo dpkg -i mysql-apt-config_w.x.y-z_all.deb</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新apt-get仓库</span></span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装">安装</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install mysql-server</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装过程中，弹出窗口两次设置密码</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="错误🏴">错误🏴</h2>
+<p>如遇到dpkg的错误，需要更新dpkg包</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在/var/lib/dpkg/下，拷贝info目录到info_old</span></span><br><span class="line">sudo mv /var/lib/dpkg/inf /var/lib/dpkg/info_old </span><br><span class="line"><span class="comment">#新建一个info目录</span></span><br><span class="line">sudo mkdir /var/lib/dpkg/info</span><br><span class="line"><span class="comment">#更新apt-get包,并安装上文出现错误的安装包</span></span><br><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get -f install mysql-community-server</span><br><span class="line">然后移动所有新生成的文件包到info_old目录中</span><br><span class="line">mv /var/lib/dpkg/info/* /var/lib/dpkg/info_old</span><br><span class="line"><span class="comment">#删除info目录，给info_old改名为info</span></span><br><span class="line">sudo rm -rf /var/lib/dpkg/info</span><br><span class="line">sudo mv /var/lib/dpkg/info_old /var/lib/dpkg/info</span><br><span class="line"></span><br><span class="line"><span class="comment">#重新执行一遍</span></span><br><span class="line">sudo apt-get install mysql-server</span><br><span class="line"><span class="comment">#没什么问题</span></span><br><span class="line"><span class="comment">#但是没有自动启动msyql服务</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <p>其实，一般mysql遇到问题，都可以在日志文件中找到，比如我遇到的一个问题…=_=’’</p>
+          </div>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="number">2020-03-26T06:52:46.063437Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="string">Can&#x27;t</span> <span class="attr">start server: Bind on TCP/IP port:</span> <span class="string">Permission</span> <span class="string">denied</span></span><br><span class="line"><span class="number">2020-03-26T06:52:46.063462Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="attr">Do you already have another mysqld server running on port:</span> <span class="number">3306</span> <span class="string">?</span></span><br><span class="line"><span class="number">2020-03-26T06:52:46.063487Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="string">Aborting</span></span><br></pre></td></tr></table></figure>
+<p><span class="ljspan ljspan-red">解决办法</span>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#原来我无法通过ssh方式登录，使用localhost本机，就可以登陆了，但是还有个错误，可通过查看my.cnf文件查看，也有可能是mysqld.cnf等等，反正看到有配置datadir和socket等字眼的文件就是了</span></span><br><span class="line"><span class="comment">#进入my.cnf然后如果看到bind-address   = 127.0.0.1，就注销掉，这样就可以远程开启mysql服务了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看占用3306端口的程序</span></span><br><span class="line">ps -aux |grep mysql</span><br><span class="line"><span class="comment">#如过被占用就用命令kill杀死进程</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#开启数据库服务</span></span><br><span class="line">sudo service mysql start </span><br><span class="line"></span><br><span class="line"><span class="comment">#使用root用户登录</span></span><br><span class="line">mysql -uroot -p </span><br><span class="line"></span><br><span class="line"><span class="comment">#修改root密码(这里是修改当前用户密码的用户，5.7.29指定的方式，使用update/set都不行)</span></span><br><span class="line">alter user user() identified by <span class="string">&#x27;123456&#x27;</span>;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>database</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装elabFTW</title>
+    <url>/2020/09/08/%E5%AE%89%E8%A3%85elabFTW/</url>
+    <content><![CDATA[<h3 id="安装">安装</h3>
+<p>根据这个<a href="https://doc.elabftw.net/install.html">安装文档</a>的安装步骤使用docker方法安装在ubuntu系统上</p>
+<h3 id="配置">配置</h3>
+<p>在安装过程中，我设置的配置如下</p>
+<a id="more"></a>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">主要配置文件在/etc/elabftw.yml</span><br><span class="line"></span><br><span class="line">包含elabftw的数据(mysql+上传的文件)在/var/elabftw</span><br><span class="line"></span><br><span class="line">备份文件在/var/backups/elabftw</span><br><span class="line"></span><br><span class="line">我的ip:x.x.x.254</span><br><span class="line"></span><br><span class="line">使用https</span><br></pre></td></tr></table></figure>
+<p>但是在安装的时候失败了！</p>
+<p>原因和解决办法，<a href="https://github.com/elabftw/elabftw/issues/849">这里</a>有人提问了并有解答</p>
+<hr>
+<h3 id="重装">重装</h3>
+<p>💥前提：删除之前的软件和配置文件</p>
+<blockquote>
+<p>删除的软件和配置文件是在之前的安装过程中，自己配置指定的安装目录</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">curl -L https://get.elabftw.net -o elabctl</span><br><span class="line">chmod +x elabctl</span><br><span class="line">sudo cp elabctl /usr/<span class="built_in">local</span>/bin/</span><br><span class="line"><span class="comment">#查看日志</span></span><br><span class="line">elabctl logs</span><br><span class="line"><span class="comment">#开始安装</span></span><br><span class="line">elabctl install</span><br><span class="line"></span><br><span class="line"><span class="comment">#我使用disable https的配置后面出问题了</span></span><br><span class="line"> eLabFTW works only <span class="keyword">in</span> HTTPS. Please <span class="built_in">enable</span> HTTPS on your server. Or click this link : http://14.23.114.254:6006</span><br><span class="line"> </span><br><span class="line"><span class="comment">#开启elabctl</span></span><br><span class="line">elabctl start</span><br><span class="line"><span class="comment">#如果数据库端口3306被占用或者想改端口，</span></span><br><span class="line"><span class="comment">#都可以到/etc/elabctl.yml文件中修改</span></span><br><span class="line"><span class="comment">#修改端口号</span></span><br><span class="line">	ports:</span><br><span class="line">        <span class="comment"># if you want elabftw to run on a different port, change the first number</span></span><br><span class="line">        <span class="comment"># host:container</span></span><br><span class="line">        - <span class="string">&#x27;&lt;your-port&gt;:443&#x27;</span></span><br><span class="line"><span class="comment">#修改数据库端口</span></span><br><span class="line">		<span class="comment"># expose should work, but sometimes it doesn&#x27;t so use full port mapping</span></span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&#x27;&lt;your-db-port&gt;:3306&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后一步</span></span><br><span class="line">docker <span class="built_in">exec</span> -it elabftw bin/install start</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>lims</category>
+      </categories>
+      <tags>
+        <tag>lims</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>磁盘检测和数据备份</title>
+    <url>/2020/09/09/%E7%A3%81%E7%9B%98%E6%A3%80%E6%B5%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<h2 id="检测不到硬盘">检测不到硬盘</h2>
+<p>同事让我看看服务器，想要利用磁盘<code>/dev/sdb</code>，但是呢，不管是<span class="label info">fdisk -l</span> 还是<span class="label success">df -h</span>命令都查不到挂载或者未挂载的磁盘sdb和这个硬盘的分区信息，但是当我去查看这个硬盘的时候，发现它很烫，证明硬盘连接没问题的，那怎么就检测不到呢?真的不知道😵</p>
+<a id="more"></a>
+<p>按道理损坏的硬盘也是可以找到的啊，只是坏了而已！</p>
+<p>最后发现，果然是数据线连接问题😩，重新插硬盘的数据线，就可以检测到这个新的硬盘了😃</p>
+<p>可通过开机<span class="label primary">按F2</span>进入BIOS界面查看相关的设备情况</p>
+<hr>
+<h2 id="备份数据">备份数据</h2>
+<p>考虑到系统可能出错，所以想给旧磁盘的数据做备份。</p>
+<p>使用<span class="label danger">dump</span> 命令 ：</p>
+<p><code>dump -0u -f 备份文件名 备份源文件系统</code></p>
+<div class="note info">
+            <h3 id="Note">Note:</h3><p>备份文件名如在目录里面，需要带上目录</p><p>备份原文件系统，使用设备名或者挂载的目录都OK</p>
+          </div>
+<p><strong>示例</strong>：</p>
+<blockquote>
+<p>这里选取两个系统上的空白分区sda1和sda2</p>
+</blockquote>
+<p>分区sda1 (100G) 用作备份分区  把<code>/dev/sda1</code>挂载到 <code>/data1/backup</code> 上</p>
+<p>分区sda2 (300G) 用作安装软件的数据存储  <code>/dev/sda2</code>挂载到<code>/data1 </code>上</p>
+<div class="note success">
+            <h3 id="Note-其实系统做了两份备份">Note:其实系统做了两份备份</h3><p>一份在<code>data1/lost+found/sdb1.dump</code><br>另一份在<code>/data1/backup/sdb1.dump.1</code></p>
+          </div>
 ]]></content>
       <categories>
         <category>linux</category>
       </categories>
       <tags>
-        <tag>network</tag>
+        <tag>backup</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微信公众号开发知识点</title>
+    <url>/2020/09/11/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<h2 id="微信浏览器的限制">微信浏览器的限制</h2>
+<h3 id="不具备下载功能💩">不具备下载功能💩</h3>
+<p>想要在微信公众号的网页里面设置链接🔗，下载文件，但是微信公众号不具备下载功能，所以就无法实现下载；就算设置了“使用手机📱浏览器打开”，也无法“一步到位”实现下载，<a id="more"></a>因为我下载的东西是根据用户信息对应来下载的， 而且跳转到其他浏览器，会导致<code>session</code>和<code>cookie</code>都失效了💅，这就让个人信息认证无法实现，导致无法实现下载。</p>
+<h3 id="无法通过Button提交表单💨">无法通过Button提交表单💨</h3>
+<p>微信公众号网页实在是太恶心了😡，<code>button</code>的<code>submit</code>功能行不通，无法提交表单数据。我只能采用<code>Javascript的Ajax方法</code>，通过<code>onclick</code>来提交表单数据</p>
+<h3 id="只限于微信浏览器🗯">只限于微信浏览器🗯</h3>
+<p>在<a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">微信公众号开发文档</a>里面,<span class="label warning">第一步：用户同意授权，获取code</span>这里可以了解到获取code的方法</p>
+<p>但是跳转这里会认证你的设备，如果不是微信浏览器，那就会提示<span class="label success">请在微信客户端打开链接</span>。也就是无法打开你所想要打开的页面</p>
+]]></content>
+      <categories>
+        <category>Development</category>
+      </categories>
+      <tags>
+        <tag>微信公众号</tag>
       </tags>
   </entry>
   <entry>
@@ -1228,78 +1516,34 @@ eg：<code>nohup xxx &amp;</code></p>
       </tags>
   </entry>
   <entry>
-    <title>磁盘检测和数据备份</title>
-    <url>/2020/09/09/%E7%A3%81%E7%9B%98%E6%A3%80%E6%B5%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</url>
-    <content><![CDATA[<h3 id="检测不到硬盘">检测不到硬盘</h3>
-<p>同事让我看看服务器，想要利用磁盘<code>/dev/sdb</code>，但是呢，不管是<span class="label info">fdisk -l</span> 还是<span class="label success">df -h</span>命令都查不到挂载或者未挂载的磁盘sdb和这个硬盘的分区信息，但是当我去查看这个硬盘的时候，发现它很烫，证明硬盘连接没问题的，那怎么就检测不到呢?真的不知道😵</p>
-<a id="more"></a>
-<p>按道理损坏的硬盘也是可以找到的啊，只是坏了而已！</p>
-<p>最后发现，果然是数据线连接问题😩，重新插硬盘的数据线，就可以检测到这个新的硬盘了😃</p>
-<p>可通过开机<span class="label primary">按F2</span>进入BIOS界面查看相关的设备情况</p>
-<hr>
-<h2 id="备份数据">备份数据</h2>
-<p>考虑到系统可能出错，所以想给旧磁盘的数据做备份。</p>
-<p>使用<span class="label danger">dump</span> 命令 ：</p>
-<p><code>dump -0u -f 备份文件名 备份源文件系统</code></p>
-<div class="note info">
-            <h4 id="Note">Note:</h4><p>备份文件名如在目录里面，需要带上目录</p><p>备份原文件系统，使用设备名或者挂载的目录都OK</p>
-          </div>
-<p><strong>示例</strong>：</p>
-<blockquote>
-<p>这里选取两个系统上的空白分区sda1和sda2</p>
+    <title>查看端口占用</title>
+    <url>/2020/09/08/%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>查看端口占用 或 进程ID/名的方法有好几种，以下分别举例</p>
 </blockquote>
-<p>分区sda1 (100G) 用作备份分区  把<code>/dev/sda1</code>挂载到 <code>/data1/backup</code> 上</p>
-<p>分区sda2 (300G) 用作安装软件的数据存储  <code>/dev/sda2</code>挂载到<code>/data1 </code>上</p>
-<div class="note success">
-            <h4 id="Note-其实系统做了两份备份">Note:其实系统做了两份备份</h4><p>一份在<code>data1/lost+found/sdb1.dump</code><br>另一份在<code>/data1/backup/sdb1.dump.1</code></p>
+<h4 id="第一种办法：">第一种办法：</h4>
+<span class="label info">sudo netstat -nltp|grep 端口号/进程名</span>
+<p>eg1：<code>sudo netstat -nltp|grep 3306</code></p>
+<p>eg2:   <code>sudo netstat -ntlp|grep mysql</code></p>
+<a id="more"></a>
+<h4 id="第二种办法：">第二种办法：</h4>
+<span class="label success">sudo lsof -i :端口号</span>
+<p>eg:   <code>sudo lsof -i :3306</code></p>
+<div class="note default">
+            <h4 id="Note">Note:</h4><p>ps只能查看进程名和进程ID</p>
           </div>
+<h4 id="第三种办法：">第三种办法：</h4>
+<span class="label warning">sudo ps -aux|grep 进程名</span>
+<p>eg:   <code>sudo ps -aux|grep mysql</code></p>
+<blockquote>
+<p>都加sudo的原因是某些程序的查看需要root权限阿！😂</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>linux</category>
       </categories>
       <tags>
-        <tag>backup</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装mysql</title>
-    <url>/2020/09/10/%E5%AE%89%E8%A3%85mysql/</url>
-    <content><![CDATA[<h2 id="下载">下载</h2>
-<ol>
-<li>
-<p>在<span class="ljspan ljspan-reverse"><a href="https://dev.mysql.com/downloads/repo/apt/">mysql官网</a></span>下载mysql的apt软件包📦</p>
-<div class="note primary">
-            <p>Note:在官网下载时，如果采用复制链接下载，对于复制download的链接地址是错误的，需要点击进入，复制里面的“<strong><a href="https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb">No thanks, just start my download.</a></strong>”，这个才是真正的链接地址</p>
-          </div>
-</li>
-</ol>
-<a id="more"></a>
-<ol start="2">
-<li>也可通过wget直接下载🙂</li>
-</ol>
-<blockquote>
-<p>比较简单，配置文件都自动设置好，包括设置环境变量等等</p>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#下载</span></span><br><span class="line">wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb</span><br><span class="line"><span class="comment">#deb包的当前目录中，执行如下(记得替换w.x.y)</span></span><br><span class="line">sudo dpkg -i mysql-apt-config_w.x.y-z_all.deb</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新apt-get仓库</span></span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装">安装</h2>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install mysql-server</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装过程中，弹出窗口两次设置密码</span></span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="错误🏴">错误🏴</h2>
-<p>如遇到dpkg的错误，需要更新dpkg包</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在/var/lib/dpkg/下，拷贝info目录到info_old</span></span><br><span class="line">sudo mv /var/lib/dpkg/inf /var/lib/dpkg/info_old </span><br><span class="line"><span class="comment">#新建一个info目录</span></span><br><span class="line">sudo mkdir /var/lib/dpkg/info</span><br><span class="line"><span class="comment">#更新apt-get包,并安装上文出现错误的安装包</span></span><br><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get -f install mysql-community-server</span><br><span class="line">然后移动所有新生成的文件包到info_old目录中</span><br><span class="line">mv /var/lib/dpkg/info/* /var/lib/dpkg/info_old</span><br><span class="line"><span class="comment">#删除info目录，给info_old改名为info</span></span><br><span class="line">sudo rm -rf /var/lib/dpkg/info</span><br><span class="line">sudo mv /var/lib/dpkg/info_old /var/lib/dpkg/info</span><br><span class="line"></span><br><span class="line"><span class="comment">#重新执行一遍</span></span><br><span class="line">sudo apt-get install mysql-server</span><br><span class="line"><span class="comment">#没什么问题</span></span><br><span class="line"><span class="comment">#但是没有自动启动msyql服务</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<div class="note info">
-            <p>其实，一般mysql遇到问题，都可以在日志文件中找到，比如我遇到的一个问题…=_=’’</p>
-          </div>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="number">2020-03-26T06:52:46.063437Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="string">Can&#x27;t</span> <span class="attr">start server: Bind on TCP/IP port:</span> <span class="string">Permission</span> <span class="string">denied</span></span><br><span class="line"><span class="number">2020-03-26T06:52:46.063462Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="attr">Do you already have another mysqld server running on port:</span> <span class="number">3306</span> <span class="string">?</span></span><br><span class="line"><span class="number">2020-03-26T06:52:46.063487Z</span> <span class="number">0</span> [<span class="string">ERROR</span>] <span class="string">Aborting</span></span><br></pre></td></tr></table></figure>
-<p><span class="ljspan ljspan-red">解决办法</span>:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#原来我无法通过ssh方式登录，使用localhost本机，就可以登陆了，但是还有个错误，可通过查看my.cnf文件查看，也有可能是mysqld.cnf等等，反正看到有配置datadir和socket等字眼的文件就是了</span></span><br><span class="line"><span class="comment">#进入my.cnf然后如果看到bind-address   = 127.0.0.1，就注销掉，这样就可以远程开启mysql服务了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看占用3306端口的程序</span></span><br><span class="line">ps -aux |grep mysql</span><br><span class="line"><span class="comment">#如过被占用就用命令kill杀死进程</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#开启数据库服务</span></span><br><span class="line">sudo service mysql start </span><br><span class="line"></span><br><span class="line"><span class="comment">#使用root用户登录</span></span><br><span class="line">mysql -uroot -p </span><br><span class="line"></span><br><span class="line"><span class="comment">#修改root密码(这里是修改当前用户密码的用户，5.7.29指定的方式，使用update/set都不行)</span></span><br><span class="line">alter user user() identified by <span class="string">&#x27;123456&#x27;</span>;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>database</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
+        <tag>network</tag>
       </tags>
   </entry>
   <entry>
@@ -1327,6 +1571,117 @@ eg：<code>nohup xxx &amp;</code></p>
       <categories>
         <category>linux</category>
       </categories>
+  </entry>
+  <entry>
+    <title>安装Baobab</title>
+    <url>/2020/09/08/%E5%AE%89%E8%A3%85Baobab/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>安装教程按照官网的<span class="ljspan ljspan-blue"><a href="https://github.com/BaobabLims/baobab.lims">安装步骤</a></span>，采用docker的方式就可以完成</p>
+<a id="more"></a>
+<h3 id="配置">配置</h3>
+<p>由于8080端口🌎一般都会被某些软件占用，所以这里面的端口映射需要修改，我想把设置服务器端口对应docker的端口都为：8090</p>
+<p>在执行以下命令的时候，发现下载速度很慢🐢</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -p 8090:8090 quay.io/baobab-lims/baobab-lims</span><br></pre></td></tr></table></figure>
+<p>于是配置了镜像加速，网上有<a href="%5Bhttps://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7%5D(https://vuepress.mirror.docker-practice.com/install/mirror.html#ubuntu-16-04-%E3%80%81debian-8-%E3%80%81centos-7)">教程</a></p>
+<hr>
+<h3 id="安装">安装</h3>
+<p>重新执行一遍</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker run -p 8090:8090 quay.io/baobab-lims/baobab-lims</span><br></pre></td></tr></table></figure>
+<p>成功了😃</p>
+<img src="/assets/img/Baobab执行结果.png"  />
+<p>但是使用网址登陆不上，难道容器不能用吗❓坑爹😭</p>
+<hr>
+<h3 id="结果">结果</h3>
+<ul>
+<li>
+<p>使用docker安装，网址能登录，提示连接被重置的状态，而内网计算机无法连接网页的状态。</p>
+</li>
+<li>
+<p>改用Docker-compose安装—安装失败</p>
+</li>
+</ul>
+<hr>
+<h3 id="解决办法">解决办法</h3>
+<p>在<span class="label info">2020/03/13</span> 通过卸载之前的容器，然后我<span class="label danger">修改docker镜像仓库为国内阿里的仓库</span>，重新下载baobab镜像文件,然后让系统端口<span class="label default">映射自动设置</span>，然后就可以通过外网访问了😅！</p>
+]]></content>
+      <categories>
+        <category>lims</category>
+      </categories>
+      <tags>
+        <tag>lims</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>处理XML数据</title>
+    <url>/2020/09/04/%E5%A4%84%E7%90%86XML%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>解析<code>XML</code>数据，感觉很难，无从下手🙊，其实是因为解析<code>XML</code>的<a href="https://www.cnblogs.com/c-xiaohai/p/6796116.html">方法</a>太多了，感觉都差不多，混合在一块，分不清了😵就看不懂了。</p>
+<a id="more"></a>
+<h2 id="解析xml">解析xml</h2>
+<p>我采用的是<code>dom4</code>的<a href="http://www.51gjie.com/java/739.html">方法</a>解析<code>XML</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SAXReader saxReader = <span class="keyword">new</span> SAXReader();</span><br><span class="line">Document document = saxReader.read(<span class="keyword">new</span> File(<span class="string">&quot;students.xml&quot;</span>));</span><br><span class="line"><span class="comment">// 获取根元素</span></span><br><span class="line">Element root = document.getRootElement();</span><br><span class="line"><span class="comment">// 获取所有子元素</span></span><br><span class="line">List&lt;Element&gt; childList = root.elements();</span><br><span class="line"><span class="comment">// 把xml信息转化为hashmap</span></span><br><span class="line">HashMap&lt;String,String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line"><span class="keyword">for</span> (Element element : elementsList) &#123;</span><br><span class="line">    hashMap.put(element.getName(), element.getText());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="序列化-反序列化xml">序列化/反序列化xml</h2>
+<ol>
+<li>创建<code>XStream</code> 对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>序列化对象到<code>XML</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Object to XML Conversion</span></span><br><span class="line">String xml = xstream.toXML(student);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>反序列化<code>XML</code>获得对象。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// XML to Object Conversion</span></span><br><span class="line">Student student1 = (Student) xstream.fromXML(xml)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里生成的XML是包含<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</code>前缀的xml文本</p>
+</blockquote>
+<hr>
+<h2 id="微信的XML格式"><em>微信的XML格式</em></h2>
+<p>微信的<code>XML</code>回复信息，某些文本需要添加<code>&lt;![CDATA['text']]</code>，网友提供的方法如下，但是我还看不懂啊😂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自定义xml对象格式</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> XStream xStream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> XppDriver() &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> HierarchicalStreamWriter <span class="title">createWriter</span><span class="params">(Writer out)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> PrettyPrintWriter(out) &#123;</span><br><span class="line">			<span class="keyword">boolean</span> cdata = <span class="keyword">true</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startNode</span><span class="params">(String name, Class clazz)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.startNode(name, clazz);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">writeText</span><span class="params">(QuickWriter writer,String text)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">if</span>(cdata) &#123;</span><br><span class="line">					writer.write(<span class="string">&quot;&lt;![CDATA[&quot;</span>);</span><br><span class="line">					writer.write(text);</span><br><span class="line">					writer.write(<span class="string">&quot;]]&gt;&quot;</span>);</span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					writer.write(text);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;	</span><br><span class="line">	&#125;		</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>XML</tag>
+        <tag>数据处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>处理Json格式数据</title>
+    <url>/2020/09/04/%E5%A4%84%E7%90%86Json%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h2 id="前言">#前言</h2>
+<p>前台页面通常都会通过<code>Ajax</code>来获取后台的数据，某些接口传输数据也都是以<code>Json</code>格式来传输，故处理<code>Json</code>格式数据边得很重要鸭🦆</p>
+<a id="more"></a>
+<h2 id="处理Json格式数据">处理Json格式数据</h2>
+<p>在微信返回的消息中，有些是以json数据包的格式呈现的👇</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span>:<span class="string">&quot;ACCESS_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span>:<span class="number">7200</span>,</span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span>:<span class="string">&quot;REFRESH_TOKEN&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;openid&quot;</span>:<span class="string">&quot;OPENID&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;scope&quot;</span>:<span class="string">&quot;SCOPE&quot;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如何取出这里面的信息呢。那就需要用到<span class="ljspan ljspan-reverse ljspan-red"><a href="https://github.com/alibaba/fastjson">fastjson</a></span>啦!🍄</p>
+<p>一般从网络🌏上获取/传输的<code>json数据包</code>，都是<span class="ljspan ljspan-red">json字符串</span>，如果需要取出来，需要把它转化为<span class="ljspan ljspan-red">json对象</span>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//json字符串转json对象</span></span><br><span class="line">String result = <span class="string">&#x27;&#123;&quot;name&quot;:&quot;2323&quot;,&quot;sex&quot;:&quot;afasdf&quot;,&quot;age&quot;:&quot;6262&quot;&#125;&#x27;</span>;</span><br><span class="line">JSONObject jsonObject =JSON.parseObject(result);</span><br><span class="line"><span class="comment">//这样就可以从json对象jsonobject中获取到你所需要的信息了	  </span></span><br><span class="line">String name = jsonObject.getString(<span class="string">&quot;name&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>另一方面，如果要传输<code>json数据包</code>​​，一般也是先编写好<span class="ljspan ljspan-red">json对象</span>后，转化为<span class="ljspan ljspan-red">json对象</span>后传输​。🌵</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="attr">&quot;button&quot;</span>:[</span><br><span class="line">     &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;view&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的报告&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;url&quot;</span>:<span class="string">&quot;/path/to/Report&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;我的社区&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_COMMUNITY&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;	</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;click&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;个人中心&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;key&quot;</span>:<span class="string">&quot;V1001_TODAY_MUSIC&quot;</span></span><br><span class="line">       &#125;]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>👇下面代码这是对上面☝️的实现哦。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装json对象</span></span><br><span class="line">JSONObject jsonObject = <span class="keyword">new</span> JSONObject();</span><br><span class="line">JSONArray jsonArray = <span class="keyword">new</span> JSONArray();</span><br><span class="line">JSONObject jsonObject1 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject1.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;view&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的报告&quot;</span>);</span><br><span class="line">jsonObject1.put(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;/path/to/Report&quot;</span>);</span><br><span class="line">JSONObject jsonObject2 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject2.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;我的社区&quot;</span>);</span><br><span class="line">jsonObject2.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_COMMUNITY&quot;</span>);</span><br><span class="line">JSONObject jsonObject3 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">jsonObject3.put(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;个人中心&quot;</span>);</span><br><span class="line">jsonObject3.put(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;V1001_TODAY_MUSIC&quot;</span>);</span><br><span class="line">jsonArray.add(jsonObject1);</span><br><span class="line">jsonArray.add(jsonObject2);</span><br><span class="line">jsonArray.add(jsonObject3);</span><br><span class="line">jsonObject.put(<span class="string">&quot;button&quot;</span>,jsonArray);</span><br><span class="line"><span class="comment">//转化为json字符串</span></span><br><span class="line">String jsonString = jsonObject.toJSONString();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用eclipse提示功能，可以看到许多<code>jsonObject</code>和<code>JSON</code>的方法！</p>
+</blockquote>
+<hr>
+<h2 id="自动转化json数据">自动转化json数据</h2>
+<p>后台服务可以自动转化某类对象为json格式到前台页面，前端页面可直接取用，你说神不神奇🐸,它一般结合<code>@ResponseBody</code>一起使用</p>
+<p>它就是<span class="ljspan ljspan-yellow"><a href="https://github.com/FasterXML/jackson-databind">jackson databind</a></span>，貌似上文提到的<span class="ljspan ljspan-red">fastjson</span>也可以实现(不过，还需要其他配置)，但是<span class="ljspan ljspan-yellow">jackson databind</span>只需要引入依赖包就行了🙂</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入依赖包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>数据处理</tag>
+        <tag>Json</tag>
+      </tags>
   </entry>
   <entry>
     <title>迁移mysql数据</title>
