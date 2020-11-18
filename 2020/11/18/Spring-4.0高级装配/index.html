@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="环境与Profile  Spring从3.1版本就引入了bean profile的功能  Profile用来干什么的？ 其实就是它就是根据环境来决定该创建哪个bean，不创建哪个bean 不过Spring并不是在构建的时候做出这样的决策，而是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 4.0高级装配">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/11/18/Spring-4.0%E9%AB%98%E7%BA%A7%E8%A3%85%E9%85%8D/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="环境与Profile  Spring从3.1版本就引入了bean profile的功能  Profile用来干什么的？ 其实就是它就是根据环境来决定该创建哪个bean，不创建哪个bean 不过Spring并不是在构建的时候做出这样的决策，而是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-18T13:40:27.000Z">
+<meta property="article:modified_time" content="2020-11-18T06:01:16.603Z">
+<meta property="article:author" content="柯索沃">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/11/18/Spring-4.0%E9%AB%98%E7%BA%A7%E8%A3%85%E9%85%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring 4.0高级装配 | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/11/18/Spring-4.0%E9%AB%98%E7%BA%A7%E8%A3%85%E9%85%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring 4.0高级装配
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-18 13:40:27 / 修改时间：06:01:16" itemprop="dateCreated datePublished" datetime="2020-11-18T13:40:27Z">2020-11-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>环境与Profile</h1>
+<blockquote>
+<p>Spring从3.1版本就引入了bean profile的功能</p>
+</blockquote>
+<h3 id="Profile用来干什么的？">Profile用来干什么的？</h3>
+<p>其实就是它就是根据环境来决定该创建哪个bean，不创建哪个bean</p>
+<p>不过Spring并不是在构建的时候做出这样的决策，而是<a id="more"></a>等到运行时再来确定。这样的结果就是同一个部署单元（可能会是WAR文件）能够适用于所有的环境，没有必要进行重新构建。</p>
+<h2 id="配置profile-bean">配置profile bean</h2>
+<h3 id="基于JavaConfig配置">基于JavaConfig配置</h3>
+<p>在Java配置中，可以使用@Profile注解指定某个bean属于哪一个profile。</p>
+<p>当@Profile注解应用在了类级别上。它会告诉Spring这个配置类中的bean只有在dev profile激活时才会创建。profile激活时才会创建。如果dev profile没有激活的话，那么带有@Bean注解的方法都会被忽略掉。</p>
+<p>不过，从Spring 3.2开始，也可以在方法级别上使用@Profile 注解，与 @Bean注解一同使用。这样的话，就能将这两个bean的声明放到同一个配置类之中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.myapp;</span><br><span class="line"><span class="keyword">import</span> javax.activation.DataSource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Profile;</span><br><span class="line"><span class="keyword">import</span></span><br><span class="line">  org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;</span><br><span class="line"><span class="keyword">import</span></span><br><span class="line">  org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;</span><br><span class="line"><span class="keyword">import</span> org.springframework.jndi.JndiObjectFactoryBean;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean(destroyMethod=&quot;shutdown&quot;)</span></span><br><span class="line">  <span class="meta">@Profile(&quot;dev&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> DataSource <span class="title">embeddedDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> EmbeddedDatabaseBuilder()</span><br><span class="line">          .setType(EmbeddedDatabaseType.H2)</span><br><span class="line">          .addScript(<span class="string">&quot;classpath:schema.sql&quot;</span>)</span><br><span class="line">          .addScript(<span class="string">&quot;classpath:test-data.sql&quot;</span>)</span><br><span class="line">          .build();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="meta">@Profile(&quot;prod&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> DataSource <span class="title">jndiDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    JndiObjectFactoryBean jndiObjectFactoryBean =</span><br><span class="line">        <span class="keyword">new</span> JndiObjectFactoryBean();</span><br><span class="line">    jndiObjectFactoryBean.setJndiName(<span class="string">&quot;jdbc/myDS&quot;</span>);</span><br><span class="line">    jndiObjectFactoryBean.setResourceRef(<span class="keyword">true</span>);</span><br><span class="line">    jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);</span><br><span class="line">    <span class="keyword">return</span> (DataSource) jndiObjectFactoryBean.getObject();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有个问题需要注意，尽管每个DataSource bean都被声明在一个profile中，并且只有当规定的profile激活时，相应的bean才会被创建，<strong>但是可能会有其他的bean并没有声明在一个给定的profile范围内</strong>。没有指定profile的bean始终都会被创建，与激活哪个profile没有关系。</p>
+<h3 id="基于XML配置">基于XML配置</h3>
+<p>除了可以为每个环境都创建一个profile XML文件，把所有的bean定义到了同一个XML文件之中，这种配置方式与定义在单独的XML文件中的实际效果是一样的。这里有三个bean，类型都是javax.sql.DataSource，并且ID都是dataSource。但是在运行时，只会创建一个bean，这取决于处于激活状态的是哪个profile。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="line">  xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">  xmlns:jdbc=<span class="string">&quot;http://www.springframework.org/schema/jdbc&quot;</span></span><br><span class="line">  xmlns:jee=<span class="string">&quot;http://www.springframework.org/schema/jee&quot;</span></span><br><span class="line">  xmlns:p=<span class="string">&quot;http://www.springframework.org/schema/p&quot;</span></span><br><span class="line">  xsi:schemaLocation=<span class="string">&quot;</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/jee</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/jee/spring-jee.xsd</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/jdbc</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;beans profile=<span class="string">&quot;dev&quot;</span>&gt;	</span><br><span class="line">    &lt;jdbc:embedded-database id=<span class="string">&quot;dataSource&quot;</span>&gt;</span><br><span class="line">      &lt;jdbc:script location=<span class="string">&quot;classpath:schema.sql&quot;</span> /&gt;</span><br><span class="line">      &lt;jdbc:script location=<span class="string">&quot;classpath:test-data.sql&quot;</span> /&gt;</span><br><span class="line">    &lt;/jdbc:embedded-database&gt;</span><br><span class="line">  &lt;/beans&gt;</span><br><span class="line"></span><br><span class="line">  &lt;beans profile=<span class="string">&quot;qa&quot;</span>&gt;	</span><br><span class="line">    &lt;bean id=<span class="string">&quot;dataSource&quot;</span></span><br><span class="line">          <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;org.apache.commons.dbcp.BasicDataSource&quot;</span></span><br><span class="line">          destroy-method=<span class="string">&quot;close&quot;</span></span><br><span class="line">          p:url=<span class="string">&quot;jdbc:h2:tcp://dbserver/~/test&quot;</span></span><br><span class="line">          p:driverClassName=<span class="string">&quot;org.h2.Driver&quot;</span></span><br><span class="line">          p:username=<span class="string">&quot;sa&quot;</span></span><br><span class="line">          p:password=<span class="string">&quot;password&quot;</span></span><br><span class="line">          p:initialSize=<span class="string">&quot;20&quot;</span></span><br><span class="line">          p:maxActive=<span class="string">&quot;30&quot;</span> /&gt;</span><br><span class="line">  &lt;/beans&gt;</span><br><span class="line"></span><br><span class="line">  &lt;beans profile=<span class="string">&quot;prod&quot;</span>&gt;	</span><br><span class="line">     &lt;jee:jndi-lookup id=<span class="string">&quot;dataSource&quot;</span></span><br><span class="line">                     jndi-name=<span class="string">&quot;jdbc/myDatabase&quot;</span></span><br><span class="line">                     resource-ref=<span class="string">&quot;true&quot;</span></span><br><span class="line">                     proxy-<span class="class"><span class="keyword">interface</span></span>=<span class="string">&quot;javax.sql.DataSource&quot;</span> /&gt;</span><br><span class="line">  &lt;/beans&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="激活profile">激活profile</h2>
+<p>Spring在确定哪个profile处于激活状态时，需要依赖两个独立的属性：<strong>spring.profiles.active</strong> 和 <strong>spring.profiles.default</strong>。如果设置了spring.profiles.active属性的话，那么它的值就会用来确定哪个profile是激活的。但如果没有设置spring.profiles.active属性的话，那Spring将会查找spring.profiles.default的值。如果spring.profiles.active 和 spring.profiles.default均没有设置的话，那就没有激活的profile，因此只会创建那些没有定义在profile中的bean。</p>
+<p>有多种方式来设置这两个属性：</p>
+<ol>
+<li>作为 DispatcherServlet的初始化参数；</li>
+<li>作为Web应用的上下文参数；</li>
+<li>作为JNDI条目；</li>
+<li>作为环境变量；</li>
+<li>作为JVM的系统属性；</li>
+<li>在集成测试类上，使用@ActiveProfiles注解设置。</li>
+</ol>
+<p><strong>环境变量的设置</strong>：% export SPRING_PROFILES_ACTIVE=prod（设置SPRING_PROFILES_ACTIVE）</p>
+<p><strong>JVM的设置</strong>：</p>
+<ul>
+<li>tomcat 中 catalina.bat（.sh中不用“set”） 添加JAVA_OPS。通过设置active选择不同配置文件 set JAVA_OPTS=”-Dspring.profiles.active=test”</li>
+<li>eclipse 中启动tomcat。项目右键 run as –&gt; run configuration–&gt;Arguments–&gt; VM arguments中添加。local配置文件不必上传git追踪管理<br>
+-Dspring.profiles.active=”local”</li>
+</ul>
+<h4 id="使用profiles进行测试">使用profiles进行测试</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="meta">@ContextConfiguration(classes=&#123;PersistenceTestConfig.class&#125;)</span></span><br><span class="line"><span class="meta">@ActiveProfiles(&quot;dev&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersistenceTest</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1>条件化的bean</h1>
+<blockquote>
+<p>spring4引入了@Conditional注解</p>
+</blockquote>
+<p>@Conditional注解可以用到带有@Bean注解的方法上。如果给定的条件计算结果为true，就会创建这个bean，否则的话，这个bean会被忽略。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Conditional(MagicExistsCondition.class)</span>	</span><br><span class="line"><span class="function"><span class="keyword">public</span> MagicBean <span class="title">magicBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> MagicBean();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从Spring 4开始，@Profile注解进行了重构，使其基于@Conditional 和 Condition实现。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Conditional(ProfileCondition.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Profile &#123;</span><br><span class="line">  String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>处理自动装配的歧义性</h1>
+<p>在第2章中，我们已经看到如何使用自动装配让Spring完全负责将bean引用注入到构造参数和属性中。自动装配能够提供很大的帮助，因为它会减少装配应用程序组件时所需要的显式配置的数量。</p>
+<p>仅有一个bean匹配所需的结果时，自动装配才是有效的。如果不仅有一个bean能够匹配结果的话，这种歧义性会阻碍Spring自动装配属性、构造器参数或方法参数。</p>
+<p>比如以下的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDessert</span><span class="params">(Dessert dessert)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cake</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cookies</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IceCream</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>但是，当确实发生歧义性的时候，Spring提供了多种可选方案来解决这样的问题。你可以将可选bean中的某一个<strong>设为首选（primary）的bean</strong>，或者**使用限定符（qualifier）**来帮助Spring将可选的bean的范围缩小到只有一个bean。</p>
+<h4 id="标示首选的bean">标示首选的bean</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IceCream</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="限定自动装配的bean">限定自动装配的bean</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;iceCream&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDessert</span><span class="params">(Dessert dessert)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是使用限定符的最简单的例子。为@Qualifier注解所设置的参数就是想要注入的bean的ID。所有使用@Component注解声明的类都会创建为bean，并且bean的ID为首字母变为小写的类名。因此，@Qualifier(“iceCream”)指向的是组件扫描时所创建的bean，并且这个bean是IceCream类的实例。</p>
+<p>实际上，还有一点需要补充一下。更准确地讲，@Qualifier(“iceCream”)所引用的bean要具有String类型的“iceCream”作为限定符。如果没有指定其他的限定符的话，所有的bean都会给定一个默认的限定符，这个限定符与bean的ID相同。因此，框架会将具有“iceCream”限定符的bean注入到setDessert()方法中。这恰巧就是ID为iceCream的bean，它是IceCream类在组件扫描的时候创建的。</p>
+<blockquote>
+<p>基于默认的bean ID作为限定符是非常简单的，但这有可能会引入一些问题。如果你重构了IceCream类，将其重命名为Gelato的话，那此时会发生什么情况呢？如果这样的话，bean的ID和默认的限定符会变为gelato，这就无法匹配setDessert()方法中的限定符。自动装配会失败。</p>
+</blockquote>
+<h4 id="创建自定义的限定符">创建自定义的限定符</h4>
+<p>ID作为限定符。在这里所需要做的就是在bean声明上添加@Qualifier注解。例如，它可以与@Component组合使用，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;cold&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IceCream</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>在这种情况下，cold限定符分配给了IceCreambean。因为它没有耦合类名，因此你可以随意重构IceCream的类名，而不必担心会破坏自动装配。在注入的地方，只要引用cold限定符就可以了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;cold&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDessert</span><span class="params">(Dessert dessert)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用自定义的限定符注解">使用自定义的限定符注解</h4>
+<p>如果需要两个限定符才能定位到相关的bean，可行吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;cold&quot;)</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;fruity&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Popsicle</span> <span class="keyword">implements</span> <span class="title">Dessert</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>答案是不可行：Java不允许在同一个条目上重复出现相同类型的多个注解。[1]如果你试图这样做的话，编译器会提示错误。在这里，使用@Qualifier注解并没有办法（至少没有直接的办法）将自动装配的可选bean缩小范围至仅有一个可选的bean。</p>
+<p>那就自己创建自定义的限定符注解咯，比如下面的**@Cold**注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.FIELD,</span></span><br><span class="line"><span class="meta">         ElementType.METHOD, ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Cold &#123; &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="bean的作用域">bean的作用域</h2>
+<p>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。也就是说，不管给定的一个bean被注入到其他bean多少次，每次所注入的都是同一个实例。</p>
+<p>在大多数情况下，单例bean是很理想的方案。初始化和垃圾回收对象实例所带来的成本只留给一些小规模任务，在这些任务中，让对象保持无状态并且在应用中反复重用这些对象可能并不合理。</p>
+<p>有时候，可能会发现，你所使用的类是易变的（mutable），它们会保持一些状态，因此重用是不安全的。在这种情况下，将class声明为单例的bean就不是什么好主意了，因为对象会被污染，稍后重用的时候会出现意想不到的问题。</p>
+<p>Spring定义了多种作用域，可以基于这些作用域创建bean，包括：</p>
+<ol>
+<li>单例（Singleton）：在整个应用中，只创建bean的一个实例。</li>
+<li>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。</li>
+<li>会话（Session）：在Web应用中，为每个会话创建一个bean实例。</li>
+<li>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。</li>
+</ol>
+<p>单例是默认的作用域，但是正如之前所述，对于易变的类型，这并不合适。如果选择其他的作用域，要使用**@Scope<strong>注解，它可以与</strong>@Component** 或 <strong>@Bean</strong>一起使用。</p>
+<blockquote>
+<p>@Scope同时还有要给proxyMode属性，如需了解详情，请查阅 – [美] Craig Walls. Spring实战（第4版） (Kindle 位置 1604-1606). 人民邮电出版社. Kindle 版本.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Notepad</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>使用ConfigurableBeanFactory 类的 SCOPE_PROTOTYPE常量设置了原型作用域。你当然也可以使用@Scope(“prototype”)，但是使用SCOPE_PROTOTYPE常量更加安全并且不易出错。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Notepad <span class="title">notepad</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Notepad();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>原型bean配置</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;notepad&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">class</span>=<span class="string">&quot;com.myapp.Notepad&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>xml配置方式</p>
+</blockquote>
+<hr>
+<h2 id="运行时值的注入">运行时值的注入</h2>
+<p>当讨论依赖注入的时候，我们通常所讨论的是将一个bean引用注入到另一个bean的属性或构造器参数中。它通常来讲指的是将一个对象与另一个对象进行关联。</p>
+<p>但是bean装配的另外一个方面指的是将一个值注入到bean的属性或者构造器参数中。</p>
+<p>可以使用硬编码的形式，就是直接注入值，但有的时候，我们可能会希望避免硬编码值，而是想让这些值在运行时再确定。为了实现这些功能，Spring提供了两种在运行时求值的方式：</p>
+<ul>
+<li>
+<p>属性占位符（Property placeholder）</p>
+</li>
+<li>
+<p>Spring表达式语言（SpEL）</p>
+</li>
+</ul>
+<p>很快你就会发现这两种技术的用法是类似的，不过它们的目的和行为是有所差别的。</p>
+<h3 id="注入外部的值">注入外部的值</h3>
+<p>在Spring中，处理外部值的最简单方式就是声明属性源并通过Spring的Environment来检索属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.soundsystem;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.PropertySource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.env.Environment;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;classpath:/com/soundsystem/app.properties&quot;)</span>	</span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExpressiveConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  Environment env;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> BlankDisc <span class="title">disc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BlankDisc(</span><br><span class="line">        env.getProperty(<span class="string">&quot;disc.title”),	</span></span><br><span class="line"><span class="string">         env.getProperty(&quot;</span>disc.artist<span class="string">&quot;));</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<p>在上面的例中，@PropertySource引用了类路径中一个名为app.properties的文件。它大致会如下所示： 这个属性文件会加载到Spring的Environment中，稍后可以从这里检索属性。同时，在disc()方法中，会创建一个新的BlankDisc，它的构造器参数是从属性文件中获取的，而这是通过调用getProperty()</p>
+<h4 id="深入学习Spring的Environment">深入学习Spring的Environment</h4>
+<p>其实getProperty()方法有四个重载的变种形式：</p>
+<ul>
+<li>String getProperty(String key)</li>
+<li>String getProperty(String key, String defaultValue)</li>
+<li>T getProperty(String key, Class<T> type)</li>
+<li>T getProperty(String key, Class<T> type, T defaultValue)</li>
+</ul>
+<blockquote>
+<p>详情请看–&gt;[美] Craig Walls. Spring实战（第4版） (Kindle 位置 1660-1661). 人民邮电出版社. Kindle 版本.</p>
+</blockquote>
+<p>当然Environment还提供了一些跟属性相关的方法和用来检查哪个profile处于激活状态的方法，详细章节在[Spring 实战（第4版）第三章 3.5小节-运行时值注入-注入外部的值]有详细记载</p>
+<h4 id="解析属性占位符">解析属性占位符</h4>
+<p>Spring一直支持将属性定义到外部的属性的文件中，并使用占位符值将其插入到Spring bean中。在Spring装配中，占位符的形式为使用“${ … }”包装的属性名称。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sgtPeppers&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">class</span>=<span class="string">&quot;soundsystem.BlankDisc&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">c:_title</span>=<span class="string">&quot;$&#123;disc.title&#125;&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">c:_artist</span>=<span class="string">&quot;$&#123;disc.artist&#125;&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果我们依赖于组件扫描和自动装配来创建和初始化应用组件的话，那么就没有指定占位符的配置文件或类了。在这种情况下，我们可以使用@Value注解，它的使用方式与@Autowired注解非常相似。比如，在BlankDisc类中，构造器可以改成如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BlankDisc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="meta">@Value(&quot;$&#123;disc.title&#125;&quot;)</span> String title,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="meta">@Value(&quot;$&#123;disc.artist&#125;&quot;)</span> String artist)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.title = title;</span><br><span class="line">  <span class="keyword">this</span>.artist = artist;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>为了使用占位符</strong>，我们必须要配置一个PropertyPlaceholderConfigurer bean或PropertySourcesPlaceholderConfigurer bean。从Spring 3.1开始，推荐使用PropertySourcesPlaceholderConfigurer，因为它能够基于Spring Environment及其属性源来解析占位符。</p>
+<p>如下的 @Bean方法在Java中配置了PropertySourcesPlaceholderConfigurer ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> PropertySourcesPlaceholderConfigurer <span class="title">placeholderConfigurer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> PropertySourcesPlaceholderConfigurer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你想使用XML配置的话，Spring context命名空间中的&lt;context:propertyplaceholder&gt;元素将会为你生成PropertySourcesPlaceholderConfigurer bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:property-placeholder</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>解析外部属性能够将值的处理推迟到运行时，但是它的关注点在于根据名称解析来自于Spring Environment和属性源的属性。而Spring表达式语言提供了一种更通用的方式在运行时计算所要注入的值。</p>
+<h4 id="使用Spring表达式语言进行装配">使用Spring表达式语言进行装配</h4>
+<p>Spring 3引入了Spring表达式语言（Spring Expression Language，SpEL），它能够以一种强大和简洁的方式将值装配到bean属性和构造器参数中，在这个过程中所使用的表达式会在运行时计算得到值。</p>
+<p>SpEL拥有很多特性，包括：</p>
+<ol>
+<li>使用bean的ID来引用bean；</li>
+<li>调用方法和访问对象的属性；</li>
+<li>对值进行算术、关系和逻辑运算；</li>
+<li>正则表达式匹配；</li>
+<li>集合操作。</li>
+</ol>
+<p>需要了解的第一件事情就是<strong>SpEL表达式</strong>要放到“<strong>#{ … }</strong>”之中，这与属性占位符有些类似，属性占位符需要放到“<strong>${ … }</strong>”之中。下面所展现的可能是最简单的SpEL表达式了：</p>
+<p>如果通过组件扫描创建bean的话，在注入属性和构造器参数时，我们可以使用@Value注解，这与之前看到的属性占位符非常类似。不过，在这里我们所使用的不是占位符表达式，而是SpEL表达式。例如，下面的样例展现了BlankDisc，它会从系统属性中获取专辑名称和艺术家的名字：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BlankDisc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="meta">@Value(&quot;#&#123;systemProperties[&#x27;disc.title&#x27;]&#125;&quot;)</span> String title,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="meta">@Value(&quot;#&#123;systemProperties[&#x27;disc.artist&#x27;]&#125;&quot;)</span> String artist)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.title = title;</span><br><span class="line">  <span class="keyword">this</span>.artist = artist;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在XML配置中，你可以将SpEL表达式传入<property> 或 <constructor-arg> 的 value属性中，或者将其作为p-命名空间或c-命名空间条目的值。例如，在如下BlankDisc</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sgtPeppers&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">class</span>=<span class="string">&quot;soundsystem.BlankDisc&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">c:_title</span>=<span class="string">&quot;#&#123;systemProperties[&#x27;disc.title&#x27;]&#125;&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">c:_artist</span>=<span class="string">&quot;#&#123;systemProperties[&#x27;disc.artist&#x27;]&#125;&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>SpEL表达式也可以引用其他的bean或其他bean的属性。例如，如下的表达式会计算得到ID为sgtPeppers的bean的artist</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#123;sgtPeppers.artist&#125;</span><br></pre></td></tr></table></figure>
+<p>我们还可以通过systemProperties对象引用系统属性：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#123;systemProperties[&#x27;disc.title&#x27;]&#125;</span><br></pre></td></tr></table></figure>
+<p>如果要在SpEL中访问类作用域的方法和常量的话，要依赖T()这个关键的运算符。例如，为了在SpEL中表达Java的Math类，需要按照如下的方式使用T() 运算符：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T(java.lang.Math)</span><br></pre></td></tr></table></figure>
+<h5 id="SpEL运算符">SpEL运算符</h5>
+<table>
+<thead>
+<tr>
+<th>运行符类型</th>
+<th>运算符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>算数运算</td>
+<td>+ 、 - 、 * 、 / 、 % 、 ^</td>
+</tr>
+<tr>
+<td>比较运算</td>
+<td>&lt; 、 &gt; 、 == 、 &lt;= 、 &gt;= 、 lt 、 gt 、 eq 、 le 、 ge</td>
+</tr>
+<tr>
+<td>逻辑运算</td>
+<td>and 、 or 、 not 、 │</td>
+</tr>
+<tr>
+<td>条件运算</td>
+<td>?: (ternary) 、 ?: (Elvis)</td>
+</tr>
+<tr>
+<td>正则表达式</td>
+<td>matches</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>具体详细章节在 [Spring 实战（第4版）第三章 3.5小节-运行时值注入-使用Spring表达式语言进行装配] 有详细记载</p>
+</blockquote>
+<p>[美] Craig Walls. Spring实战（第4版） 人民邮电出版社. Kindle 版本.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/23/Bootstrap-Table/" rel="prev" title="Bootstrap-Table">
+      <i class="fa fa-chevron-left"></i> Bootstrap-Table
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Java%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/" rel="next" title="Java上传和下载">
+      Java上传和下载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境与Profile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Profile%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">Profile用来干什么的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEprofile-bean"><span class="nav-number">1.1.</span> <span class="nav-text">配置profile bean</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EJavaConfig%E9%85%8D%E7%BD%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">基于JavaConfig配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">基于XML配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BF%80%E6%B4%BBprofile"><span class="nav-number">1.2.</span> <span class="nav-text">激活profile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8profiles%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">使用profiles进行测试</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">条件化的bean</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">处理自动装配的歧义性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E7%A4%BA%E9%A6%96%E9%80%89%E7%9A%84bean"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">标示首选的bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E5%AE%9A%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84bean"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">限定自动装配的bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">创建自定义的限定符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E9%99%90%E5%AE%9A%E7%AC%A6%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">使用自定义的限定符注解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">3.1.</span> <span class="nav-text">bean的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%80%BC%E7%9A%84%E6%B3%A8%E5%85%A5"><span class="nav-number">3.2.</span> <span class="nav-text">运行时值的注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E5%A4%96%E9%83%A8%E7%9A%84%E5%80%BC"><span class="nav-number">3.2.1.</span> <span class="nav-text">注入外部的值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0Spring%E7%9A%84Environment"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">深入学习Spring的Environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E5%B1%9E%E6%80%A7%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">解析属性占位符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Spring%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E8%A8%80%E8%BF%9B%E8%A1%8C%E8%A3%85%E9%85%8D"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">使用Spring表达式语言进行装配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SpEL%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">3.2.1.3.1.</span> <span class="nav-text">SpEL运算符</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>

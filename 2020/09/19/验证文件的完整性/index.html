@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="# 前言 验证文件完整性的方法有很多种，在这里我列举我遇到的几种我经常遇到的验证方法！👊，有sha1，sha256，sha512和MD5,PGP等💅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="验证文件的完整性">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/09/19/%E9%AA%8C%E8%AF%81%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="# 前言 验证文件完整性的方法有很多种，在这里我列举我遇到的几种我经常遇到的验证方法！👊，有sha1，sha256，sha512和MD5,PGP等💅">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-18T16:12:28.000Z">
+<meta property="article:modified_time" content="2020-09-18T08:16:47.866Z">
+<meta property="article:author" content="柯索沃">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/09/19/%E9%AA%8C%E8%AF%81%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>验证文件的完整性 | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/09/19/%E9%AA%8C%E8%AF%81%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          验证文件的完整性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-18 16:12:28 / 修改时间：08:16:47" itemprop="dateCreated datePublished" datetime="2020-09-18T16:12:28Z">2020-09-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"># 前言</h2>
+<p>验证文件完整性的方法有很多种，在这里我列举我遇到的几种我经常遇到的验证方法！👊，有sha1，sha256，sha512和MD5,PGP等💅</p>
+<a id="more"></a>
+<h2 id="sha1验证">sha1验证</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sha1sum file</span><br></pre></td></tr></table></figure>
+<h2 id="sha256-验证">sha256 验证</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shasum -a 256 -c x.x.x.sha256(下载的验证文件) </span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl sha256 -r x.x.x.x(下载的文件)</span><br></pre></td></tr></table></figure>
+<h2 id="sha512验证">sha512验证</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sha512sum file</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="MD5验证">MD5验证</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ md5sum file</span><br><span class="line">a612cd5d162e4620b442b0ff3474bf98  file</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="PGP验证">PGP验证</h2>
+<blockquote>
+<p>首先得先下载x.x.x.x(所要下载的文件)和x.x.x.x.asc(下载得验证文件)</p>
+</blockquote>
+<h3 id="第一步：使用GPG-The-GNU-Privacy-Guard-来验证。">第一步：使用GPG(The GNU Privacy Guard)来验证。</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">% gpg --verify httpd-2.4.18.tar.gz.asc httpd-2.4.18.tar.gz</span><br><span class="line">gpg: Signature made Tue Dec  8 21:32:07 2015 CET using RSA key ID 791485A8</span><br><span class="line">gpg: Can<span class="string">&#x27;t check signature: public key not found</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的情况是没有版本的管理者公用钥匙791485A8</p>
+<p>一般要去key server获取，比如最受欢迎的<code>pgpkeys.mit.edu</code></p>
+</blockquote>
+<h3 id="第二步：获取公共钥匙">第二步：获取公共钥匙</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">% gpg --keyserver pgpkeys.mit.edu --recv-key 791485A8</span><br><span class="line">gpg: requesting key 791485A8 from HKP keyserver pgpkeys.mit.edu</span><br><span class="line">gpg: trustdb created</span><br><span class="line">gpg: key 791485A8: public key <span class="string">&quot;Jim Jagielski &lt;jim@apache.org&gt;&quot;</span> imported</span><br><span class="line">gpg: key 791485A8: public key <span class="string">&quot;Jim Jagielski &lt;jim@apache.org&gt;&quot;</span> imported</span><br><span class="line">gpg: Total number processed: 2</span><br><span class="line">gpg:               imported: 2  (RSA: 2)</span><br></pre></td></tr></table></figure>
+<p>一般通过这个方法就可以获取到公共钥匙了，但是上面获取的钥匙却有两个😦</p>
+<blockquote>
+<p>不管怎样，再来认证一次</p>
+</blockquote>
+<h3 id="第三步：再次验证">第三步：再次验证</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">% gpg --verify httpd-2.4.18.tar.gz.asc httpd-2.4.18.tar.gz</span><br><span class="line">gpg: Signature made Tue Dec  8 21:32:07 2015 CET using RSA key ID 791485A8</span><br><span class="line">gpg: Good signature from <span class="string">&quot;Jim Jagielski &lt;jim@apache.org&gt;&quot;</span></span><br><span class="line">gpg:             aka <span class="string">&quot;Jim Jagielski &lt;jim@jimjag.com&gt;&quot;</span></span><br><span class="line">gpg:             aka <span class="string">&quot;Jim Jagielski &lt;jim@jaguNET.com&gt;&quot;</span></span><br><span class="line">gpg:             aka <span class="string">&quot;Jim Jagielski &lt;jimjag@gmail.com&gt;&quot;</span></span><br><span class="line">gpg: checking the trustdb</span><br><span class="line">gpg: no ultimately trusted keys found</span><br><span class="line">gpg: WARNING: This key is not certified with a trusted signature!</span><br><span class="line">gpg:          There is no indication that the signature belongs to the</span><br><span class="line">owner.</span><br><span class="line">Fingerprint: A93D 62EC C3C8 EA12 DB22  0EC9 34EA 76E6 7914 85A8</span><br></pre></td></tr></table></figure>
+<p>可以看到验证成功了，但是他的真实性有待商榷，从中还获取到他的<span class="label warning">指纹</span>了</p>
+<h3 id="第四步：验证真实性">第四步：验证真实性</h3>
+<blockquote>
+<p>这一步的内容稍多，方法也有很多种</p>
+</blockquote>
+<p>方法一：到<span class="ljspan ljspan-yellow">PGP信任的网站</span>验证<span class="label warning">指纹</span>了，比如我下载apache，他有提供一个<a target="_blank" rel="noopener" href="https://people.apache.org/keys/committer/">网站</a>给你比对指纹。题外话，其实这个网站也是不大受信任的，毕竟不是PGP提供的，apache官方给出的说法也是说要留意他们的新闻，万一他们自己的网站给黑客搞了，他们就不能保证提供指纹比对的真实性了，安全真的好重要啊🐢🐢。</p>
+<p>方法二：通过gpg签名列表中的用户来确认</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">% gpg --list-sigs </span><br><span class="line">pub   4096R/791485A8 2010-11-04</span><br><span class="line">uid                  Jim Jagielski (Release Signing Key) &lt;jim@apache.org&gt;</span><br><span class="line">sig          88C3A5A5 2010-11-07  Philippe M. Chiasson (Home) &lt;gozer@ectoplasm.org&gt;</span><br><span class="line">sig          4E24517C 2011-11-10  Hyrum K. Wright (Personal) &lt;hyrum@hyrumwright.org&gt;</span><br><span class="line">sig          C4FC9A65 2011-11-10  Bernd Bohmann &lt;bommel@apache.org&gt;</span><br><span class="line">sig          1F27E622 2015-04-16  Konstantin I Boudnik (Cos) &lt;cos@boudnik.org&gt;</span><br><span class="line">sig          08C975E5 2010-11-04  Jim Jagielski &lt;jim@apache.org&gt;</span><br><span class="line">sig 2        F2EFD0F0 2011-11-14  Christopher David Schultz (Christopher David Schultz) &lt;chris@christopherschultz.net&gt;</span><br><span class="line">sig 3        311A3DE5 2010-11-10  Ruediger Pluem &lt;rpluem@apache.org&gt;</span><br><span class="line">sig          64A6A0BA 2013-02-27  Steven J. Hathaway (Apache PGP) &lt;shathaway@apache.org&gt;</span><br><span class="line">sig          00A1234F 2015-04-15  Andre Arcilla &lt;arcilla@apache.org&gt;</span><br><span class="line">sig          9A59B973 2015-04-21  Stefan Sperling &lt;stsp@stsp.name&gt;</span><br><span class="line">sig          F51BB88A 2010-11-04  Sander Temme &lt;sander@temme.net&gt;</span><br><span class="line">...more signatures redacted...</span><br></pre></td></tr></table></figure>
+<p>如果你的验证的文件中的用户在此列表中，那一般就能证明他确实是真实的啦，如果要保证它是否是真的，你可以直接通过邮箱联系用户，让他确证到底是不是真的咯</p>
+<blockquote>
+<p>其实最安全的办法当然是联系作者本人啦，但是作者一般哪有时间回复你啊，so…I have no idea!</p>
+</blockquote>
+<h2 id="验证成功">验证成功</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">% gpg --verify httpd-2.4.18.tar.gz.asc httpd-2.4.18.tar.gz</span><br><span class="line">gpg: Signature made Tue Dec  8 21:32:07 2015 CET using RSA key ID 791485A8</span><br><span class="line">gpg: Good signature from <span class="string">&quot;Jim Jagielski (Release Signing Key) &lt;jim@apache.org&gt;&quot;</span></span><br><span class="line">gpg:                 aka <span class="string">&quot;Jim Jagielski &lt;jim@jimjag.com&gt;&quot;</span></span><br><span class="line">gpg:                 aka <span class="string">&quot;Jim Jagielski &lt;jim@jaguNET.com&gt;&quot;</span></span><br><span class="line">gpg:                 aka <span class="string">&quot;Jim Jagielski &lt;jimjag@gmail.com&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上所示，没有危险提示，那就表明成功啦！</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/12/java%E9%9B%86%E5%90%88/" rel="prev" title="java集合">
+      <i class="fa fa-chevron-left"></i> java集合
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/19/linux%E4%B8%AD%E7%9A%84-configure-make-make-install%E7%AD%89%E5%91%BD%E4%BB%A4/" rel="next" title="linux中的.configure、make、make install等命令">
+      linux中的.configure、make、make install等命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text"># 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sha1%E9%AA%8C%E8%AF%81"><span class="nav-number">2.</span> <span class="nav-text">sha1验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sha256-%E9%AA%8C%E8%AF%81"><span class="nav-number">3.</span> <span class="nav-text">sha256 验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sha512%E9%AA%8C%E8%AF%81"><span class="nav-number">4.</span> <span class="nav-text">sha512验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MD5%E9%AA%8C%E8%AF%81"><span class="nav-number">5.</span> <span class="nav-text">MD5验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PGP%E9%AA%8C%E8%AF%81"><span class="nav-number">6.</span> <span class="nav-text">PGP验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E4%BD%BF%E7%94%A8GPG-The-GNU-Privacy-Guard-%E6%9D%A5%E9%AA%8C%E8%AF%81%E3%80%82"><span class="nav-number">6.1.</span> <span class="nav-text">第一步：使用GPG(The GNU Privacy Guard)来验证。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%85%AC%E5%85%B1%E9%92%A5%E5%8C%99"><span class="nav-number">6.2.</span> <span class="nav-text">第二步：获取公共钥匙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%86%8D%E6%AC%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">6.3.</span> <span class="nav-text">第三步：再次验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E9%AA%8C%E8%AF%81%E7%9C%9F%E5%AE%9E%E6%80%A7"><span class="nav-number">6.4.</span> <span class="nav-text">第四步：验证真实性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E6%88%90%E5%8A%9F"><span class="nav-number">7.</span> <span class="nav-text">验证成功</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>
