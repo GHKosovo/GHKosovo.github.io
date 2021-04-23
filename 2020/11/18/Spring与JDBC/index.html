@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="JDBC的执行流程： 首先你得先定义一条squary语句，然后才能够开始后面的语句  引入datasource，通过datasource获取一个连接 通过这个连接，再获取一个事务（为何要经过事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring与JDBC">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/11/18/Spring%E4%B8%8EJDBC/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="JDBC的执行流程： 首先你得先定义一条squary语句，然后才能够开始后面的语句  引入datasource，通过datasource获取一个连接 通过这个连接，再获取一个事务（为何要经过事务">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-18T14:07:53.000Z">
+<meta property="article:modified_time" content="2020-11-18T06:12:35.181Z">
+<meta property="article:author" content="柯索沃">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/11/18/Spring%E4%B8%8EJDBC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring与JDBC | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/11/18/Spring%E4%B8%8EJDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring与JDBC
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-18 14:07:53 / 修改时间：06:12:35" itemprop="dateCreated datePublished" datetime="2020-11-18T14:07:53Z">2020-11-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>JDBC的执行流程：</p>
+<p>首先你得先定义一条squary语句，然后才能够开始后面的语句</p>
+<ol>
+<li>引入datasource，通过datasource获取一个连接</li>
+<li>通过这个连接，再获取一个事务（为何要经过事务<a id="more"></a>，我想事务的四个性质已经说的很明显了）</li>
+<li>然后在事务中放入相关的squary语句，然后在事务中再设置参数绑定</li>
+<li>执行事务</li>
+<li>在此过程中，需要捕捉两次异常，一次在插入记录出错时捕捉它，一次在需要关闭语句和连接时捕捉它。</li>
+</ol>
+<p>相关代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_INSERT_SPITTER =</span><br><span class="line"> <span class="string">&quot;insert into spitter (username, password, fullname) values (?, ?, ?)&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> DataSource dataSource;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">  Connection conn = <span class="keyword">null</span>;</span><br><span class="line">  PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    conn = dataSource.getConnection();	</span><br><span class="line">    stmt = conn.prepareStatement(SQL_INSERT_SPITTER);	</span><br><span class="line">    stmt.setString(<span class="number">1</span>, spitter.getUsername());	</span><br><span class="line">    stmt.setString(<span class="number">2</span>, spitter.getPassword());</span><br><span class="line">    stmt.setString(<span class="number">3</span>, spitter.getFullName());</span><br><span class="line">    stmt.execute();	</span><br><span class="line">  &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    <span class="comment">// do something...not sure what, though	</span></span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) &#123;	</span><br><span class="line">        stmt.close();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">        conn.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">      <span class="comment">// I&#x27;m even less sure about what to do here</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>但是JDBC有个缺点，就是它只能捕捉到SQLException异常，就是没办法分类，也就是说，只要是数据库方面出问题，就直接抛出SQLException异常，而不会分析是连接出错，还是语法出错等等等，这样你就无法知道到底是哪里出问题</p>
+<p>但是我们现在可以使用Spring的数据访问异常，他就能够把异常分门别类，前提是需要使用Spring所支持的数据访问模板</p>
+</blockquote>
+<p>由此催生出了JDBC模板</p>
+<table>
+<thead>
+<tr>
+<th>模板类（org.springframework.*）</th>
+<th>用　　途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jca.cci.core.CciTemplate</td>
+<td>JCA CCI连接</td>
+</tr>
+<tr>
+<td>jdbc.core.JdbcTemplate</td>
+<td>JDBC连接</td>
+</tr>
+<tr>
+<td>jdbc.core.namedparam.NamedParameterJdbcTemplate</td>
+<td>支持命名参数的JDBC连接</td>
+</tr>
+<tr>
+<td>jdbc.core.simple.SimpleJdbcTemplate</td>
+<td>通过Java 5简化后的JDBC连接（Spring 3.1中已经废弃）</td>
+</tr>
+<tr>
+<td>orm.hibernate3.HibernateTemplate</td>
+<td>Hibernate 3.x以上的Session</td>
+</tr>
+<tr>
+<td>orm.ibatis.SqlMapClientTemplate</td>
+<td>iBATIS SqlMap客户端</td>
+</tr>
+<tr>
+<td>orm.jdo.JdoTemplate</td>
+<td>Java数据对象（Java Data Object）实现</td>
+</tr>
+<tr>
+<td>orm.jpa.JpaTemplate</td>
+<td>Java持久化API的实体管理器</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Spring 支持的模板</p>
+</blockquote>
+<p>Spring的JDBC框架承担了资源管理和异常处理的工作，从而简化了JDBC代码，让我们只需编写从数据库读写数据的必需代码。</p>
+<p>只有在你需要使用命名参数的时候，才需要使用<code>NamedParameterJdbcTemplate</code> 。，对于大多数的JDBC任务来说，<code>JdbcTemplate</code> 就是最好的可选方案</p>
+<p>为了让<code>JdbcTemplate</code> 正常工作，只需要为其设置<code>DataSource</code> 就可以了，这使得在Spring中配置<code>JdbcTemplate</code> 非常容易</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">jdbcTemplate</span><span class="params">(DataSource dataSource)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里， DataSource是通过构造器参数注入进来的。这里所引用的dataSourcebean可以是javax.sql.DataSource的任意实现</p>
+<p>现在，我们可以将jdbcTemplate装配到Repository中并使用它来访问数据库。例如，SpitterRepository使用了JdbcTemplate ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcSpitterRepository</span> <span class="keyword">implements</span> <span class="title">SpitterRepository</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> JdbcOperations jdbcOperations;</span><br><span class="line">  <span class="meta">@Inject</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">JdbcSpitterRepository</span><span class="params">(JdbcOperations jdbcOperations)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.jdbcOperations = jdbcOperations;</span><br><span class="line">  &#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JdbcSpitterRepository类上使用了@Repository注解，这表明它将会在组件扫描的时候自动创建。它的构造器上使用了@Inject注解，因此在创建的时候，会自动获得一个JdbcOperations 对象。 JdbcOperations是一个接口，定义了JdbcTemplate所实现的操作。通过注入JdbcOperations，而不是具体的JdbcTemplate，能够保证JdbcSpitterRepository 通过 JdbcOperations接口达到与JdbcTemplate保持松耦合。</p>
+<p>作为另外一种组件扫描和自动装配的方案，我们可以将JdbcSpitterRepository显式声明为Spring中的bean，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SpitterRepository <span class="title">spitterRepository</span><span class="params">(JdbcTemplate jdbcTemplate)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> JdbcSpitterRepository(jdbcTemplate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Repository中具备可用的JdbcTemplate后，我们可以极大地简化addSpitter()方法。基于JdbcTemplate 的 addSpitter()方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">    jdbcOperations.update(INSERT_SPITTER,	</span><br><span class="line"></span><br><span class="line">        spitter.getUsername(),</span><br><span class="line">        spitter.getPassword(),</span><br><span class="line">        spitter.getFullName(),</span><br><span class="line">        spitter.getEmail(),</span><br><span class="line">        spitter.isUpdateByEmail());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用JdbcTemplate来读取数据">使用JdbcTemplate来读取数据</h4>
+<p>JdbcTemplate也简化了数据的读取操作。程序清单10.8展现了新版本的findOne()方法，它使用了JdbcTemplate的回调，实现根据ID查询Spitter，并将结果集映射为Spitter 对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Spitter <span class="title">findOne</span><span class="params">(<span class="keyword">long</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> jdbcOperations.queryForObject(	</span><br><span class="line">            SELECT_SPITTER_BY_ID, <span class="keyword">new</span> SpitterRowMapper(),</span><br><span class="line">            id	</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SpitterRowMapper</span></span></span><br><span class="line"><span class="class">                    <span class="keyword">implements</span> <span class="title">RowMapper</span>&lt;<span class="title">Spitter</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Spitter <span class="title">mapRow</span><span class="params">(ResultSet rs, <span class="keyword">int</span> rowNum)</span></span></span><br><span class="line"><span class="function">                                   <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Spitter(	</span><br><span class="line">        rs.getLong(<span class="string">&quot;id&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;username&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;password&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;fullName&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;email&quot;</span>),</span><br><span class="line">        rs.getBoolean(<span class="string">&quot;updateByEmail&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个 findOne()方法中使用了JdbcTemplate 的 queryForObject()方法来从数据库查询Spitter 。 queryForObject()方法有三个参数：</p>
+<ul>
+<li>
+<p>String对象，包含了要从数据库中查找数据的SQL；</p>
+</li>
+<li>
+<p>RowMapper对象，用来从ResultSet中提取数据并构建域对象（本例中为Spitter ）；</p>
+</li>
+<li>
+<p>可变参数列表，列出了要绑定到查询上的索引参数值。</p>
+</li>
+</ul>
+<p>真正奇妙的事情发生在SpitterRowMapper对象中，它实现了RowMapper接口。对于查询返回的每一行数据，JdbcTemplate 将会调用 RowMapper 的mapRow()方法，并传入一个ResultSet和包含行号的整数。在SpitterRowMapper 的 mapRow()方法中，我们创建了Spitter 对象并将 ResultSet中的值填充进去。</p>
+<p>就像 addSpitter() 那样， findOne()方法也不用写JDBC模板代码。不同于传统的JDBC，这里没有资源管理或者异常处理代码。使用JdbcTemplate的方法只需关注于如何从数据库中获取Spitter对象即可。</p>
+<blockquote>
+<p>还可以在JdbcTemplate中使用Java 8的Lambda表达式或者JAVA 8 的方法引用，但是我不懂Lambda表达式也不懂方法引用😂</p>
+</blockquote>
+<h4 id="使用命名参数">使用命名参数</h4>
+<p>上面的代码中，addSpitter()方法使用了索引参数。这意味着我们需要留意查询中参数的顺序，在将值传递给update()方法的时候要保持正确的顺序。如果在修改SQL时更改了参数的顺序，那我们还需要修改参数值的顺序。</p>
+<p>除了这种方法之外，我们还可以使用命名参数。命名参数可以赋予SQL中的每个参数一个明确的名字，在绑定值到查询语句的时候就通过该名字来引用参数。</p>
+<p>NamedParameterJdbcTemplate是一个特殊的JDBC模板类，它支持使用命名参数。在Spring中，NamedParameterJdbcTemplate的声明方式与常规的JdbcTemplate几乎完全相同：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> NamedParameterJdbcTemplate <span class="title">jdbcTemplate</span><span class="params">(DataSource dataSource)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> NamedParameterJdbcTemplate(dataSource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，我们将NamedParameterJdbcOperations （ NamedParameterJdbcTemplate所实现的接口）注入到Repository中，用它来替代JdbcOperations 。现在的 addSpitter()方法如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INSERT_SPITTER =</span><br><span class="line">        <span class="string">&quot;insert into Spitter &quot;</span> +</span><br><span class="line">        <span class="string">&quot; (username, password, fullname, email, updateByEmail) &quot;</span> +</span><br><span class="line">        <span class="string">&quot;values &quot;</span> +</span><br><span class="line">        <span class="string">&quot; (:username, :password, :fullname, :email, :updateByEmail)&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; paramMap = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">    paramMap.put(<span class="string">&quot;username&quot;</span>, spitter.getUsername());	</span><br><span class="line">    paramMap.put(<span class="string">&quot;password&quot;</span>, spitter.getPassword());</span><br><span class="line">    paramMap.put(<span class="string">&quot;fullname&quot;</span>, spitter.getFullName());</span><br><span class="line">    paramMap.put(<span class="string">&quot;email&quot;</span>, spitter.getEmail());</span><br><span class="line">    paramMap.put(<span class="string">&quot;updateByEmail&quot;</span>, spitter.isUpdateByEmail());</span><br><span class="line"></span><br><span class="line">    jdbcOperations.update(INSERT_SPITTER, paramMap);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Spring%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E6%BA%90/" rel="prev" title="Spring配置数据源">
+      <i class="fa fa-chevron-left"></i> Spring配置数据源
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Spring-AOP/" rel="next" title="Spring-AOP">
+      Spring-AOP <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8JdbcTemplate%E6%9D%A5%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">使用JdbcTemplate来读取数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E5%90%8D%E5%8F%82%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">使用命名参数</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>

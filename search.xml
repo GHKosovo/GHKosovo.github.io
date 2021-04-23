@@ -2440,4 +2440,209 @@ eg：<code>nohup xxx &amp;</code></p>
         <tag>Java</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Spring-AOP</title>
+    <url>/2020/11/18/Spring-AOP/</url>
+    <content><![CDATA[<h4 id="术语：">术语：</h4>
+<p>通知（advice）、切点（pointcut）、连接点（joinpoint）、切面（aspect）</p>
+<ul>
+<li>
+<p>通知：就是切面的工作，通知定义了切面是什么以及何时使用（应用于某个方法被调用之前？之后？之前和<a id="more"></a>之后都调用还是只有在方法抛出异常时调用）</p>
+</li>
+<li>
+<p>连接点：应用可能有数以千记的时机应用通知。这些时机被称为连接点。连接点是在应用执行过程中能够插入切面的一个点。这个点可以是调用方法时、抛出异常时、甚至修改一个字段时。</p>
+</li>
+<li>
+<p>切点：切点定义了切面在<strong>何处</strong>使用，切点的定义会匹配通知所要织入的一个或者多个连接点。一般用明确的类和方法名称，或者是利用正则表达式定义所匹配得类和方法名称来指定这些切点。</p>
+</li>
+<li>
+<p>切面：切面是通知和切点得结合。通知和切点共同定义了切面得全部内容----它是什么，在何时和何处完成其功能。</p>
+</li>
+</ul>
+<h4 id="Spring提供了四种类型的AOP支持">Spring提供了四种类型的AOP支持</h4>
+<ul>
+<li>基于代理的经典Spring AOP（已弃用）</li>
+<li>纯POJO切面（声明式AOP）</li>
+<li>@AspectJ注解驱动的切面（基于注解的AOP）</li>
+<li>注入式AspectJ切面（适用于Spring 各版本，需要用到AspectJ来编写）</li>
+</ul>
+<blockquote>
+<p>SpringAOP构建在动态代理基础之上，因此，Spring对AOP的支持局限于方法拦截</p>
+</blockquote>
+<blockquote>
+<p>SpringAOP借助于AspectJ，使得它的AOP编写更加简单，更加方便，这里不是用使用AspectJ来写切面（AspectJ是Java语言的扩展，并不是纯Java语言），只是使用AspectJ来驱动而已。</p>
+</blockquote>
+<hr>
+<h4 id="基于注解的AOP">基于注解的AOP</h4>
+<ul>
+<li><strong>AspectJ切面表达式</strong></li>
+</ul>
+<blockquote>
+<p>在切点中定义</p>
+</blockquote>
+<p><img src="https://drek4537l1klr.cloudfront.net/walls5/Figures/04fig04.jpg" alt="img"></p>
+<ul>
+<li>
+<p><strong>使用注解创建切面</strong></p>
+<p><strong>使用注解来声明通知方法</strong></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> concert;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.AfterReturning;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.AfterThrowing;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Audience</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">silenceCellPhones</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Silencing cell phones&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeSeats</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Taking seats&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@AfterReturning(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;CLAP CLAP CLAP!!!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@AfterThrowing(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demandRefund</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Demanding a refund&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>通过使用@Pointcut注解声明频繁使用的切点表达式</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> concert;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.AfterReturning;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.AfterThrowing;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Audience</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Pointcut(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performance</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before(&quot;performance()&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">silenceCellPhones</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Silencing cell phones&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before(&quot;performance()&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeSeats</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Taking seats&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@AfterReturning(&quot;performance()&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;CLAP CLAP CLAP!!!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@AfterThrowing(&quot;performance()&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demandRefund</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Demanding a refund&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>将切面声明为Spring中的bean</strong></li>
+</ul>
+<blockquote>
+<p>在Javaconfig中启用AspectJ注解的自动代理-----@EnableAspectJAutoProxy</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> concert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.EnableAspectJAutoProxy;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableAspectJAutoProxy</span>	</span><br><span class="line"><span class="meta">@ComponentScan</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcertConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Audience <span class="title">audience</span><span class="params">()</span> </span>&#123;	</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Audience();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>在xml中启用AspectJ注解</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="line">  xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">  xmlns:context=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="line">  xmlns:aop=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span>	</span><br><span class="line">  xsi:schemaLocation=<span class="string">&quot;http://www.springframework.org/schema/aop</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/aop/spring-aop.xsd</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/context</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;concert&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">  &lt;aop:aspectj-autoproxy /&gt;	</span><br><span class="line"></span><br><span class="line">  &lt;bean <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;concert.Audience&quot;</span> /&gt;	</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>创建环绕通知</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> concert;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Around;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Audience</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Pointcut(&quot;execution(** concert.Performance.perform(..))&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performance</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Around(&quot;performance()&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">watchPerformance</span><span class="params">(ProceedingJoinPoint jp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;Silencing cell phones&quot;</span>);</span><br><span class="line">      System.out.println(<span class="string">&quot;Taking seats&quot;</span>);</span><br><span class="line">      jp.proceed();</span><br><span class="line">      System.out.println(<span class="string">&quot;CLAP CLAP CLAP!!!&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;Demanding a refund&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>处理通知中的参数</strong></li>
+</ul>
+<blockquote>
+<p>切点表达式导入参数</p>
+</blockquote>
+<p><img src="https://drek4537l1klr.cloudfront.net/walls5/Figures/04fig06_alt.jpg" alt="img"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> soundsystem;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrackCounter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Map&lt;Integer, Integer&gt; trackCounts =</span><br><span class="line">      <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Pointcut(</span></span><br><span class="line"><span class="meta">     &quot;execution(* soundsystem.CompactDisc.playTrack(int)) &quot; +	</span></span><br><span class="line"><span class="meta">     &quot;&amp;&amp; args(trackNumber)&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trackPlayed</span><span class="params">(<span class="keyword">int</span> trackNumber)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before(&quot;trackPlayed(trackNumber)&quot;)</span>	</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">countTrack</span><span class="params">(<span class="keyword">int</span> trackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> currentCount = getPlayCount(trackNumber);</span><br><span class="line">    trackCounts.put(trackNumber, currentCount + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPlayCount</span><span class="params">(<span class="keyword">int</span> trackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> trackCounts.containsKey(trackNumber)</span><br><span class="line">        ? trackCounts.get(trackNumber) : <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="基于xml的AOP">基于xml的AOP</h4>
+<ul>
+<li><strong>创建切面，声明通知方法</strong></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">&quot;audience&quot;</span>&gt;</span>	</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;silenceCellPhones&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;takeSeats&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after-returning</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;applause&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after-throwing</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;demandRefund&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>声明频繁使用的切点表达式</strong></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">&quot;audience&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span>	</span></span><br><span class="line"><span class="tag">        <span class="attr">id</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">expression</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut-ref</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;silenceCellPhones&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut-ref</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;takeSeats&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after-returning</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut-ref</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;applause&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after-throwing</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">pointcut-ref</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">method</span>=<span class="string">&quot;demandRefund&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>声明环绕通知</strong></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">&quot;audience&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span></span></span><br><span class="line"><span class="tag">        <span class="attr">id</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">expression</span>=<span class="string">&quot;execution(** concert.Performance.perform(..))&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:around</span>	</span></span><br><span class="line"><span class="tag">        <span class="attr">pointcut-ref</span>=<span class="string">&quot;performance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">method</span>=<span class="string">&quot;watchPerformance&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引入参数和引入方法等等比较高级的切面，咱先不说了，以后有机会再说吧</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring与JDBC</title>
+    <url>/2020/11/18/Spring%E4%B8%8EJDBC/</url>
+    <content><![CDATA[<p>JDBC的执行流程：</p>
+<p>首先你得先定义一条squary语句，然后才能够开始后面的语句</p>
+<ol>
+<li>引入datasource，通过datasource获取一个连接</li>
+<li>通过这个连接，再获取一个事务（为何要经过事务<a id="more"></a>，我想事务的四个性质已经说的很明显了）</li>
+<li>然后在事务中放入相关的squary语句，然后在事务中再设置参数绑定</li>
+<li>执行事务</li>
+<li>在此过程中，需要捕捉两次异常，一次在插入记录出错时捕捉它，一次在需要关闭语句和连接时捕捉它。</li>
+</ol>
+<p>相关代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_INSERT_SPITTER =</span><br><span class="line"> <span class="string">&quot;insert into spitter (username, password, fullname) values (?, ?, ?)&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> DataSource dataSource;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">  Connection conn = <span class="keyword">null</span>;</span><br><span class="line">  PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    conn = dataSource.getConnection();	</span><br><span class="line">    stmt = conn.prepareStatement(SQL_INSERT_SPITTER);	</span><br><span class="line">    stmt.setString(<span class="number">1</span>, spitter.getUsername());	</span><br><span class="line">    stmt.setString(<span class="number">2</span>, spitter.getPassword());</span><br><span class="line">    stmt.setString(<span class="number">3</span>, spitter.getFullName());</span><br><span class="line">    stmt.execute();	</span><br><span class="line">  &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    <span class="comment">// do something...not sure what, though	</span></span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) &#123;	</span><br><span class="line">        stmt.close();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">        conn.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">      <span class="comment">// I&#x27;m even less sure about what to do here</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>但是JDBC有个缺点，就是它只能捕捉到SQLException异常，就是没办法分类，也就是说，只要是数据库方面出问题，就直接抛出SQLException异常，而不会分析是连接出错，还是语法出错等等等，这样你就无法知道到底是哪里出问题</p>
+<p>但是我们现在可以使用Spring的数据访问异常，他就能够把异常分门别类，前提是需要使用Spring所支持的数据访问模板</p>
+</blockquote>
+<p>由此催生出了JDBC模板</p>
+<table>
+<thead>
+<tr>
+<th>模板类（org.springframework.*）</th>
+<th>用　　途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jca.cci.core.CciTemplate</td>
+<td>JCA CCI连接</td>
+</tr>
+<tr>
+<td>jdbc.core.JdbcTemplate</td>
+<td>JDBC连接</td>
+</tr>
+<tr>
+<td>jdbc.core.namedparam.NamedParameterJdbcTemplate</td>
+<td>支持命名参数的JDBC连接</td>
+</tr>
+<tr>
+<td>jdbc.core.simple.SimpleJdbcTemplate</td>
+<td>通过Java 5简化后的JDBC连接（Spring 3.1中已经废弃）</td>
+</tr>
+<tr>
+<td>orm.hibernate3.HibernateTemplate</td>
+<td>Hibernate 3.x以上的Session</td>
+</tr>
+<tr>
+<td>orm.ibatis.SqlMapClientTemplate</td>
+<td>iBATIS SqlMap客户端</td>
+</tr>
+<tr>
+<td>orm.jdo.JdoTemplate</td>
+<td>Java数据对象（Java Data Object）实现</td>
+</tr>
+<tr>
+<td>orm.jpa.JpaTemplate</td>
+<td>Java持久化API的实体管理器</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Spring 支持的模板</p>
+</blockquote>
+<p>Spring的JDBC框架承担了资源管理和异常处理的工作，从而简化了JDBC代码，让我们只需编写从数据库读写数据的必需代码。</p>
+<p>只有在你需要使用命名参数的时候，才需要使用<code>NamedParameterJdbcTemplate</code> 。，对于大多数的JDBC任务来说，<code>JdbcTemplate</code> 就是最好的可选方案</p>
+<p>为了让<code>JdbcTemplate</code> 正常工作，只需要为其设置<code>DataSource</code> 就可以了，这使得在Spring中配置<code>JdbcTemplate</code> 非常容易</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">jdbcTemplate</span><span class="params">(DataSource dataSource)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里， DataSource是通过构造器参数注入进来的。这里所引用的dataSourcebean可以是javax.sql.DataSource的任意实现</p>
+<p>现在，我们可以将jdbcTemplate装配到Repository中并使用它来访问数据库。例如，SpitterRepository使用了JdbcTemplate ：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcSpitterRepository</span> <span class="keyword">implements</span> <span class="title">SpitterRepository</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> JdbcOperations jdbcOperations;</span><br><span class="line">  <span class="meta">@Inject</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">JdbcSpitterRepository</span><span class="params">(JdbcOperations jdbcOperations)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.jdbcOperations = jdbcOperations;</span><br><span class="line">  &#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JdbcSpitterRepository类上使用了@Repository注解，这表明它将会在组件扫描的时候自动创建。它的构造器上使用了@Inject注解，因此在创建的时候，会自动获得一个JdbcOperations 对象。 JdbcOperations是一个接口，定义了JdbcTemplate所实现的操作。通过注入JdbcOperations，而不是具体的JdbcTemplate，能够保证JdbcSpitterRepository 通过 JdbcOperations接口达到与JdbcTemplate保持松耦合。</p>
+<p>作为另外一种组件扫描和自动装配的方案，我们可以将JdbcSpitterRepository显式声明为Spring中的bean，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SpitterRepository <span class="title">spitterRepository</span><span class="params">(JdbcTemplate jdbcTemplate)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> JdbcSpitterRepository(jdbcTemplate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Repository中具备可用的JdbcTemplate后，我们可以极大地简化addSpitter()方法。基于JdbcTemplate 的 addSpitter()方法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">    jdbcOperations.update(INSERT_SPITTER,	</span><br><span class="line"></span><br><span class="line">        spitter.getUsername(),</span><br><span class="line">        spitter.getPassword(),</span><br><span class="line">        spitter.getFullName(),</span><br><span class="line">        spitter.getEmail(),</span><br><span class="line">        spitter.isUpdateByEmail());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用JdbcTemplate来读取数据">使用JdbcTemplate来读取数据</h4>
+<p>JdbcTemplate也简化了数据的读取操作。程序清单10.8展现了新版本的findOne()方法，它使用了JdbcTemplate的回调，实现根据ID查询Spitter，并将结果集映射为Spitter 对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Spitter <span class="title">findOne</span><span class="params">(<span class="keyword">long</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> jdbcOperations.queryForObject(	</span><br><span class="line">            SELECT_SPITTER_BY_ID, <span class="keyword">new</span> SpitterRowMapper(),</span><br><span class="line">            id	</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SpitterRowMapper</span></span></span><br><span class="line"><span class="class">                    <span class="keyword">implements</span> <span class="title">RowMapper</span>&lt;<span class="title">Spitter</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Spitter <span class="title">mapRow</span><span class="params">(ResultSet rs, <span class="keyword">int</span> rowNum)</span></span></span><br><span class="line"><span class="function">                                   <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Spitter(	</span><br><span class="line">        rs.getLong(<span class="string">&quot;id&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;username&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;password&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;fullName&quot;</span>),</span><br><span class="line">        rs.getString(<span class="string">&quot;email&quot;</span>),</span><br><span class="line">        rs.getBoolean(<span class="string">&quot;updateByEmail&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个 findOne()方法中使用了JdbcTemplate 的 queryForObject()方法来从数据库查询Spitter 。 queryForObject()方法有三个参数：</p>
+<ul>
+<li>
+<p>String对象，包含了要从数据库中查找数据的SQL；</p>
+</li>
+<li>
+<p>RowMapper对象，用来从ResultSet中提取数据并构建域对象（本例中为Spitter ）；</p>
+</li>
+<li>
+<p>可变参数列表，列出了要绑定到查询上的索引参数值。</p>
+</li>
+</ul>
+<p>真正奇妙的事情发生在SpitterRowMapper对象中，它实现了RowMapper接口。对于查询返回的每一行数据，JdbcTemplate 将会调用 RowMapper 的mapRow()方法，并传入一个ResultSet和包含行号的整数。在SpitterRowMapper 的 mapRow()方法中，我们创建了Spitter 对象并将 ResultSet中的值填充进去。</p>
+<p>就像 addSpitter() 那样， findOne()方法也不用写JDBC模板代码。不同于传统的JDBC，这里没有资源管理或者异常处理代码。使用JdbcTemplate的方法只需关注于如何从数据库中获取Spitter对象即可。</p>
+<blockquote>
+<p>还可以在JdbcTemplate中使用Java 8的Lambda表达式或者JAVA 8 的方法引用，但是我不懂Lambda表达式也不懂方法引用😂</p>
+</blockquote>
+<h4 id="使用命名参数">使用命名参数</h4>
+<p>上面的代码中，addSpitter()方法使用了索引参数。这意味着我们需要留意查询中参数的顺序，在将值传递给update()方法的时候要保持正确的顺序。如果在修改SQL时更改了参数的顺序，那我们还需要修改参数值的顺序。</p>
+<p>除了这种方法之外，我们还可以使用命名参数。命名参数可以赋予SQL中的每个参数一个明确的名字，在绑定值到查询语句的时候就通过该名字来引用参数。</p>
+<p>NamedParameterJdbcTemplate是一个特殊的JDBC模板类，它支持使用命名参数。在Spring中，NamedParameterJdbcTemplate的声明方式与常规的JdbcTemplate几乎完全相同：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> NamedParameterJdbcTemplate <span class="title">jdbcTemplate</span><span class="params">(DataSource dataSource)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> NamedParameterJdbcTemplate(dataSource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，我们将NamedParameterJdbcOperations （ NamedParameterJdbcTemplate所实现的接口）注入到Repository中，用它来替代JdbcOperations 。现在的 addSpitter()方法如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INSERT_SPITTER =</span><br><span class="line">        <span class="string">&quot;insert into Spitter &quot;</span> +</span><br><span class="line">        <span class="string">&quot; (username, password, fullname, email, updateByEmail) &quot;</span> +</span><br><span class="line">        <span class="string">&quot;values &quot;</span> +</span><br><span class="line">        <span class="string">&quot; (:username, :password, :fullname, :email, :updateByEmail)&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; paramMap = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">    paramMap.put(<span class="string">&quot;username&quot;</span>, spitter.getUsername());	</span><br><span class="line">    paramMap.put(<span class="string">&quot;password&quot;</span>, spitter.getPassword());</span><br><span class="line">    paramMap.put(<span class="string">&quot;fullname&quot;</span>, spitter.getFullName());</span><br><span class="line">    paramMap.put(<span class="string">&quot;email&quot;</span>, spitter.getEmail());</span><br><span class="line">    paramMap.put(<span class="string">&quot;updateByEmail&quot;</span>, spitter.isUpdateByEmail());</span><br><span class="line"></span><br><span class="line">    jdbcOperations.update(INSERT_SPITTER, paramMap);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
 </search>
