@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-leaf.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/leaf-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/leaf-16x16-next.png">
+  <link rel="mask-icon" href="/images/leaf-logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Libre Baskerville:300,300italic,400,400italic,700,700italic|Noto Sans SC:300,300italic,400,400italic,700,700italic|Source Sans Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/fancybox/source/jquery.fancybox.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ghkosovo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用MongoDB持久化数据文档 MongoDB是最为流行的开源文档数据库之一。Spring Data MongoDB提供了三种方式在Spring应用中使用MongoDB：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-使用NoSQL数据库">
+<meta property="og:url" content="http://ghkosovo.github.io/2020/11/24/Spring-%E4%BD%BF%E7%94%A8NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name" content="柯索沃の家">
+<meta property="og:description" content="使用MongoDB持久化数据文档 MongoDB是最为流行的开源文档数据库之一。Spring Data MongoDB提供了三种方式在Spring应用中使用MongoDB：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://drek4537l1klr.cloudfront.net/walls5/Figures/12fig02.jpg">
+<meta property="og:image" content="https://drek4537l1klr.cloudfront.net/walls5/Figures/12fig03.jpg">
+<meta property="article:published_time" content="2020-11-23T17:08:32.000Z">
+<meta property="article:modified_time" content="2020-11-23T09:09:11.158Z">
+<meta property="article:author" content="柯索沃">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drek4537l1klr.cloudfront.net/walls5/Figures/12fig02.jpg">
+
+<link rel="canonical" href="http://ghkosovo.github.io/2020/11/24/Spring-%E4%BD%BF%E7%94%A8NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring-使用NoSQL数据库 | 柯索沃の家</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">柯索沃の家</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-diary">
+
+    <a href="/diary/" rel="section"><i class="fa fa-fw fa-calendar"></i>日记</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://ghkosovo.github.io/2020/11/24/Spring-%E4%BD%BF%E7%94%A8NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="柯索沃">
+      <meta itemprop="description" content="生活不止眼前的苟且，还有大海和家">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柯索沃の家">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring-使用NoSQL数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-23 17:08:32 / 修改时间：09:09:11" itemprop="dateCreated datePublished" datetime="2020-11-23T17:08:32Z">2020-11-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="使用MongoDB持久化数据文档">使用MongoDB持久化数据文档</h2>
+<p>MongoDB是最为流行的开源文档数据库之一。Spring Data MongoDB提供了三种方式在Spring应用中使用MongoDB：<a id="more"></a></p>
+<ul>
+<li>通过注解实现对象-文档映射；</li>
+<li>使用 MongoTemplate实现基于模板的数据库访问；</li>
+<li>自动化的运行时Repository生成功能。</li>
+</ul>
+<p>不过，与Spring Data JPA不同的是，Spring Data MongoDB提供了将Java对象映射为文档的功能。除此之外，Spring Data MongoDB为通用的文档操作任务提供了基于模板的数据访问方式。</p>
+<h3 id="启动MongoDB">启动MongoDB</h3>
+<p>为了有效地使用Spring Data MongoDB，我们需要在Spring配置中添加几个必要的bean。首先，我们需要配置MongoClient，以便于访问MongoDB数据库。同时，我们还需要有一个MongoTemplate bean，实现基于模板的数据库访问。此外，不是必须，但是强烈推荐启用Spring Data MongoDB的自动化Repository生成功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.config;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.MongoFactoryBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.MongoOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.MongoTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.repository.config.</span><br><span class="line">                                              EnableMongoRepositories;</span><br><span class="line"><span class="keyword">import</span> com.mongodb.Mongo;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableMongoRepositories(basePackages=&quot;orders.db&quot;)</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MongoConfig</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> MongoFactoryBean <span class="title">mongo</span><span class="params">()</span> </span>&#123;	</span><br><span class="line">      MongoFactoryBean mongo = <span class="keyword">new</span> MongoFactoryBean();</span><br><span class="line">      mongo.setHost(<span class="string">&quot;localhost&quot;</span>);</span><br><span class="line">      <span class="keyword">return</span> mongo;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> MongoOperations <span class="title">mongoTemplate</span><span class="params">(Mongo mongo)</span> </span>&#123;	</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> MongoTemplate(mongo, <span class="string">&quot;OrdersDB&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Repository生成功能。与之类似，@EnableMongoRepositories为MongoDB实现了自动化Repository生成功能；</p>
+<p>第一个@Bean方法使用MongoFactoryBean声明了一个Mongo实例。这个bean将Spring Data MongoDB与数据库本身连接了起来（与使用关系型数据时DataSource所做的事情并没有什么区别）。尽管我们可以使用MongoClient 直接创建 Mongo实例，但如果这样做的话，就必须要处理MongoClient构造器所抛出的UnknownHostException异常。在这里，使用Spring Data MongoDB的MongoFactoryBean更加简单。因为它是一个工厂bean，因此MongoFactoryBean会负责构建Mongo实例，我们不必再担心UnknownHostException 异常。</p>
+<p>另外一个 @Bean方法声明了MongoTemplate bean，在它构造时，使用了其他@Bean方法所创建的Mongo实例的引用以及数据库的名称。稍后，你将会看到如何使用MongoTemplate来查询数据库。即便不直接使用MongoTemplate，我们也会需要这个bean，因为Repository的自动化生成功能在底层使用了它。</p>
+<p>除了直接声明这些bean，我们还可以让配置类扩展AbstractMongo-Configuration 并重载 getDatabaseName() 和 mongo()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.config;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.config.</span><br><span class="line">                                           AbstractMongoConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.repository.config.</span><br><span class="line">                                              EnableMongoRepositories;</span><br><span class="line"><span class="keyword">import</span> com.mongodb.Mongo;</span><br><span class="line"><span class="keyword">import</span> com.mongodb.MongoClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableMongoRepositories(&quot;orders.db&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MongoConfig</span> <span class="keyword">extends</span> <span class="title">AbstractMongoConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> String <span class="title">getDatabaseName</span><span class="params">()</span> </span>&#123;	</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;OrdersDB&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Mongo <span class="title">mongo</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;	</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MongoClient();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个新的配置类与上一个配置类的功能是相同的，只不过在篇幅上更加简洁。最为显著的区别在于这个配置中没有直接声明MongoTemplate bean，当然它还是会被隐式地创建。我们在这里重载了getDatabaseName()方法来提供数据库的名称。mongo()方法依然会创建一个MongoClient的实例，因为它会抛出Exception，所以我们可以直接使用MongoClient，而不必再使用MongoFactoryBean</p>
+<p>MongoDB提供了一个运行配置，也就是说，只要MongoDB服务器运行在本地即可。如果MongoDB服务器运行在其他的机器上，那么可以在创建MongoClient的时候进行指定；另外，MongoDB服务器有可能监听的端口并不是默认的27017。如果是这样的话，在创建MongoClient的时候，还需要指定端口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Mongo <span class="title">mongo</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> MongoClient(<span class="string">&quot;mongodbserver&quot;</span>, <span class="number">37017</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果MongoDB服务器运行在生产配置上，我认为你可能还启用了认证功能。在这种情况下，为了访问数据库，我们还需要提供应用的凭证。访问需要认证的MongoDB服务器稍微有些复杂，如下面的程序清单所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Environment env;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Mongo <span class="title">mongo</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  MongoCredential credential =</span><br><span class="line">    MongoCredential.createMongoCRCredential(	</span><br><span class="line">        env.getProperty(<span class="string">&quot;mongo.username&quot;</span>),</span><br><span class="line">        <span class="string">&quot;OrdersDB&quot;</span>,</span><br><span class="line">        env.getProperty(<span class="string">&quot;mongo.password&quot;</span>).toCharArray());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> MongoClient(	</span><br><span class="line">       <span class="keyword">new</span> ServerAddress(<span class="string">&quot;localhost&quot;</span>, <span class="number">37017</span>),</span><br><span class="line">      Arrays.asList(credential));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了访问需要认证的MongoDB服务器，MongoClient在实例化的时候必须要有一个MongoCredential的列表。为此我们创建了一个MongoCredential。为了将凭证信息的细节放在配置类外边，它们是通过注入的Environment对象解析得到的。</p>
+<h4 id="xml配置">xml配置</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:mongo</span>=<span class="string">&quot;http://www.springframework.org/schema/data/mongo&quot;</span>	</span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/data/mongo</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/data/mongo/spring-mongo.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">mongo:repositories</span> <span class="attr">base-package</span>=<span class="string">&quot;orders.db&quot;</span> /&gt;</span>	</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">mongo:mongo</span> /&gt;</span>	</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;mongoTemplate&quot;</span>	</span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.mongodb.core.MongoTemplate&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;mongo&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;OrdersDB&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>现在Spring Data MongoDB已经配置完成了，我们很快就可以使用它来保存和查询文档了。但首先，需要使用Spring Data MongoDB的对象-文档映射注解为Java领域对象建立到持久化文档的映射关系。</p>
+<p>MongoDB并没有提供对象-文档映射的注解。Spring Data MongoDB填补了这一空白，提供了一些将Java类型映射为MongoDB文档的注解。</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Document</td>
+<td>标示映射到MongoDB文档上的领域对象</td>
+</tr>
+<tr>
+<td>@Id</td>
+<td>标示某个域为ID域</td>
+</tr>
+<tr>
+<td>@DbRef</td>
+<td>标示某个域要引用其他的文档，这个文档有可能位于另外一个数据库中</td>
+</tr>
+<tr>
+<td>@Field</td>
+<td>为文档域指定自定义的元数据</td>
+</tr>
+<tr>
+<td>@Version</td>
+<td>标示某个属性用作版本域</td>
+</tr>
+</tbody>
+</table>
+<p>@Document 和 @Id注解类似于JPA的@Entity 和 @Id注解。我们将会经常使用这两个注解，对于要以文档形式保存到MongoDB数据库的每个Java类型都会使用这两个注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashSet;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.annotation.Id;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.mapping.Document;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.mapping.Field;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Document</span>	</span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Id</span></span><br><span class="line">  <span class="keyword">private</span> String id;	</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Field(&quot;client&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> String customer;	</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> String type;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Collection&lt;Item&gt; items = <span class="keyword">new</span> LinkedHashSet&lt;Item&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getCustomer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> customer;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomer</span><span class="params">(String customer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.customer = customer;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> type;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.type = type;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Collection&lt;Item&gt; <span class="title">getItems</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItems</span><span class="params">(Collection&lt;Item&gt; items)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.items = items;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> id;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，需要注意的是items属性，它指的是订单中具体条目的集合。在传统的关系型数据库中，这些条目将会保存在另外的一个数据库表中，通过外键进行应用，items域上很可能还会使用JPA的@OneToMany注解。但在这里，情形完全不同。它始终回事Order文档中Item列表的一个成员，并且会作为文档中的嵌入元素，当然，如果你想指定Item中的某个域如何持久化到文档中，那么可以为对应的Item 属性添加 @Field注解。不过在本例中，并没有必要这样做。</p>
+<h4 id="使用MongoTemplate访问MongoDB">使用MongoTemplate访问MongoDB</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">MongoOperations mongo;</span><br></pre></td></tr></table></figure>
+<p>注意，在这里我们将MongoTemplate注入到一个类型为MongoOperations的属性中。MongoOperations 是 MongoTemplate所实现的接口，不使用具体实现是一个好的做法，尤其是在注入的时候。</p>
+<p>MongoOperations暴露了多个使用MongoDB文档数据库的方法。在这里，我们不可能讨论所有的方法，但是可以看一下最为常用的几个操作，比如计算文档集合中有多少条文档。使用注入的MongoOperations，我们可以得到Order集合并调用count()来得到数量：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> orderCount = mongo.getCollection(<span class="string">&quot;order&quot;</span>).count();</span><br></pre></td></tr></table></figure>
+<p>现在，假设要保存一个新的Order。为了完成这个任务，我们可以调用save() 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Order order = <span class="keyword">new</span> Order();</span><br><span class="line">... <span class="comment">// set properties and add line items</span></span><br><span class="line">mongo.save(order, <span class="string">&quot;order&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对于更高级的查询，我们需要构造Query对象并将其传递给find()方法。例如，要查找所有client域等于“Chuck Wagon&quot;的订单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Order&gt; chucksOrders = mongo.find(Query.query(</span><br><span class="line">    Criteria.where(<span class="string">&quot;client&quot;</span>).is(<span class="string">&quot;Chuck Wagon&quot;</span>)), Order.class);</span><br></pre></td></tr></table></figure>
+<p>在本例中，用来构造Query对象的Criteria只检查了一个域，但是它也可以用来构造更加有意思的查询。比如，我们想要查询Chuck所有通过Web创建的订单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Order&gt; chucksWebOrders = mongo.find(Query.query(</span><br><span class="line">    Criteria.where(<span class="string">&quot;customer&quot;</span>).is(<span class="string">&quot;Chuck Wagon&quot;</span>)</span><br><span class="line">            .and(<span class="string">&quot;type&quot;</span>).is(<span class="string">&quot;WEB&quot;</span>)), Order.class);</span><br></pre></td></tr></table></figure>
+<p>通常来讲，我们会将MongoOperations注入到自己设计的Repository类中，并使用它的操作来实现Repository方法。但是，如果你不愿意编写Repository的话，那么Spring Data MongoDB能够自动在运行时生成Repository实现。下面，我们来看一下是如何实现的。</p>
+<h4 id="编写MongoDB-Responsitory">编写MongoDB Responsitory</h4>
+<p>我们已经通过@EnableMongoRepositories注解启用了Spring Data MongoDB的Repository功能，接下来需要做的就是创建一个接口，Repository实现要基于这个接口来生成。不过，在这里，我们不再扩展JpaRepository，而是要扩展MongoRepository。如下程序清单中的OrderRepository 扩展了 MongoRepository ，为 Order文档提供了基本的CRUD操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.db;</span><br><span class="line"><span class="keyword">import</span> orders.Order;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.repository.MongoRepository;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderRepository</span></span></span><br><span class="line"><span class="class">         <span class="keyword">extends</span> <span class="title">MongoRepository</span>&lt;<span class="title">Order</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MongoRepository接口有两个参数，第一个是带有@Document注解的对象类型，也就是该Repository要处理的类型。第二个参数是带有@Id注解的属性类型。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>long count();</td>
+<td>返回指定Repository类型的文档数量</td>
+</tr>
+<tr>
+<td>void delete(Iterable&lt;? extends T);</td>
+<td>删除与指定对象关联的所有文档</td>
+</tr>
+<tr>
+<td>void delete(T);</td>
+<td>删除与指定对象关联的文档</td>
+</tr>
+<tr>
+<td>void delete(ID);</td>
+<td>根据ID删除某一个文档</td>
+</tr>
+<tr>
+<td>void deleteAll();</td>
+<td>删除指定Repository类型的所有文档</td>
+</tr>
+<tr>
+<td>boolean exists(Object);</td>
+<td>如果存在与指定对象相关联的文档，则返回true</td>
+</tr>
+<tr>
+<td>boolean exists(ID);</td>
+<td>如果存在指定ID的文档，则返回true</td>
+</tr>
+<tr>
+<td>List<T> findAll();</td>
+<td>返回指定Repository类型的所有文档</td>
+</tr>
+<tr>
+<td>List<T> findAll(Iterable<ID>);</td>
+<td>返回指定文档ID对应的所有文档</td>
+</tr>
+<tr>
+<td>List<T> findAll(Pageable);</td>
+<td>为指定的Repository类型，返回分页且排序的文档列表</td>
+</tr>
+<tr>
+<td>List<T> findAll(Sort);</td>
+<td>为指定的Repository类型，返回排序后的所有文档列表</td>
+</tr>
+<tr>
+<td>T findOne(ID);</td>
+<td>为指定的ID返回单个文档</td>
+</tr>
+<tr>
+<td>Save( terable<s>) ;</td>
+<td>保存指定Iterable中的所有文档</td>
+</tr>
+<tr>
+<td>save ( &lt; S &gt; );</td>
+<td>为给定的对象保存一条文档</td>
+</tr>
+</tbody>
+</table>
+<p>表中的方法使用了传递进来和方法返回的泛型。OrderRepository 扩展了 MongoRepository&lt;Order, String&gt; ，那么 T 就映射为 Order ， ID 映射为 String ，而 S映射为所有扩展Order 的类型。</p>
+<h5 id="添加自定义的查询方法">添加自定义的查询方法</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderRepository</span></span></span><br><span class="line"><span class="class">         <span class="keyword">extends</span> <span class="title">MongoRepository</span>&lt;<span class="title">Order</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomer</span><span class="params">(String c)</span></span>;</span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomerLike</span><span class="params">(String c)</span></span>;</span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomerAndType</span><span class="params">(String c, String t)</span></span>;</span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomerLikeAndType</span><span class="params">(String c, String t)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里我们有四个新的方法，每一个都是查找满足特定条件的Order对象。其中第一个用来获取customer属性等于传入值的Order列表；第二个方法获取customer属性like传入值的Order列表；接下来方法会返回customer 和 type属性等于传入值的Order对象；最后一个方法与前一个类似，只不过customer在对比的时候使用的是like 而不是 equals 。</p>
+<p>具体详情请参考–》[美] Craig Walls. Spring实战（第4版） (Kindle 位置 5806-5809). 人民邮电出版社. Kindle 版本.</p>
+<h5 id="指定查询">指定查询</h5>
+<p>@Query能够像在JPA中那样用在MongoDB上。唯一的区别在于针对MongoDB时，@Query会接受一个JSON查询，而不是JPA查询。</p>
+<p>例如，假设我们想要查询给定类型的订单，并且要求customer的名称为“Chuck Wagon”。OrderRepository中如下的方法声明能够完成所需的任务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query(&quot;&#123;&#x27;customer&#x27;: &#x27;Chuck Wagon&#x27;, &#x27;type&#x27; : ?0&#125;&quot;)</span></span><br><span class="line"><span class="function">List&lt;Order&gt; <span class="title">findChucksOrders</span><span class="params">(String t)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>@Query中给定的JSON将会与所有的Order文档进行匹配，并返回匹配的文档。需要注意的是，type属性映射成了“?0”，这表明type属性应该与查询<strong>方法(findChucksOrders)的第零个参数</strong>相等。如果有多个参数的话，它们可以通过“?1”、“?2”等方式进行引用。</p>
+<h5 id="混合自定义的功能">混合自定义的功能</h5>
+<p>之前，我们学习了如何将完全自定义的方法混合到自动生成的Repository中。对于JPA来说，这还涉及到创建一个中间接口来声明自定义的方法，为这些自定义方法创建实现类并修改自动化的Repository接口，使其扩展中间接口。对于Spring Data MongoDB来说，这些步骤都是相同的。</p>
+<blockquote>
+<p>具体详情请参考–》[美] Craig Walls. Spring实战（第4版） (Kindle 位置 5829-5832). 人民邮电出版社. Kindle 版本.</p>
+</blockquote>
+<hr>
+<h2 id="使用Neo4j操作图数据">使用Neo4j操作图数据</h2>
+<p>Spring Data Neo4j提供了很多与Spring Data JPA和Spring Data MongoDB相同的功能，当然所针对的是Neo4j图数据库。它提供了将Java对象映射到节点和关联关系的注解、面向模板的Neo4j访问方式以及Repository实现的自动化生成功能。</p>
+<p>配置Spring Data Neo4j的关键在于声明GraphDatabaseService bean和启用Neo4j Repository自动生成功能。如下的程序清单展现了Spring Data Neo4j所需的基本配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.config;</span><br><span class="line"><span class="keyword">import</span> org.neo4j.graphdb.GraphDatabaseService;</span><br><span class="line"><span class="keyword">import</span> org.neo4j.graphdb.factory.GraphDatabaseFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.config.EnableNeo4jRepositories;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.config.Neo4jConfiguration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableNeo4jRepositories(basePackages=&quot;orders.db&quot;)</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Neo4jConfig</span> <span class="keyword">extends</span> <span class="title">Neo4jConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Neo4jConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    setBasePackage(<span class="string">&quot;orders&quot;</span>);	</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean(destroyMethod=&quot;shutdown&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> GraphDatabaseService <span class="title">graphDatabaseService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> GraphDatabaseFactory()</span><br><span class="line">              .newEmbeddedDatabase(<span class="string">&quot;/tmp/graphdb&quot;</span>);	</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@EnableNeo4jRepositories注解能够让Spring Data Neo4j自动生成Neo4j Repository实现。它的basePackages属性设置为orders.db包，这样它就会扫描这个包来查找（直接或间接）扩展Repository标记接口的其他接口。</p>
+<p>Neo4jConfig 扩展自 Neo4jConfiguration，后者提供了多个便利的方法来配置Spring Data Neo4j。在这些方法中，就包括setBasePackage() ，它会在 Neo4jConfig的构造器中调用，用来告诉Spring Data Neo4j要在orders包中查找模型类。</p>
+<p>这个拼图的最后一部分是定义GraphDatabaseServicebean。在本例中，graphDatabaseService() 方法使用 GraphDatabaseFactory来创建嵌入式的Neo4j数据库。在Neo4j中，嵌入式数据库不要与内存数据库相混淆。在这里，“嵌入式”指的是数据库引擎与应用运行在同一个JVM中，作为应用的一部分，而不是独立的服务器。数据依然会持久化到文件系统中（在本例中，也就是“/tmp/graphdb”中）。</p>
+<p>作为另外的一种方式，你可能会希望配置GraphDatabaseService连接远程的Neo4j服务器。如果spring-data-neo4j-rest库在应用的类路径下，那么我们就可以配置SpringRestGraphDatabase，它会通过RESTful API来访问远程的Neo4j数据库：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(destroyMethod=&quot;shutdown&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> GraphDatabaseService <span class="title">graphDatabaseService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> SpringRestGraphDatabase(</span><br><span class="line">      <span class="string">&quot;http://graphdbserver:7474/db/data/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如上所示，SpringRestGraphDatabase在配置时，假设远程的数据库并不需要认证。但是，在生产环境的配置中，当创建SpringRestGraphDatabase的时候，我们可能希望提供应用的凭证：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(destroyMethod=&quot;shutdown&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> GraphDatabaseService <span class="title">graphDatabaseService</span><span class="params">(Environment env)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> SpringRestGraphDatabase(</span><br><span class="line">      <span class="string">&quot;http://graphdbserver:7474/db/data/&quot;</span>,</span><br><span class="line">      env.getProperty(<span class="string">&quot;db.username&quot;</span>), env.getProperty(<span class="string">&quot;db.password&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，凭证是通过注入的Environment获取到的，避免了在配置类中的硬编码。 Spring Data Neo4j同时还提供了XML命名空间。如果你更愿意在XML中配置Spring Data Neo4j的话，那可以使用该命名空间中的&lt;neo4j:config&gt; 和 &lt;neo4j:repositories&gt;元素。在功能上，与Java配置是相同的。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:neo4j</span>=<span class="string">&quot;http://www.springframework.org/schema/data/neo4j&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/data/neo4j</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/data/neo4j/spring-neo4j.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">neo4j:config</span>	</span></span><br><span class="line"><span class="tag">      <span class="attr">storeDirectory</span>=<span class="string">&quot;/tmp/graphdb&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">base-package</span>=<span class="string">&quot;orders&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">neo4j:repositories</span> <span class="attr">base-package</span>=<span class="string">&quot;orders.db&quot;</span> /&gt;</span>	</span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果要配置Spring Data Neo4j访问远程的Neo4j服务器，我们所需要做的就是声明SpringRestGraphDatabasebean，并设置<a href="neo4j:config">neo4j:config</a> 的 graphDatabaseService 属性：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">neo4j:config</span> <span class="attr">base-package</span>=<span class="string">&quot;orders&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">graphDatabaseService</span>=<span class="string">&quot;graphDatabaseService&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;graphDatabaseService&quot;</span> <span class="attr">class</span>=</span></span><br><span class="line"><span class="tag">        &quot;<span class="attr">org.springframework.data.neo4j.rest.SpringRestGraphDatabase</span>&quot;&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;http://graphdbserver:7474/db/data/&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;db.username&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;db.password&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="使用注解标注图实体">使用注解标注图实体</h4>
+<p>Neo4j定义了两种类型的实体：节点（node）和关联关系（relationship）。一般来讲，节点反映了应用中的事物，而关联关系定义了这些事物是如何联系在一起的。</p>
+<p>Spring Data Neo4j提供了多个注解，它们可以应用在模型类型及其域上，实现Neo4j中的持久化。</p>
+<table>
+<thead>
+<tr>
+<th>注　　解</th>
+<th>描　　述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@NodeEntity</td>
+<td>将Java类型声明为节点实体</td>
+</tr>
+<tr>
+<td>@RelationshipEntity</td>
+<td>将Java类型声明为关联关系实体</td>
+</tr>
+<tr>
+<td>@StartNode</td>
+<td>将某个属性声明为关联关系实体的开始节点</td>
+</tr>
+<tr>
+<td>@EndNode</td>
+<td>将某个属性声明为关联关系实体的结束节点</td>
+</tr>
+<tr>
+<td>@Fetch</td>
+<td>将实体的属性声明为立即加载</td>
+</tr>
+<tr>
+<td>@GraphId</td>
+<td>将某个属性设置为实体的ID域（这个域的类型必须是 Long</td>
+</tr>
+<tr>
+<td>@GraphProperty</td>
+<td>明确声明某个属性</td>
+</tr>
+<tr>
+<td>@GraphTraversal</td>
+<td>声明某个属性会自动提供一个iterable元素，这个元素是图遍历所构建的</td>
+</tr>
+<tr>
+<td>@Indexed</td>
+<td>声明某个属性应该被索引</td>
+</tr>
+<tr>
+<td>@Labels</td>
+<td>为@NodeEntity声明标签</td>
+</tr>
+<tr>
+<td>@Query</td>
+<td>声明某个属性会自动提供一个iterable元素，这个元素是执行给定的Cypher查询所构建的</td>
+</tr>
+<tr>
+<td>@QueryResult</td>
+<td>声明某个Java或接口能够持有查询的结果</td>
+</tr>
+<tr>
+<td>@RelatedTo</td>
+<td>通过某个属性，声明当前的 @NodeEntity与另外一个@NodeEntity之间的关联关系</td>
+</tr>
+<tr>
+<td>@RelatedToVia</td>
+<td>在  @NodeEntity上声明某个属性，指定其引用该节点所属的某一个@RelationshipEntity</td>
+</tr>
+<tr>
+<td>@RelationshipType</td>
+<td>将某个域声明为关联实体类型</td>
+</tr>
+<tr>
+<td>@ResultColumn</td>
+<td>在带有@QueryResult注解的类型上，将某个属性声明为获取查询结果集中的某个特定列</td>
+</tr>
+</tbody>
+</table>
+<p>为了了解如何使用其中的某些注解，我们会将其应用到订单/条目样例中。 在该样例中，数据建模的一种方式就是将订单设定为一个节点，它会与一个或多个条目关联。图12.2以图的形式描述了这种模型。</p>
+<p><img src="https://drek4537l1klr.cloudfront.net/walls5/Figures/12fig02.jpg" alt="图12.2"></p>
+<p>图12.2　连接两个节点的简单关联关系，关系本身不包含任何属性</p>
+<p>为了将订单指定为节点，我们需要为Order 类添加 @NodeEntity注解。如下的程序清单展现了带有@NodeEntity 注解的 Order类，它还包含了表12.3中的几个其他注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.GraphId;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.NodeEntity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.RelatedTo;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NodeEntity</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@GraphId</span>	</span><br><span class="line">  <span class="keyword">private</span> Long id;</span><br><span class="line">  <span class="keyword">private</span> String customer;</span><br><span class="line">  <span class="keyword">private</span> String type;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RelatedTo(type=&quot;HAS_ITEMS&quot;)</span>	</span><br><span class="line">  <span class="keyword">private</span> Set&lt;Item&gt; items = <span class="keyword">new</span> LinkedHashSet&lt;Item&gt;();</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了类级别上的@NodeEntity，还要注意id属性上使用了@GraphId注解。Neo4j上的所有实体必要要有一个图ID。这大致类似于JPA @Entity以及MongoDB @Document 类中使用 @Id注解的属性。在这里，@GraphId注解标注的属性必须是Long 类型。</p>
+<p>customer 和 type属性上没有任何注解。只要这些属性不是瞬态的，它们都会成为数据库中节点的属性。</p>
+<p>items属性上使用了@RelatedTo注解，这表明Order 与一个 Item 的 Set存在关联关系。type属性实际上就是为关联关系建立了一个文本标记。它可以设置成任意的值，但通常会给定一个易于人类阅读的文本，用来简单描述这个关联关系的特征。稍后，你将会看到如何将这个标记用在查询中，实现跨关联关系的查询。</p>
+<p>就 Item本身来说，下面展现了如何为其添加注解实现图的持久化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.GraphId;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.NodeEntity;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NodeEntity</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@GraphId</span>	</span><br><span class="line">  <span class="keyword">private</span> Long id;</span><br><span class="line">  <span class="keyword">private</span> String product;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> quantity;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>类似于 Order ， Item 也使用了 @NodeEntity注解，将其标记为一个节点。它同时也有一个Long类型的属性，借助@GraphId注解将其标注为节点的图ID，而product 、 price 以及 quantity属性均会作为图数据库中节点的属性。</p>
+<p>Order 和 Item之间的关联关系很简单，关系本身并不包含任何的数据。因此，@RelatedTo注解就足以定义关联关系。但是，并不是所有的关联关系都这么简单。</p>
+<p>让我们重新考虑该如何为数据建模，从而学习如何使用更为复杂的关联关系。在当前的数据模型中，我们将条目和产品的信息组合到了Item类中。但是，当我们重新考虑的时候，会发现订单会与一个或多个产品相关联。订单与产品之间的关系构成了订单的一个条目。图12.3描述了另外一种在图中建模数据的方式。</p>
+<p><img src="https://drek4537l1klr.cloudfront.net/walls5/Figures/12fig03.jpg" alt="图12.3"></p>
+<p>图12.3　关联关系实体自身具有属性</p>
+<p>在这个新的模型中，订单中产品的数量是条目中的一个属性，而产品本身是另外一个概念。与前面一样，订单和产品都是节点，而条目是关联关系。因为现在的条目必须要包含一个数量值，关联关系不像前面那么简单。我们需要定义一个类来代表条目，比如如下程序清单所示的LineItem 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.EndNode;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.GraphId;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.RelationshipEntity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.annotation.StartNode;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RelationshipEntity(type=&quot;HAS_LINE_ITEM_FOR&quot;)</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineItem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@GraphId</span>	</span><br><span class="line">  <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@StartNode</span>	</span><br><span class="line">  <span class="keyword">private</span> Order order;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@EndNode</span>	</span><br><span class="line">  <span class="keyword">private</span> Product product;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> quantity;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Order类通过@NodeEntity注解将其标示为一个节点，而LineItem类则使用了@RelationshipEntity 注解。 LineItem同样也有一个id属性标注了@GraphId注解，不管是节点实体还是关联关系实体，都必须要有一个图ID，而且其类型必须为Long 。</p>
+<p>关联关系实体的特殊之处在于它们连接了两个节点。@StartNode 和 @EndNode注解用在定义关联关系两端的属性上。在本例中，Order是开始节点，Product是结束节点。</p>
+<p>最后， LineItem 类有一个 quantity属性，当关联关系创建的时候，它会持久化到数据库中。</p>
+<p>领域对象已经添加了注解，现在就可以保存与读取节点和关联关系了。我们首先看一下如何使用Spring Data Neo4j中的Neo4jTemplate实现面向模板的数据访问。</p>
+<h4 id="使用Neo4jTemplate">使用Neo4jTemplate</h4>
+<p>Spring Data MongoDB提供了MongoTemplate实现基于模板的MongoDB持久化，与之类似，Spring Data Neo4j提供了Neo4jTemplate来操作Neo4j图数据库中的节点和关联关系。如果你已经按照前面的方式配置了Spring Data Neo4j，在Spring应用上下文中就已经具备了一个Neo4jTemplatebean。接下来需要做的就是将其注入到任意想使用它的地方。</p>
+<p>Spring Data MongoDB提供了MongoTemplate实现基于模板的MongoDB持久化，如果你已经按照前面的方式配置了Spring Data Neo4j，在Spring应用上下文中就已经具备了一个Neo4jTemplatebean。接下来需要做的就是将其注入到任意想使用它的地方。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Neo4jOperations neo4j;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>我们想借助Neo4jTemplate完成的最基本的一件事情可能就是将某个对象保存为节点。假设这个对象已经使用了@NodeEntity注解，那么我们可以按照如下的方式来使用save() 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Order order = ...;</span><br><span class="line">Order savedOrder = neo4j.save(order);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="创建自动化的Neo4j-Respository">创建自动化的Neo4j Respository</h4>
+<p>我们已经将@EnableNeo4jRepositories添加到了配置中，所以Spring Data Neo4j已经配置为支持自动化生成Repository的功能。我们所需要做的就是编写接口，如下的OrderRepository就是很好的起点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.db;</span><br><span class="line"><span class="keyword">import</span> orders.Order;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.repository.GraphRepository;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderRepository</span> <span class="keyword">extends</span> <span class="title">GraphRepository</span>&lt;<span class="title">Order</span>&gt; </span>&#123;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>与其他的Spring Data项目一样，Spring Data Neo4j会为扩展Repository接口的其他接口生成Repository方法实现。在本例中，OrderRepository 扩展了 GraphRepository，而后者又间接扩展了Repository接口。因此，Spring Data Neo4j将会在运行时创建OrderRepository 的实现。</p>
+<p>注意， GraphRepository 使用 Order进行了参数化，也就是这个Repository所要使用的实体类型。因为Neo4j要求图ID的类型为Long，因此在扩展GraphRepository的时候，没有必要再去指定ID类型。</p>
+<p>现在，我们就能够使用很多通用的CRUD操作，这与JpaRepository 和 MongoRepository所提供的功能类似。表12.4描述了扩展GraphRepository所能够得到的方法。</p>
+<p>表12.4　通过扩展GraphRepository，Repository接口能够继承多个CRUD操作，它们会由Spring Data Neo4j自动实现</p>
+<table>
+<thead>
+<tr>
+<th>方　　法</th>
+<th>描　　述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>long count();</td>
+<td>返回在数据库中，目标类型有多少实体</td>
+</tr>
+<tr>
+<td>void delete(Iterable&lt;?extendsT&gt;);</td>
+<td>删除多个实体</td>
+</tr>
+<tr>
+<td>void delete(Long id);</td>
+<td>根据ID，删除一个实体</td>
+</tr>
+<tr>
+<td>void delete(T);</td>
+<td>删除一个实体</td>
+</tr>
+<tr>
+<td>void deleteAll();</td>
+<td>删除目标类型的所有实体</td>
+</tr>
+<tr>
+<td>boolean exists(Long id);</td>
+<td>根据指定的ID，检查实体是否存在</td>
+</tr>
+<tr>
+<td>EndResult<T> findAll();</td>
+<td>获取目标类型的所有实体</td>
+</tr>
+<tr>
+<td>Iterable<T> findAll(Iterable<Long>);</td>
+<td>根据给定的ID，获取目标类型的实体</td>
+</tr>
+<tr>
+<td>Page<T> findAll(Pageable);</td>
+<td>返回目标类型分页和排序后的实体列表</td>
+</tr>
+<tr>
+<td>EndResult<T> findAll(Sort);</td>
+<td>返回目标类型排序后的实体列表</td>
+</tr>
+<tr>
+<td>EndResult<T> findAllBySchemaPropertyValue(String,Object);</td>
+<td>返回指定属性匹配给定值的所有实体</td>
+</tr>
+<tr>
+<td>Iterable<T> findAllByTraversal(N, TraversalDescription);</td>
+<td>返回从某个节点开始，图遍历到达的节点</td>
+</tr>
+<tr>
+<td>T findBySchemaPropertyValue (String,Object);</td>
+<td>返回指定属性匹配给定值的一个实体</td>
+</tr>
+<tr>
+<td>T findOne(Long);</td>
+<td>根据ID，获得某一个实体</td>
+</tr>
+<tr>
+<td>EndResult<T> query(String, Map&lt;String,Object&gt;);</td>
+<td>返回匹配给定Cypher查询的所有实体</td>
+</tr>
+<tr>
+<td>Iterable<T> save(Iterable<T>);</td>
+<td>保存多个实体</td>
+</tr>
+<tr>
+<td>S save(S);</td>
+<td>保存一个实体</td>
+</tr>
+</tbody>
+</table>
+<p>如下的代码能够保存一个Order 实体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Order savedOrder = orderRepository.save(order);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>当实体保存之后，save()方法将会返回被保存的实体，如果之前它使用@GraphId注解的属性值为null的话，此时这个属性将会填充上值。</p>
+<h5 id="添加查询方法">添加查询方法</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> orders.db;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> orders.Order;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.neo4j.repository.GraphRepository;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderRepository</span> <span class="keyword">extends</span> <span class="title">GraphRepository</span>&lt;<span class="title">Order</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomer</span><span class="params">(String customer)</span></span>;	</span><br><span class="line">  <span class="function">List&lt;Order&gt; <span class="title">findByCustomerAndType</span><span class="params">(String customer, String type)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，我们添加了两个方法。其中一个会查询customer属性等于给定String 值的 Order节点。另外一个方法与之类似，但是除了匹配customer属性以外，Order 节点的 type属性必须还要等于给定的类型值。</p>
+<p>我们之前已经讨论过查询方法的命名约定，所以这里没有必要再进行深入地讨论。可以翻看之前学习Spring Data JPA的章节，重新温习如何编写这些方法。</p>
+<h5 id="指定自定义查询">指定自定义查询</h5>
+<p>当命名约定无法满足需求时，我们还可以为方法添加@Query注解，为其指定自定义的查询。我们之前已经见过@Query注解。MongoDB中，我们使用它来指定匹配JSON的查询。但是，在使用Spring Data Neo4j的时候，我们必须指定Cypher查询：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query(&quot;match (o:Order)-[:HAS_ITEMS]-&gt;(i:Item) &quot; +</span></span><br><span class="line"><span class="meta">       &quot;where i.product=&#x27;Spring in Action&#x27; return o&quot;)</span></span><br><span class="line"><span class="function">List&lt;Order&gt; <span class="title">findSiAOrders</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>在这里， findSiAOrders()方法上使用了@Query注解，并设置了一个Cypher查询，它会查找与Item 关联并且 product属性等于“Spring in Action”的所有Order 节点。</p>
+<h5 id="混合自定义的Responsitory">混合自定义的Responsitory</h5>
+<blockquote>
+<p>具体内容参考–》[美] Craig Walls. Spring实战（第4版） (Kindle位置6100). 人民邮电出版社. Kindle 版本.</p>
+</blockquote>
+<h2 id="使用Redis操作key-value数据">使用Redis操作key-value数据</h2>
+<p>Redis是一种特殊类型的数据库，它被称之为key-value存储。顾名思义，key-value存储保存的是键值对。实际上，key-value存储与哈希Map有很大的相似性。可以不太夸张地说，它们就是持久化的哈希Map。</p>
+<p>当你思考这一点的时候，可能会意识到，对于哈希Map或者key-value存储来说，其实并没有太多的操作。我们可以将某个value存储到特定的key上，并且能够根据特定key，获取value。差不多也就是这样了。因此，Spring Data的自动Repository生成功能并没有应用到Redis上。不过，Spring Data的另外一个关键特性，也就是面向模板的数据访问，能够在使用Redis的时候，为我们提供帮助。</p>
+<p>Spring Data Redis包含了多个模板实现，用来完成Redis数据库的数据存取功能。</p>
+<h3 id="连接到Redis">连接到Redis</h3>
+<p>Redis连接工厂会生成到Redis数据库服务器的连接。Spring Data Redis为四种Redis客户端实现提供了连接工厂：</p>
+<ul>
+<li>JedisConnectionFactory</li>
+<li>JredisConnectionFactory</li>
+<li>LettuceConnectionFactory</li>
+<li>SrpConnectionFactory</li>
+</ul>
+<p>配置JedisConnectionFactory bean:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisCF</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  JedisConnectionFactory cf = <span class="keyword">new</span> JedisConnectionFactory();</span><br><span class="line">  cf.setHostName(<span class="string">&quot;redis-server&quot;</span>);</span><br><span class="line">  cf.setPort(<span class="number">7379</span>);</span><br><span class="line">  cf.setPassword(<span class="string">&quot;foobared&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> cf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="使用RedisTemplate">使用RedisTemplate</h3>
+<p>顾名思义，Redis连接工厂会生成到Redis key-value存储的连接（以RedisConnection的形式）。借助RedisConnection，可以存储和读取数据。例如，我们可以获取连接并使用它来保存一个问候信息，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RedisConnectionFactory cf = ...;</span><br><span class="line">RedisConnection conn = cf.getConnection();</span><br><span class="line">conn.set(<span class="string">&quot;greeting&quot;</span>.getBytes(), <span class="string">&quot;Hello World&quot;</span>.getBytes());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>与之类似，我们还可以使用RedisConnection来获取之前存储的问候信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] greetingBytes = conn.get(<span class="string">&quot;greeting&quot;</span>.getBytes());</span><br><span class="line">String greeting = <span class="keyword">new</span> String(greetingBytes);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>为了不直接使用字节数组，与其他的Spring Data项目类似，Spring Data Redis以模板的形式提供了较高等级的数据访问方案。实际上，Spring Data Redis提供了两个模板：</p>
+<ul>
+<li>RedisTemplate</li>
+<li>StringRedisTemplate</li>
+</ul>
+<p>RedisTemplate可以极大地简化Redis数据访问，能够让我们持久化各种类型的key和value，并不局限于字节数组。在认识到key和value通常是String类型之后，StringRedisTemplate 扩展了 RedisTemplate ，只关注 String 类型。</p>
+<p>假设我们已经有RedisConnectionFactory,那么可以这样构造RedisTemplate:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RedisConnectionFactory cf = ...;</span><br><span class="line">RedisTemplate&lt;String, Product&gt; redis =</span><br><span class="line">    <span class="keyword">new</span> RedisTemplate&lt;String, Product&gt;();</span><br><span class="line">redis.setConnectionFactory(cf);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意， RedisTemplate使用两个类型进行了参数化。第一个是key的类型，第二个是value的类型。在这里所构建的RedisTemplate中，将会保存Product对象作为value，并将其赋予一个String类型的key。</p>
+<p>如果你所使用的value和key都是String类型，那么可以考虑使用StringRedisTemplate 来代替 RedisTemplate ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RedisConnectionFactory cf = ...;</span><br><span class="line">StringRedisTemplate redis = <span class="keyword">new</span> StringRedisTemplate(cf);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意，与 RedisTemplate 不同， StringRedisTemplate有一个接受RedisConnectionFactory的构造器，因此没有必要在构建后再调用setConnectionFactory() 。</p>
+<p>尽管这并非必须的，但是如果你经常使用RedisTemplate 或 StringRedisTemplate的话，你可以考虑将其配置为bean，然后注入到需要的地方。如下就是一个声明RedisTemplate</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RedisTemplate&lt;String, Product&gt;</span><br><span class="line">                            redisTemplate(RedisConnectionFactory cf) &#123;</span><br><span class="line">  RedisTemplate&lt;String, Product&gt; redis =</span><br><span class="line">      <span class="keyword">new</span> RedisTemplate&lt;String, Product&gt;();</span><br><span class="line">  redis.setConnectionFactory(cf);</span><br><span class="line">  <span class="keyword">return</span> redis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如下是声明StringRedisTemplate bean的@Bean 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> StringRedisTemplate</span><br><span class="line">                      stringRedisTemplate(RedisConnectionFactory cf) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> StringRedisTemplate(cf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了 RedisTemplate （或 StringRedisTemplate）之后，我们就可以开始保存、获取以及删除key-value条目了。RedisTemplate的大多数操作都是表12.5中的子API提供的。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方　　法</th>
+<th style="text-align:center">子API接口</th>
+<th style="text-align:center">描　　述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">opsForValue()</td>
+<td style="text-align:center">ValueOperations&lt;K, V&gt;</td>
+<td style="text-align:center">操作具有简单值的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">opsForList()</td>
+<td style="text-align:center">ListOperations&lt;K, V&gt;</td>
+<td style="text-align:center">操作具有list值的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">opsForSet()</td>
+<td style="text-align:center">SetOperations&lt;K, V&gt;</td>
+<td style="text-align:center">操作具有set值的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">opsForZSet()</td>
+<td style="text-align:center">ZSetOperations&lt;K, V&gt;</td>
+<td style="text-align:center">操作具有ZSet值（排序的set）的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">opsForHash()</td>
+<td style="text-align:center">HashOperations&lt;K, HK, HV&gt;</td>
+<td style="text-align:center">操作具有hash值的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">boundValueOps(K)</td>
+<td style="text-align:center">BoundValueOperations&lt;K,V&gt;</td>
+<td style="text-align:center">以绑定指定key的方式，操作具有简单值的条目</td>
+</tr>
+<tr>
+<td style="text-align:center">boundListOps(K)</td>
+<td style="text-align:center">BoundListOperations&lt;K,V&gt;</td>
+<td style="text-align:center">以绑定指定key的方式，操作具有list值的条目</td>
+</tr>
+</tbody>
+</table>
+<p>表中的子API能够通过RedisTemplate（和 StringRedis-Template）进行调用。其中每个子API都提供了使用数据条目的操作，基于value中所包含的是单个值还是一个值的集合它们会有所差别。</p>
+<h4 id="使用简单的值">使用简单的值</h4>
+<p>假设我们想通过RedisTemplate&lt;String, Product&gt; 保存 Product，其中key是sku属性的值。如下的代码片段展示了如何借助opsForValue()方法完成该功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.opsForValue().set(product.getSku(), product);</span><br></pre></td></tr></table></figure>
+<h4 id="使用List类型的值">使用List类型的值</h4>
+<p>使用List类型的value与之类似，只需使用opsForList()方法即可。例如，我们可以在一个List类型的条目尾部添加一个值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.opsForList().rightPush(<span class="string">&quot;cart&quot;</span>, product);</span><br></pre></td></tr></table></figure>
+<h3 id="使用key和value的序列化器">使用key和value的序列化器</h3>
+<p>当某个条目保存到Redis key-value存储的时候，key和value都会使用Redis的序列化器（serializer）进行序列化。Spring Data Redis提供了多个这样的序列化器，包括：</p>
+<ul>
+<li>GenericToStringSerializer：使用Spring转换服务进行序列化；</li>
+<li>JacksonJsonRedisSerializer：使用Jackson 1，将对象序列化为JSON；</li>
+<li>Jackson2JsonRedisSerializer：使用Jackson 2，将对象序列化为JSON；</li>
+<li>JdkSerializationRedisSerializer：使用Java序列化；</li>
+<li>OxmSerializer：使用Spring O/X映射的编排器和解排器（marshaler和unmarshaler）实现序列化，用于XML序列化；</li>
+<li>StringRedisSerializer：序列化String类型的key和value。</li>
+</ul>
+<p>这些序列化器都实现了RedisSerializer接口，如果其中没有符合需求的序列化器，那么你还可以自行创建。</p>
+<p>RedisTemplate 会使用 JdkSerializationRedisSerializer，这意味着key和value都会通过Java进行序列化。StringRedisTemplate默认会使用StringRedis-Serializer，这在我们的预料之中，它实际上就是实现String 与 byte数组之间的相互转换。这些默认的设置适用于很多的场景，但有时候你可能会发现使用一个不同的序列化器也是很有用处的。</p>
+<p>例如，假设当使用RedisTemplate的时候，我们希望将Product类型的value序列化为JSON，而key是String 类型。 RedisTemplate 的 setKeySerializer() 和 setValueSerializer()方法就需要如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RedisTemplate&lt;String, Product&gt;</span><br><span class="line">       redisTemplate(RedisConnectionFactory cf) &#123;</span><br><span class="line">  RedisTemplate&lt;String, Product&gt; redis =</span><br><span class="line">      <span class="keyword">new</span> RedisTemplate&lt;String, Product&gt;();</span><br><span class="line">  redis.setConnectionFactory(cf);</span><br><span class="line">  redis.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">  redis.setValueSerializer(</span><br><span class="line">      <span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;Product&gt;(Product.class));</span><br><span class="line">  <span class="keyword">return</span> redis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，我们设置RedisTemplate在序列化key的时候，使用StringRedisSerializer，并且也设置了在序列化Product的时候，使用Jackson2JsonRedisSerializer</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/24/Spring-%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E6%98%A0%E5%B0%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE/" rel="prev" title="Spring-对象关系映射持久化数据">
+      <i class="fa fa-chevron-left"></i> Spring-对象关系映射持久化数据
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/24/Spring-%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE/" rel="next" title="Spring-缓存数据">
+      Spring-缓存数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8MongoDB%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E6%96%87%E6%A1%A3"><span class="nav-number">1.</span> <span class="nav-text">使用MongoDB持久化数据文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8MongoDB"><span class="nav-number">1.1.</span> <span class="nav-text">启动MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#xml%E9%85%8D%E7%BD%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">xml配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8MongoTemplate%E8%AE%BF%E9%97%AEMongoDB"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用MongoTemplate访问MongoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E5%86%99MongoDB-Responsitory"><span class="nav-number">1.1.3.</span> <span class="nav-text">编写MongoDB Responsitory</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">添加自定义的查询方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">指定查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">混合自定义的功能</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Neo4j%E6%93%8D%E4%BD%9C%E5%9B%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">使用Neo4j操作图数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E6%A0%87%E6%B3%A8%E5%9B%BE%E5%AE%9E%E4%BD%93"><span class="nav-number">2.0.1.</span> <span class="nav-text">使用注解标注图实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Neo4jTemplate"><span class="nav-number">2.0.2.</span> <span class="nav-text">使用Neo4jTemplate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84Neo4j-Respository"><span class="nav-number">2.0.3.</span> <span class="nav-text">创建自动化的Neo4j Respository</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%9F%A5%E8%AF%A2%E6%96%B9%E6%B3%95"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">添加查询方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">指定自定义查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84Responsitory"><span class="nav-number">2.0.3.3.</span> <span class="nav-text">混合自定义的Responsitory</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Redis%E6%93%8D%E4%BD%9Ckey-value%E6%95%B0%E6%8D%AE"><span class="nav-number">3.</span> <span class="nav-text">使用Redis操作key-value数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0Redis"><span class="nav-number">3.1.</span> <span class="nav-text">连接到Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8RedisTemplate"><span class="nav-number">3.2.</span> <span class="nav-text">使用RedisTemplate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%AE%80%E5%8D%95%E7%9A%84%E5%80%BC"><span class="nav-number">3.2.1.</span> <span class="nav-text">使用简单的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8List%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%80%BC"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用List类型的值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8key%E5%92%8Cvalue%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">使用key和value的序列化器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柯索沃"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">柯索沃</p>
+  <div class="site-description" itemprop="description">生活不止眼前的苟且，还有大海和家</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:kosovo.jy@qq.com" title="E-Mail → mailto:kosovo.jy@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柯索沃</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="/assets/fancybox/source/jquery.fancybox.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<script>
+
+$(document).ready(function() {
+	$(".fancybox").fancybox({		          
+		  helpers : {
+			  overlay : {
+				  css : {
+					  'background-color' : 'transparent'
+				  }
+			  }
+		  }
+	  });		       
+});
+
+</script>
+
+    </div>
+</body>
+</html>
